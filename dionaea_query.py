@@ -121,7 +121,7 @@ def main():
     (options, args) = parser.parse_args()
 
     if options.list:
-        show_options()
+        list_options()
     elif options.query == '6' and options.port != None and options.ip != None:
         run_query(options.query, query_port=options.port, query_ip=options.ip)
     elif options.query == '6' and options.port != None:
