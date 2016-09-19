@@ -84,7 +84,7 @@ def run_query(query_num, query_port=None, query_ip=None, query_string=None, cut_
             querySQL = 'SELECT substr(mysql_command_arg_data,0,{0}) from mysql_command_args where mysql_command_arg_data LIKE "%{1}%"'.format(cut_after, query_string)
             isValidQuery = True
         elif query_string != None:
-            querySQL = 'SELECT mysql_command_arg_data from mysql_command_args where mysql_command_arg_data LIKE "%{0}%"'.format(query_string)
+            querySQL = 'SELECT mysql_command_arg_data FROM mysql_command_args WHERE mysql_command_arg_data LIKE "%{0}%"'.format(query_string)
             isValidQuery = True
         if isValidQuery:
             queryDesc = "MySQL queries."

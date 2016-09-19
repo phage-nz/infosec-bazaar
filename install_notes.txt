@@ -1,0 +1,116 @@
+Dionaea Install Notes
+"""""""""""""""""""""
+
+- Spin up t2.micro Ubuntu 14.04 EC2 instance. Create and apply security group with the following ports:
+ftp (21/tcp) 
+http/https (80/tcp and 443/tcp) 
+nameserver (42/tcp) 
+msrpc (135/tcp ) 
+smb (445/tcp) 
+tftp (69/udp) 
+ms-sql (1433/tcp)
+pptp (1723/tcp)
+scada (1883/tcp)
+upnp (1900/udp)
+mysql (port 3306/tcp) 
+sip/sip-tls (5060/tcp+udp and 5061/tcp)
+memcache (11211/tcp)
+
+- Relocate the private key:
+mv PrivateKey.pem ~/.ssh
+chmod 400 ~/.ssh/PrivateKey.pem
+
+- Connect to the instance:
+ssh -i ~/.ssh/PrivateKey.pem ubuntu@ec2-xx-xxx-xxx-xx.us-west-2.compute.amazonaws.com
+
+- Install Dionaea via apt:
+sudo add-apt-repository ppa:honeynet/nightly
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get -f install dionaea
+
+- Edit the main config:
+nano /opt/dionaea/etc/dionaea/dionaea.cfg
+-- Edit as follows (SSL details as example):
+TO> default.levels=info,warning,error
+TO> error.levels=warning,error
+TO> ssl.default.c=XX
+TO> ssl.default.cn=XXXX.domain.com
+TO> ssl.default.o=XXXX Inc
+TO> ssl.default.ou=XX
+
+- Edit the logging script:
+nano /opt/dionaea/lib/dionaea/python/dionaea/logsql.py
+-- Edit as follows:
+FROM> self.filename = config.get("file")
+TO> self.filename = "/opt/dionaea/var/dionaea/dionaea.sqlite"
+
+- Edit the SIP script:
+nano /opt/dionaea/lib/dionaea/python/dionaea/sip/extras.py
+-- Edit as follows:
+FROM> self.users = os.path.join(self.root_path, config.get("users", "var/dionaea/sipaccounts.sqlite"))
+TO> self.users = "/opt/dionaea/var/dionaea/sipaccounts.sqlite"
+
+- Edit the PPTP script:
+nano /opt/dionaea/lib/dionaea/python/dionaea/pptp/pptp.py
+-- Edit as follows (where X is specified, define your own entry): 
+FROM> self.firmware_revision = config.get("firmware_revision", self.firmware_revision)
+FROM> self.hostname = config.get("hostname", self.hostname)
+FROM> self.vendor_name = config.get("vendor_name", self.vendor_name)
+TO> self.firmware_revision = "X.X"
+TO> self.hostname = "XXXX.domain.com"
+TO> self.vendor_name = "XXXX, Inc."
+
+- Edit the SMB script:
+nano /opt/dionaea/lib/dionaea/python/dionaea/smb/include/smbfields.py
+-- Edit as follows (where X is specified, define your own entry):
+FROM>        ConditionalField(UnicodeNullField(
+FROM>            "OemDomainName", "WORKGROUP"), lambda x: not x.Capabilities & CAP_EXTENDED_SECURITY),
+
+TO>        ConditionalField(UnicodeNullField(
+TO>            "OemDomainName", "XXXX"), lambda x: not x.Capabilities & CAP_EXTENDED_SECURITY),
+
+FROM>        ConditionalField(UnicodeNullField(
+FROM>            "ServerName", "HOMEUSER-XXXX"), lambda x: not x.Capabilities & CAP_EXTENDED_SECURITY),
+
+TO>        ConditionalField(UnicodeNullField(
+TO>            "ServerName", "XXXX"), lambda x: not x.Capabilities & CAP_EXTENDED_SECURITY),
+
+
+- It's not necessary to edit the FTP script in later releases.
+
+- Edit the MSSQL script:
+nano /opt/dionaea/lib/dionaea/python/dionaea/mssql/mssql.py
+-- Edit as follows:
+FROM> r.VersionToken.TokenType = 0x00
+TO> r.VersionToken.TokenType = 0xAA
+
+Refer to http://www.freetds.org/tds.html#responses for options.
+
+- Set Dionaea to autostart:
+update-rc.d dionaea defaults
+
+- Create a logrotate script to rotate the logs on a daily basis:
+nano /etc/logrotate.d/dionaea
+
+/opt/dionaea/var/dionaea/dionaea*.log {
+        notifempty
+        missingok
+        rotate 28
+        daily
+        delaycompress
+        compress
+        create 660 root root
+        dateext
+        postrotate
+                /etc/init.d/dionaea restart
+        endscript
+}
+
+- Start the honeypot:
+/etc/init.d/dionaea start
+
+- Make sure that Dionaea is listening on all expected ports:
+netstat -putan|grep dionaea
+
+- Check the error log in /opt/dionaea/var/dionaea/dionaea-errors.log
