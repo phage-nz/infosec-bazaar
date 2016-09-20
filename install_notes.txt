@@ -23,43 +23,39 @@ chmod 400 ~/.ssh/PrivateKey.pem
 - Connect to the instance:
 ssh -i ~/.ssh/PrivateKey.pem ubuntu@ec2-xx-xxx-xxx-xx.us-west-2.compute.amazonaws.com
 
-- Install Dionaea via apt:
-sudo add-apt-repository ppa:honeynet/nightly
+- Install Dionaea and p0f via apt:
+sudo add-apt-repository ppa:honeynet/nightly -y
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get -f install dionaea
+apt-get install software-properties-common python-software-properties -y
+sudo apt-get upgrade -y
+(reboot if required for kernel updates)
+sudo apt-get -f install p0f dionaea -y
 
 - Edit the main config:
 nano /opt/dionaea/etc/dionaea/dionaea.cfg
 -- Edit as follows (SSL details as example):
-TO> default.levels=info,warning,error
+TO> default.levels=info
 TO> error.levels=warning,error
 TO> ssl.default.c=XX
 TO> ssl.default.cn=XXXX.domain.com
 TO> ssl.default.o=XXXX Inc
 TO> ssl.default.ou=XX
 
-- Edit the logging script:
-nano /opt/dionaea/lib/dionaea/python/dionaea/logsql.py
--- Edit as follows:
-FROM> self.filename = config.get("file")
-TO> self.filename = "/opt/dionaea/var/dionaea/dionaea.sqlite"
+- Edit the PPTP config. 
+nano /opt/dionaea/etc/dionaea/services-available/pptp.yaml
+-- Uncomment three lines under the device you wish to emulate, e.g.
+firmware_revision: 4608
+hostname: PIX
+vendor_name: Cisco Systems
 
 - Edit the SIP script:
 nano /opt/dionaea/lib/dionaea/python/dionaea/sip/extras.py
--- Edit as follows:
-FROM> self.users = os.path.join(self.root_path, config.get("users", "var/dionaea/sipaccounts.sqlite"))
-TO> self.users = "/opt/dionaea/var/dionaea/sipaccounts.sqlite"
-
-- Edit the PPTP script:
-nano /opt/dionaea/lib/dionaea/python/dionaea/pptp/pptp.py
--- Edit as follows (where X is specified, define your own entry): 
-FROM> self.firmware_revision = config.get("firmware_revision", self.firmware_revision)
-FROM> self.hostname = config.get("hostname", self.hostname)
-FROM> self.vendor_name = config.get("vendor_name", self.vendor_name)
-TO> self.firmware_revision = "X.X"
-TO> self.hostname = "XXXX.domain.com"
-TO> self.vendor_name = "XXXX, Inc."
+-- Comment out:
+#self.root_path = os.getcwd()
+#self.users = os.path.join(self.root_path, config.get("users", "var/dionaea/sipaccounts.sqlite"))
+-- Edit both occurences of:
+FROM> sqlite3.connect(self.users)
+TO> sqlite3.connect("/opt/dionaea/var/dionaea/sipaccounts.sqlite")
 
 - Edit the SMB script:
 nano /opt/dionaea/lib/dionaea/python/dionaea/smb/include/smbfields.py
@@ -77,7 +73,7 @@ TO>        ConditionalField(UnicodeNullField(
 TO>            "ServerName", "XXXX"), lambda x: not x.Capabilities & CAP_EXTENDED_SECURITY),
 
 
-- It's not necessary to edit the FTP script in later releases.
+- It's not necessary to edit the FTP script in later releases. You can edit the welcome banner in /opt/dionaea/etc/dionaea/services-available/ftp.yaml
 
 - Edit the MSSQL script:
 nano /opt/dionaea/lib/dionaea/python/dionaea/mssql/mssql.py
@@ -85,29 +81,22 @@ nano /opt/dionaea/lib/dionaea/python/dionaea/mssql/mssql.py
 FROM> r.VersionToken.TokenType = 0x00
 TO> r.VersionToken.TokenType = 0xAA
 
-Refer to http://www.freetds.org/tds.html#responses for options.
+?> Refer to http://www.freetds.org/tds.html#responses for options.
 
-- Set Dionaea to autostart:
+- Create a logrotate script to rotate the logs on a daily basis using dionaea.logrotate (copy to /etc/logrotate.d/dionaea)
+
+- Enable Dionaea p0f handler:
+ln -s /opt/dionaea/etc/dionaea/ihandlers-available/p0f.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled
+
+- Make p0f init script using p0f.init (copy to /etc/init.d/p0f) then:
+chmod +x /etc/init.d/p0f
+
+- Set all to autostart:
 update-rc.d dionaea defaults
-
-- Create a logrotate script to rotate the logs on a daily basis:
-nano /etc/logrotate.d/dionaea
-
-/opt/dionaea/var/dionaea/dionaea*.log {
-        notifempty
-        missingok
-        rotate 28
-        daily
-        delaycompress
-        compress
-        create 660 root root
-        dateext
-        postrotate
-                /etc/init.d/dionaea restart
-        endscript
-}
+update-rc.d p0f defaults
 
 - Start the honeypot:
+/etc/init.d/p0f start
 /etc/init.d/dionaea start
 
 - Make sure that Dionaea is listening on all expected ports:
