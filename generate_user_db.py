@@ -91,23 +91,24 @@ def generate_random_user():
     ccexpiry = get_random_expiry()
     return fake_user(username, password, email, cc, ccexpiry)
     
-def execute_query(query):
-	conn = sqlite3.connect(db_file)
-	c = conn.cursor()
-	c.execute(query)
-	conn.close()
-	
 def make_tables():
-    query = "CREATE TABLE IF NOT EXISTS users (username STRING, password STRING, email STRING, cc STRING, ccexpiry STRING)"
-    execute_query(query)
+    conn = sqlite3.connect(db_file)
+    c = conn.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS users (username STRING, password STRING, email STRING, cc STRING, ccexpiry STRING)")
+    conn.close()
 
-def insert_users():cd 
+def insert_users():
     number = random.randint(50,100)
     for x in range(0, number):
         user = generate_random_user()
         query = "INSERT INTO users (username, password, email, cc, ccexpiry) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}')".format(user.username, user.password, user.email, user.cc, user.ccexpiry)
         print "Creating user: {0}".format(user.username)
-        execute_query(query)
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute(query)
+        conn.commit()
+        conn.close()
+
 
 def main():
     make_tables()

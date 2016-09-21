@@ -31,11 +31,19 @@ sudo apt-get upgrade -y
 (reboot if required for kernel updates)
 sudo apt-get -f install p0f dionaea -y
 
+- Install sqlite3 command line utility (useful for ad-hoc queries):
+apt-get install sqlite3 -y
+
 - Edit the main config:
 nano /opt/dionaea/etc/dionaea/dionaea.cfg
+-- To mitigate issues with the error log not being written to, comment out:
+#errors.filename=/opt/dionaea/var/dionaea/dionaea-errors.log
+#errors.levels=warning,error
+#errors.domains=*
 -- Edit as follows (SSL details as example):
-TO> default.levels=info
-TO> error.levels=warning,error
+FROM> default.levels=all
+TO> default.levels=all,-debug
+
 TO> ssl.default.c=XX
 TO> ssl.default.cn=XXXX.domain.com
 TO> ssl.default.o=XXXX Inc
@@ -94,6 +102,9 @@ FROM> r.VersionToken.TokenType = 0x00
 TO> r.VersionToken.TokenType = 0xAA
 
 ?> Refer to http://www.freetds.org/tds.html#responses for options.
+
+- Make a directory for SIP pcap's:
+sudo -u dionaea mkdir -p /opt/dionaea/var/dionaea/rtp/default
 
 - Create a logrotate script to rotate the logs on a daily basis using dionaea.logrotate (copy to /etc/logrotate.d/dionaea)
 

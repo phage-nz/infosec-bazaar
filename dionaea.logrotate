@@ -1,4 +1,4 @@
-/opt/dionaea/var/dionaea/dionaea*.log {
+/opt/dionaea/var/dionaea/dionaea.log {
         notifempty
         missingok
         rotate 28
