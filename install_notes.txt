@@ -41,7 +41,19 @@ TO> ssl.default.cn=XXXX.domain.com
 TO> ssl.default.o=XXXX Inc
 TO> ssl.default.ou=XX
 
-- Edit the PPTP config. 
+- Create the MySQL target database:
+-- Copy out wordlist.txt and generate_user_db.py to your home folder.
+chmod +x generate_user_db.py
+sudo -u dionaea touch /opt/dionaea/var/dionaea/target_db.sqlite
+sudo -u dionaea ./generate_user_db.py
+
+- Edit the MySQL config:
+nano /opt/dionaea/etc/dionaea/services-available/mysql.yaml
+-- Uncomment the following two lines and correct the path of the user database:
+psn:
+  path: "/opt/dionaea/var/dionaea/target_db.sqlite"
+
+- Edit the PPTP config:
 nano /opt/dionaea/etc/dionaea/services-available/pptp.yaml
 -- Uncomment three lines under the device you wish to emulate, e.g.
 firmware_revision: 4608
