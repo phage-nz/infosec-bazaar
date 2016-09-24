@@ -17,7 +17,8 @@ NAME=kippo
 DAEMON=/usr/bin/twistd
 
 # pid file for the daemon
-PIDFILE=/var/run/kippo/kippo.pid
+PIDFOLDER=/var/run/kippo
+PIDFILE=$PIDFOLDER/kippo.pid
 
 CHUID=kippo
 
@@ -28,6 +29,11 @@ PARAMETERS="-y /opt/kippo/kippo.tac -l /opt/kippo/log/kippo.log --pidfile $PIDFI
 
 # If the daemon is not there, then exit.
 test -x $DAEMON || exit 5
+
+if [ ! -d "$PIDFOLDER" ]; then
+  mkdir $PIDFOLDER
+  chown kippo:kippo $PIDFOLDER
+fi
 
 case $1 in
  start)
