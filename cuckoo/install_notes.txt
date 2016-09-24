@@ -52,8 +52,6 @@ enabled = yes
 key = [key of the virus total API, could be obtained registering in http://www.virustotal.com
 
 /opt/cuckoo/conf/reporting.conf:
-[maec40]
-enabled = yes
 [mongodb]
 enabled = yes
 
