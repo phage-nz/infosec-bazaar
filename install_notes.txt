@@ -140,7 +140,9 @@ FROM> Port 22
 TO> Port 8925
 
 - Reload SSH service:
-service ssh restart
+service ssh reload
+
+- Establish new SSH session.
 
 - Install dependencies:
 apt-get install python-dev openssl python-openssl python-pyasn1 python-twisted
