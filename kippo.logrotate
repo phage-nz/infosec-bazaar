@@ -1,0 +1,14 @@
+/opt/kippo/log/kippo.log {
+        notifempty
+        missingok
+        rotate 28
+        daily
+        delaycompress
+        compress
+        create 644 kippo kippo
+        dateext
+        postrotate
+                /etc/init.d/kippo restart
+        endscript
+}
+

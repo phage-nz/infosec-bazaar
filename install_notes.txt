@@ -126,3 +126,79 @@ update-rc.d p0f defaults
 netstat -putan|grep dionaea
 
 - Check the error log in /opt/dionaea/var/dionaea/dionaea-errors.log
+
+
+Kippo Install Notes
+"""""""""""""""""""
+
+- Add Custom TCP rule to AWS SSH security group for port 8925.
+
+- Edit listen port of SSH service:
+nano /etc/ssh/sshd_config
+
+FROM> Port 22
+TO> Port 8925
+
+- Reload SSH service:
+service ssh restart
+
+- Install dependencies:
+apt-get install python-dev openssl python-openssl python-pyasn1 python-twisted
+
+- Install kippo:
+mkdir /opt/kippo/
+git clone https://github.com/desaster/kippo.git /opt/kippo/
+cp /opt/kippo/kippo.cfg.dist /opt/kippo/kippo.cfg
+
+- Edit the host name:
+nano /opt/kippo/kippo.cfg
+
+FROM>srv03
+TO>*whatever you want*
+
+- Create filesystem:
+python /opt/kippo/utils/createfs.py
+
+- Add some more root passwords:
+nano /opt/kippo/data/userdb.txt
+
+-- Format:
+root:0:<password>
+e.g. root:0:toor
+
+- Create Kippo user:
+useradd -d /home/kippo -s /bin/bash -m kippo -g sudo
+
+- Apply directory permissions:
+mkdir -p /var/run/kippo
+chown -R kippo:kippo /opt/kippo/
+chown -R kippo:kippo /var/run/kippo/
+
+- Redirect port 22 to 2222:
+iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+
+- Make changes persistent:
+iptables-save > /etc/iptables.rules
+echo '#!/bin/sh' >> /etc/network/if-up.d/iptablesload 
+echo 'iptables-restore < /etc/iptables.rules' >> /etc/network/if-up.d/iptablesload 
+echo 'exit 0' >> /etc/network/if-up.d/iptablesload
+chmod +x /etc/network/if-up.d/iptablesload
+
+- Copy init.d script in place as /etc/init.d/kippo
+
+- Allow init script to execute:
+chmod +x /etc/init.d/kippo
+
+- Set to autostart:
+update-rc.d kippo defaults
+
+- Start kippo:
+/etc/init.d/kippo start
+
+- Ensure it's listening:
+netstat -putan|grep 2222
+
+- Test:
+ssh root@<server name>
+
+- Use a password defined in userdb.txt
