@@ -1,14 +1,14 @@
-/opt/kippo/log/kippo.log {
+/opt/cowrie/log/cowrie.log /opt/cowrie/log/cowrie.json {
         notifempty
         missingok
         rotate 28
         daily
         delaycompress
         compress
-        create 644 kippo kippo
+        create 644 cowrie cowrie
         dateext
         postrotate
-                /etc/init.d/kippo restart
+                /etc/init.d/cowrie restart
         endscript
 }
 

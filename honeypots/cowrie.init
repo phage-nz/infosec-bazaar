@@ -1,39 +1,41 @@
 ### BEGIN INIT INFO
-# Provides:          kippo
+# Provides:          cowrie
 # Required-Start:    
 # Required-Stop:     
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Kippo Honeypot
-# Description:       Kippo Honeypot
+# Short-Description: cowrie Honeypot
+# Description:       cowrie Honeypot
 #                    SSH Honeypot
 ### END INIT INFO
 
 # Using the lsb functions to perform the operations.
 . /lib/lsb/init-functions
 # Process name ( For display )
-NAME=kippo
+NAME=cowrie
 # Daemon name, where is the actual executable
 DAEMON=/usr/bin/twistd
 
 # pid file for the daemon
-PIDFOLDER=/var/run/kippo
-PIDFILE=$PIDFOLDER/kippo.pid
+PIDFOLDER=/var/run/cowrie
+PIDFILE=$PIDFOLDER/cowrie.pid
 
-CHUID=kippo
+CHUID=cowrie
 
-KIPPODIR=/opt/kippo/
+cowrieDIR=/opt/cowrie/
 
-#TODO: Dupes here from $KIPPODIR
-PARAMETERS="-y /opt/kippo/kippo.tac -l /opt/kippo/log/kippo.log --pidfile $PIDFILE -d $KIPPODIR"
+#TODO: Dupes here from $cowrieDIR
+PARAMETERS="$XARGS -l /opt/cowrie/log/cowrie.log --pidfile $PIDFILE -d $cowrieDIR --umask 0077 cowrie"
 
 # If the daemon is not there, then exit.
 test -x $DAEMON || exit 5
 
 if [ ! -d "$PIDFOLDER" ]; then
   mkdir $PIDFOLDER
-  chown kippo:kippo $PIDFOLDER
+  chown cowrie:cowrie $PIDFOLDER
 fi
+
+export PYTHONPATH=$cowrieDIR
 
 case $1 in
  start)
@@ -49,7 +51,7 @@ case $1 in
   log_daemon_msg "Starting the process" "$NAME"
   # Start the daemon with the help of start-stop-daemon
   # Log the message appropriately
-  if start-stop-daemon --chdir $KIPPODIR --start --quiet --oknodo --pidfile $PIDFILE --chuid $CHUID --exec $DAEMON -- $PARAMETERS ; then
+  if start-stop-daemon --chdir $cowrieDIR --start --quiet --oknodo --pidfile $PIDFILE --chuid $CHUID --exec $DAEMON -- $PARAMETERS ; then
    log_end_msg 0
   else
    log_end_msg 1

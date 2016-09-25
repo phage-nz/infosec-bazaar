@@ -128,8 +128,8 @@ netstat -putan|grep dionaea
 - Check the error log in /opt/dionaea/var/dionaea/dionaea-errors.log
 
 
-Kippo Install Notes
-"""""""""""""""""""
+Cowrie Install Notes
+""""""""""""""""""""
 
 - Add Custom TCP rule to AWS SSH security group for port 8925.
 
@@ -145,36 +145,40 @@ service ssh reload
 - Establish new SSH session.
 
 - Install dependencies:
-apt-get install python-dev openssl python-openssl python-pyasn1 python-twisted
+apt-get install python-twisted python-configparser python-crypto python-pyasn1 python-gmpy2 python-mysqldb python-zope.interface
 
-- Install kippo:
-mkdir /opt/kippo/
-git clone https://github.com/desaster/kippo.git /opt/kippo/
-cp /opt/kippo/kippo.cfg.dist /opt/kippo/kippo.cfg
+- Install Cowrie:
+mkdir /opt/cowrie/
+git clone https://github.com/micheloosterhof/cowrie /opt/cowrie/
+cp /opt/cowrie/cowrie.cfg.dist /opt/cowrie/cowrie.cfg
 
 - Edit the host name:
-nano /opt/kippo/kippo.cfg
+nano /opt/cowrie/cowrie.cfg
 
 FROM>srv03
 TO>*whatever you want*
 
 - Create filesystem:
-python /opt/kippo/utils/createfs.py
+/opt/cowrie/bin/createfs
 
-- Add some more root passwords:
-nano /opt/kippo/data/userdb.txt
+- Add some more root passwords if desired:
+nano /opt/cowrie/data/userdb.txt
 
--- Format:
-root:0:<password>
+-- Format for an accepted password:
+<user>:0:<password>
 e.g. root:0:toor
 
-- Create Kippo user:
-useradd -d /home/kippo -s /bin/bash -m kippo -g sudo
+-- Format for a denied password:
+<user>:0:!<password>
+e.g. root:0:!toor
+
+- Create cowrie user:
+useradd -r -s /bin/false cowrie
 
 - Apply directory permissions:
-mkdir -p /var/run/kippo
-chown -R kippo:kippo /opt/kippo/
-chown -R kippo:kippo /var/run/kippo/
+mkdir -p /var/run/cowrie
+chown -R cowrie:cowrie /opt/cowrie/
+chown -R cowrie:cowrie /var/run/cowrie/
 
 - Redirect port 22 to 2222:
 iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
@@ -186,16 +190,18 @@ echo 'iptables-restore < /etc/iptables.rules' >> /etc/network/if-up.d/iptableslo
 echo 'exit 0' >> /etc/network/if-up.d/iptablesload
 chmod +x /etc/network/if-up.d/iptablesload
 
-- Copy init.d script in place as /etc/init.d/kippo
+- Copy init.d script in place as /etc/init.d/cowrie
 
 - Allow init script to execute:
-chmod +x /etc/init.d/kippo
+chmod +x /etc/init.d/cowrie
 
 - Set to autostart:
-update-rc.d kippo defaults
+update-rc.d cowrie defaults
 
-- Start kippo:
-/etc/init.d/kippo start
+-Copy logrotate script to /etc/logrotate.d/cowrie
+
+- Start Cowrie:
+/etc/init.d/cowrie start
 
 - Ensure it's listening:
 netstat -putan|grep 2222
