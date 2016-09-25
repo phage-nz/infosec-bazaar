@@ -1,4 +1,4 @@
-/opt/cowrie/log/cowrie.log /opt/cowrie/log/cowrie.json {
+/opt/cowrie/log/cowrie.* {
         notifempty
         missingok
         rotate 28
