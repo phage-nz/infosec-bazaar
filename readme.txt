@@ -20,6 +20,7 @@ Current inventory:
 - cuckooautoinstall.sh - automatically install Cuckoo Sandbox, all dependencies and common processing modules. Credit to: dreg@buguroo.com and dfrancos@buguroo.com
 - install_notes.txt - notes for the installation of Cuckoo Sandbox, additional processing modules and the creation of cloaked VM's.
 \honeypots
+- autoinstall.sh - automatic install script for Cowrie, Dionaea and p0f.
 - cowrie.init - init.d script for Cowrie.
 - cowrie.logrotate - logrotate.d script for Cowrie.
 - dionaea.init - init.d script for Dionaea.

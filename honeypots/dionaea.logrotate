@@ -1,7 +1,7 @@
 /opt/dionaea/var/dionaea/dionaea.log {
         notifempty
         missingok
-        rotate 28
+        rotate 7
         daily
         delaycompress
         compress

@@ -1,5 +1,19 @@
-Dionaea Install Notes
+Default Install Notes
 """""""""""""""""""""
+
+# Fetch the autoinstall script.
+wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypots/autoinstall.sh
+chmod +x autoinstall.sh
+# Edit variables where required.
+nano autoinstall.sh
+# Run the script and happy hunting!
+./autoinstall.sh
+
+Refer to the manual install notes below for information on where customisations can be made.
+
+
+Manual Install Notes
+""""""""""""""""""""
 
 - Spin up t2.micro Ubuntu 14.04 EC2 instance. Create and apply security group with the following ports:
 ftp (21/tcp) 
@@ -126,10 +140,6 @@ update-rc.d p0f defaults
 netstat -putan|grep dionaea
 
 - Check the error log in /opt/dionaea/var/dionaea/dionaea-errors.log
-
-
-Cowrie Install Notes
-""""""""""""""""""""
 
 - Add Custom TCP rule to AWS SSH security group for port 8925.
 

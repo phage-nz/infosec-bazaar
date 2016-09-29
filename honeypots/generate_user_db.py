@@ -4,10 +4,11 @@ import random
 import string
 import sqlite3
 
-# Dionaea "Fake User" Database Creation Script v0.1
+# Dionaea "Fake User" Database Creation Script v0.2
 # By Chris Campbell
 #
 # https://www.twitter.com/t0x0_nz
+# https://github.com/t0x0-nz
 # https://bytefog.blogspot.com
 
 # First run:
@@ -16,8 +17,9 @@ import sqlite3
 #
 # Requires a wordlist to be placed in the same directory as 'wordlist.txt'.
 
-# Location of file.
+# Location of files.
 db_file = "/opt/dionaea/var/dionaea/target_db.sqlite"
+wordlist = "/opt/dionaea/var/dionaea/scripts/wordlist.txt"
 # Email domains.
 domains = [ "live.com", "gmail.com", "aol.com", "mail.com", "yahoo.com", "xtra.co.nz"]
 # CC expiry years.
@@ -70,7 +72,7 @@ def completed_number(prefix, length):
     return ''.join(ccnumber)
 
 def get_random_name():
-    with open('wordlist.txt', 'r') as f:
+    with open(wordlist, 'r') as f:
         words = f.readlines()
         randA = random.choice(words).rstrip('\r\n')
         randB = random.choice(words).rstrip('\r\n')

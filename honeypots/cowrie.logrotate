@@ -1,7 +1,7 @@
 /opt/cowrie/log/cowrie.* {
         notifempty
         missingok
-        rotate 28
+        rotate 7
         daily
         delaycompress
         compress
