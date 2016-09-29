@@ -26,8 +26,6 @@ SERVER="SERVER-DOMAIN" # Server name.
 # SCRIPT START
 #
 
-echo "Operations must be elevated..."
-sudo su
 echo "Updating server..."
 add-apt-repository ppa:honeynet/nightly -y
 apt-get update
@@ -102,7 +100,5 @@ echo "Starting services..."
 /etc/init.d/p0f start
 /etc/init.d/dionaea start
 /etc/init.d/cowrie start
-echo "Exiting su..."
-exit 0
 echo "Exiting session..."
 exit 0

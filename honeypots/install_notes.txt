@@ -7,7 +7,7 @@ chmod +x autoinstall.sh
 # Edit variables where required.
 nano autoinstall.sh
 # Run the script and happy hunting!
-./autoinstall.sh
+sudo autoinstall.sh
 
 Refer to the manual install notes below for information on where customisations can be made.
 
