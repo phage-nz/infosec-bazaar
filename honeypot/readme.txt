@@ -11,6 +11,8 @@ sudo autoinstall.sh
 
 Refer to the manual install notes below for information on where customisations can be made.
 
+Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.
+
 
 Manual Install Notes
 """"""""""""""""""""
