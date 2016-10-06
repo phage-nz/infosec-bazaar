@@ -18,7 +18,7 @@ A collection of scripts and information for Malware Hunting.
 Current inventory:
 \cuckoo
 - cuckooautoinstall.sh - automatically install Cuckoo Sandbox, all dependencies and common processing modules. Credit to: dreg@buguroo.com and dfrancos@buguroo.com
-- install_notes.txt - notes for the installation of Cuckoo Sandbox, additional processing modules and the creation of cloaked VM's.
+- readme.txt - notes for the installation of Cuckoo Sandbox, additional processing modules and the creation of cloaked VM's.
 \honeypot
 - autoinstall.sh - automatic install script for Cowrie, Dionaea and p0f.
 - cowrie.init - init.d script for Cowrie.
@@ -36,3 +36,6 @@ Current inventory:
 - readme.txt - notes for the installaion of Dionaea, p0f and Cowrie via Vagrant in AWS.
 - Vagrantfile - the Vagrantfile for automatic deployment of a honeypot.
 - vagrant-plugin.patch - a patch to fix a bug that prevents the installing of the vagrant-aws plugin.
+\malware-crawler
+- autoinstall.sh - automatic install script for Ragpicker and Viper.
+- readme.txt - notes for the installation of Ragpicker and Viper.
