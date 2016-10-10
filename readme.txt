@@ -37,5 +37,4 @@ Current inventory:
 - Vagrantfile - the Vagrantfile for automatic deployment of a honeypot.
 - vagrant-plugin.patch - a patch to fix a bug that prevents the installing of the vagrant-aws plugin.
 \malware-crawler
-- autoinstall.sh - automatic install script for Ragpicker and Viper.
-- readme.txt - notes for the installation of Ragpicker and Viper.
+- readme.txt - reference to ph0neutria.
