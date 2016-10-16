@@ -17,8 +17,8 @@ A collection of scripts and information for Malware Hunting.
 
 Current inventory:
 \cuckoo
-- cuckooautoinstall.sh - automatically install Cuckoo Sandbox, all dependencies and common processing modules. Credit to: dreg@buguroo.com and dfrancos@buguroo.com
-- readme.txt - notes for the installation of Cuckoo Sandbox, additional processing modules and the creation of cloaked VM's.
+- install.sh - automatically install Cuckoo Sandbox, all dependencies, additional processing modules and create a cloaked VM.
+- readme.txt - notes for the installation of Cuckoo Sandbox and the creation of cloaked VM's.
 \honeypot
 - autoinstall.sh - automatic install script for Cowrie, Dionaea and p0f.
 - cowrie.init - init.d script for Cowrie.
