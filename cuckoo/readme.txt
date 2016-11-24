@@ -4,7 +4,7 @@ Cuckoo Install Notes
 apt-get update && apt-get upgrade
 
 - Install Cuckoo:
-(from: https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/cuckoo/install.sh)
+(from: https://raw.githubusercontent.com/phage-nz/malware-hunting/master/cuckoo/install.sh)
 sudo ./install.sh
 
 

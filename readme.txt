@@ -1,16 +1,15 @@
- _   _____      _____ 
-| | |  _  |    |  _  |
-| |_| |/' |_  _| |/' |
-| __|  /| \ \/ /  /| |
-| |_\ |_/ />  <\ |_/ /
- \__|\___//_/\_\\___/ 
+       .__                           
+______ |  |__ _____     ____   ____  
+\____ \|  |  \\__  \   / ___\_/ __ \ 
+|  |_> >   Y  \/ __ \_/ /_/  >  ___/ 
+|   __/|___|  (____  /\___  / \___  >
+|__|        \/     \//_____/      \/ 
+               phage
+             @phage_nz
+        bytefog.blogspot.com
 
-          t0x0
-        @t0x0_nz
-   bytefog.blogspot.com
 
-
-https://bitbucket.org/t0x0/malware-hunting
+https://github.com/phage-nz/malware-hunting
 
 A collection of scripts and information for Malware Hunting.
 

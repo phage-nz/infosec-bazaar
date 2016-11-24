@@ -6,7 +6,7 @@ from optparse import OptionParser
 # Dionaea Query Script v0.2
 # By Chris Campbell
 #
-# https://www.twitter.com/t0x0_nz
+# https://www.twitter.com/phage_nz
 # https://bytefog.blogspot.com
 #
 # Credit goes to Andrew Waite (www.infosanity.co.uk) for the original 2009 script.

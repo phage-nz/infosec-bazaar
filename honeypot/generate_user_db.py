@@ -7,8 +7,8 @@ import sqlite3
 # Dionaea "Fake User" Database Creation Script v0.2
 # By Chris Campbell
 #
-# https://www.twitter.com/t0x0_nz
-# https://github.com/t0x0-nz
+# https://www.twitter.com/phage_nz
+# https://github.com/phage-nz
 # https://bytefog.blogspot.com
 
 # First run:

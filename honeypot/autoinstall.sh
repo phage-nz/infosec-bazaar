@@ -3,8 +3,8 @@
 # Honeypot Autoinstall Script v0.1
 # by Chris Campbell
 #
-# Twitter: @t0x0_nz
-# GitHub: t0x0-nz
+# Twitter: @phage_nz
+# GitHub: phage-nz
 # Blog: bytefog.blogspot.com
 
 # Installs:
@@ -34,8 +34,8 @@ echo "Installing dependencies..."
 apt-get -f install p0f dionaea software-properties-common python-software-properties git python-twisted python-configparser python-crypto python-pyasn1 python-gmpy2 python-mysqldb python-zope.interface sqlite3 -y
 echo "Making Dionaea honeypot database..."
 mkdir /opt/dionaea/var/dionaea/scripts
-wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypot/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
-wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypot/wordlist.txt -P /opt/dionaea/var/dionaea/scripts
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/wordlist.txt -P /opt/dionaea/var/dionaea/scripts
 chown -R dionaea:dionaea /opt/dionaea/var/dionaea/scripts
 chmod +x /opt/dionaea/var/dionaea/scripts/generate_user_db.py
 sudo -u dionaea touch /opt/dionaea/var/dionaea/target_db.sqlite
@@ -77,11 +77,11 @@ sed -i 's/^\(hostname\s*=\s*\).*/\1'"$SERVER"'/' /opt/cowrie/cowrie.cfg
 echo "Making the Cowrie filesystem..."
 /opt/cowrie/bin/createfs
 echo "Making logrotate scripts..."
-wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypot/dionaea.logrotate -O /etc/logrotate.d/dionaea
-wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypot/cowrie.logrotate -O /etc/logrotate.d/cowrie
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.logrotate -O /etc/logrotate.d/dionaea
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.logrotate -O /etc/logrotate.d/cowrie
 echo "Setting all services to autostart..."
-wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypot/p0f.init -O /etc/init.d/p0f
-wget https://raw.githubusercontent.com/t0x0-nz/malware-hunting/master/honeypot/cowrie.init -O /etc/init.d/cowrie
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/p0f.init -O /etc/init.d/p0f
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.init -O /etc/init.d/cowrie
 chmod +x /etc/init.d/p0f
 chmod +x /etc/init.d/cowrie
 update-rc.d dionaea defaults
