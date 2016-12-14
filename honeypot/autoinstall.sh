@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot Autoinstall Script v0.1
+# Honeypot Autoinstall Script v0.2
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -12,7 +12,7 @@
 # p0f
 # Cowrie
 #
-# Tested on Ubuntu 14.04 (EC2 t2.micro instance)
+# Tested on Ubuntu 16.04 (EC2 t2.micro instance)
 
 # Variables:
 SSL_C="US" # Country code.
@@ -27,11 +27,32 @@ SERVER="SERVER-DOMAIN" # Server name.
 #
 
 echo "Updating server..."
-add-apt-repository ppa:honeynet/nightly -y
 apt-get update
 apt-get upgrade -y
 echo "Installing dependencies..."
-apt-get -f install p0f dionaea software-properties-common python-software-properties git python-twisted python-configparser python-crypto python-pyasn1 python-gmpy2 python-mysqldb python-zope.interface sqlite3 -y
+sudo apt-get install -y autoconf automake check cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-3-dev libpcap-dev libreadline-dev libsqlite3-dev libssl-dev libtool libudns-dev libxml2-dev libxslt1-dev python3 python3-dev python3-yaml p0f software-properties-common python-software-properties git python-twisted python-configparser python-crypto python-pyasn1 python-gmpy2 python-mysqldb python-zope.interface sqlite3
+echo "Installing Dionaea..."
+cd /opt
+git clone https://github.com/DinoTools/dionaea.git
+cd dionaea
+autoreconf -vi
+./configure \
+	--disable-werror \
+	--prefix=/opt/dionaea \
+	--with-python=/usr/bin/python3 \
+	--with-cython-dir=/usr/bin \
+	--with-ev-include=/usr/include \
+	--with-ev-lib=/usr/lib \
+	--with-emu-lib=/usr/lib/libemu \
+	--with-emu-include=/usr/include \
+	--with-gc-include=/usr/include/gc \
+	--enable-nl \
+	--with-nl-include=/usr/include/libnl3 \
+	--with-nl-lib=/usr/lib
+make
+sudo make install
+useradd -r -s /bin/false dionaea
+chown -R dionaea:dionaea /opt/dionaea/
 echo "Making Dionaea honeypot database..."
 mkdir /opt/dionaea/var/dionaea/scripts
 wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
