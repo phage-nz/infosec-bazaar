@@ -22,8 +22,8 @@ cd shiva
 nano shiva.conf
 # Set Receiver IP address to NAT'd AWS address.
 # Set MySQL creds.
-# Disable HPFeeds.
-# Disable notification.
+# Optional: Disable HPFeeds.
+# Optional: Disable notification.
 python dbcreate.py
 sudo nano /etc/exim4/update-exim4.conf.conf
 # Disable IPv6:
@@ -38,6 +38,7 @@ echo '#!/bin/sh' >> /etc/network/if-up.d/iptablesload
 echo 'iptables-restore < /etc/iptables.rules' >> /etc/network/if-up.d/iptablesload 
 echo 'exit 0' >> /etc/network/if-up.d/iptablesload
 chmod +x /etc/network/if-up.d/iptablesload
+
 
 Starting Shiva
 """"""""""""""
