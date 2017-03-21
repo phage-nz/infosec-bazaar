@@ -39,13 +39,32 @@ chmod 400 ~/.ssh/PrivateKey.pem
 - Connect to the instance:
 ssh -i ~/.ssh/PrivateKey.pem ubuntu@ec2-xx-xxx-xxx-xx.us-west-2.compute.amazonaws.com
 
-- Install Dionaea and p0f via apt:
-sudo add-apt-repository ppa:honeynet/nightly -y
+- Install Dionaea and p0f:
 sudo apt-get update
-apt-get install software-properties-common python-software-properties -y
+apt-get install software-properties-common python-software-properties p0f -y
 sudo apt-get upgrade -y
 (reboot if required for kernel updates)
-sudo apt-get -f install p0f dionaea -y
+cd /opt
+git clone https://github.com/DinoTools/dionaea.git
+cd dionaea
+autoreconf -vi
+./configure \
+	--disable-werror \
+	--prefix=/opt/dionaea \
+	--with-python=/usr/bin/python3 \
+	--with-cython-dir=/usr/bin \
+	--with-ev-include=/usr/include \
+	--with-ev-lib=/usr/lib \
+	--with-emu-lib=/usr/lib/libemu \
+	--with-emu-include=/usr/include \
+	--with-gc-include=/usr/include/gc \
+	--enable-nl \
+	--with-nl-include=/usr/include/libnl3 \
+	--with-nl-lib=/usr/lib
+make
+sudo make install
+useradd -r -s /bin/false dionaea
+chown -R dionaea:dionaea /opt/dionaea/
 
 - Install sqlite3 command line utility (useful for ad-hoc queries):
 apt-get install sqlite3 -y
