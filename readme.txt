@@ -29,6 +29,8 @@ Current inventory:
 - p0f.init - init.d script for p0f.
 - readme.txt - notes for the installation of Dionaea, p0f and Cowrie.
 - wordlist.txt - required by generate_user_db.py for the generation of plausible usernames and email addresses.
+\lokirun
+- run.ps1 - PowerShell script to automate the operation of Loki IOC scanner.
 \honeypot-vagrant
 - \scripts - location where the Vagrantfile sources the bootstrap.sh autoinstall script from.
 - aws.credentials - stores AWS credentials used by Vagrantfile.
