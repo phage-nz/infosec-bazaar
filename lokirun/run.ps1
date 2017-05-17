@@ -114,11 +114,11 @@ Function ProcessAlerts ($alerts)
 
         # Convoluted method to insert new lines.
         $randomString = GetRandomString(12)
-        $msg = $alert -creplace "([A-Z0-9_]{3,}_?[0-9]*?:)", ('{0}$1' -f $randomString)
-        $msg = $msg -replace $randomString, "`r`n"
-        $msg += "`r`n"
+        $event = $alert -creplace "([A-Z0-9_]{3,}_?[0-9]*?:)", ('{0}$1' -f $randomString)
+        $event = $event -replace $randomString, "`r`n"
+        $event += "`r`n"
 
-        $body += $msg
+        $body += $event
     }
 
     Write-Host "Sending notification..."
