@@ -149,6 +149,11 @@ TO> r.VersionToken.TokenType = 0xAA
 
 ?> Refer to http://www.freetds.org/tds.html#responses for options.
 
+- Insert your VirusTotal API key into: /opt/dionaea/etc/dionaea/ihandlers-available/virustotal.yaml
+- Comment out the following line in /opt/dionaea/lib/dionaea/python/dionaea/virustotal.py if you wish to disable automatic commenting on uploaded files:
+
+self.make_comment(sf[0], sf[1], sf[2], 'comment')
+
 - Make a directory for SIP pcap's:
 sudo -u dionaea mkdir -p /opt/dionaea/var/dionaea/rtp/default
 
