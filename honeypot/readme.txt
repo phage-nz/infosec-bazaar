@@ -41,12 +41,19 @@ ssh -i ~/.ssh/PrivateKey.pem ubuntu@ec2-xx-xxx-xxx-xx.us-west-2.compute.amazonaw
 
 - Install Dionaea and p0f:
 sudo apt-get update
-apt-get install software-properties-common python-software-properties p0f -y
+apt-get install software-properties-common python-software-properties p0f autoconf automake check cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-dev libpcap-dev libreadline-dev libsqlite3-dev libssl-dev libtool libudns-dev libxml2-dev libxslt1-dev python3 python3-dev python3-yaml -y
 sudo apt-get upgrade -y
 (reboot if required for kernel updates)
 cd /opt
-git clone https://github.com/DinoTools/dionaea.git
+git clone https://github.com/phage-nz/dionaea
 cd dionaea
+git clone https://github.com/gento/liblcfg
+cd liblcfg/code
+autoreconf -vi
+./configure --prefix=/opt/dionaea
+make install
+cd ..
+cd ..
 autoreconf -vi
 ./configure \
 	--disable-werror \
@@ -60,11 +67,15 @@ autoreconf -vi
 	--with-gc-include=/usr/include/gc \
 	--enable-nl \
 	--with-nl-include=/usr/include/libnl3 \
-	--with-nl-lib=/usr/lib
+	--with-nl-lib=/usr/lib \
+	--with-lcfg-lib=/opt/dionaea/lib/ \
+	--with-curl-config=/usr/bin/
 make
 sudo make install
 useradd -r -s /bin/false dionaea
 chown -R dionaea:dionaea /opt/dionaea/
+mkdir /home/dionaea
+chown dionaea:dionaea /home/dionaea
 
 - Install sqlite3 command line utility (useful for ad-hoc queries):
 apt-get install sqlite3 -y
