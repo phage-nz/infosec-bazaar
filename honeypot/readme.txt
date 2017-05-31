@@ -45,7 +45,7 @@ apt-get install software-properties-common python-software-properties p0f autoco
 sudo apt-get upgrade -y
 (reboot if required for kernel updates)
 cd /opt
-git clone https://github.com/phage-nz/dionaea
+git clone https://github.com/DinoTools/dionaea
 cd dionaea
 git clone https://github.com/gento/liblcfg
 cd liblcfg/code
