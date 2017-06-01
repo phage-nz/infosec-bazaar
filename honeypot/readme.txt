@@ -154,13 +154,17 @@ TO> r.VersionToken.TokenType = 0xAA
 
 self.make_comment(sf[0], sf[1], sf[2], 'comment')
 
+- Enable the VirusTotal plugin:
+
+sudo -u dionaea ln -s /opt/dionaea/etc/dionaea/ihandlers-enabled/virustotal.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled
+
 - Make a directory for SIP pcap's:
 sudo -u dionaea mkdir -p /opt/dionaea/var/dionaea/rtp/default
 
 - Create a logrotate script to rotate the logs on a daily basis using dionaea.logrotate (copy to /etc/logrotate.d/dionaea)
 
 - Enable Dionaea p0f handler:
-ln -s /opt/dionaea/etc/dionaea/ihandlers-available/p0f.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled
+sudo -u dionaea ln -s /opt/dionaea/etc/dionaea/ihandlers-available/p0f.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled
 
 - Make p0f init script using p0f.init (copy to /etc/init.d/p0f) then:
 chmod +x /etc/init.d/p0f
