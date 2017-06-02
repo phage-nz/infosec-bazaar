@@ -46,7 +46,7 @@ if [ "$INSTALL_DIONAEA" == "yes" ] || [ "$INSTALL_COWRIE" == "yes" ] ; then
   echo "Installing dependencies..."
   apt install autoconf automake build-essential check cython3 git libcurl4-openssl-dev libemu-dev libev-dev libffi-dev libglib2.0-dev libgmp-dev libloudmouth1-dev libmpc-dev libmpfr-dev libnetfilter-queue-dev libnl-dev libpcap-dev libpython-dev libreadline-dev libsqlite3-dev libssl-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python-dev python-pip python-software-properties python-virtualenv python3 python3-dev python3-yaml software-properties-common -y
   # Cowrie requires the latest version of Python OpenSSL.
-  apt remove python-openssl
+  apt remove python-openssl -y
   pip install pyopenssl
 else
   echo "Nothing to be installed."
@@ -143,8 +143,8 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   echo "Installing Cowrie..."
   cd /opt
   git clone https://github.com/micheloosterhof/cowrie
-  cp /opt/cowrie/cowrie.cfg.dist /opt/cowrie/cowrie.cfg
-  echo "Installing Python dependencies..."
+  cd cowrie
+  cp cowrie.cfg.dist cowrie.cfg
   pip install -r requirements.txt
   echo "Making underprivileged user..."
   useradd -r -s /bin/false cowrie
@@ -154,7 +154,7 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   mkdir /home/cowrie
   chown cowrie:cowrie /home/cowrie
   echo "Fixing up the Cowrie config file..."
-  sed -i 's/^\(hostname\s*=\s*\).*/\1'"$SERVER"'/' /opt/cowrie/cowrie.cfg
+  sed -i 's/^\(hostname\s*=\s*\).*/\1'"$SERVER"'/' cowrie.cfg
   echo "Making the Cowrie filesystem..."
   /opt/cowrie/bin/createfs
   echo "Making logrotate script..."

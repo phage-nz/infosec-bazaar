@@ -17,7 +17,7 @@ Default Install Notes
 """""""""""""""""""""
 
 # Fetch the latest release of the autoinstall script.
-wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypots/autoinstall.sh
+wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/autoinstall.sh
 chmod +x autoinstall.sh
 # Edit the variables at the top of the script.
 nano autoinstall.sh
