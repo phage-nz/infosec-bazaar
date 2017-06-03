@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.4.1
+# Honeypot AutoInstall Script v0.4.2
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -137,9 +137,10 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Dionaea install complete! You may wish to alter the enabled handlers and services in /opt/dionaea/etc/dionaea."
 fi
 
+# Install DionaeaFR.
 if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Installing DionaeaFR..."
-  pip install Django==1.6.5 django-compressor==1.4 django-filter==0.7 django-htmlmin django-pagination django-tables2==1.0 gunicorn pygeoip six==1.5.2
+  pip install Django==1.6.5 django-compressor==1.4 django-filter==0.7 django-htmlmin django-pagination django-tables2==1.0 pygeoip six==1.5.2
   cd /opt
   git clone https://github.com/rubenespadas/DionaeaFR.git
   cd DionaeaFR
@@ -176,7 +177,8 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   sed -i 's/DionaeaFR.settings/settings/g' /opt/DionaeaFR/manage.py
   cp -r /opt/DionaeaFR/DionaeaFR/Templates /opt/DionaeaFR/
   cp -r /opt/DionaeaFR/DionaeaFR/static /opt/DionaeaFR/
-  mkdir /var/run/dionaeafr/
+  mkdir /var/run/dionaeafr
+  mkdir /var/log/dionaeafr
   echo "Preparing static content..."
   python manage.py collectstatic --noinput
   echo "Setting service to autostart..."
@@ -199,7 +201,15 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   git clone https://github.com/micheloosterhof/cowrie.git
   cd cowrie
   cp cowrie.cfg.dist cowrie.cfg
-  pip install -r requirements.txt
+  mkdir tmp
+  cd tmp
+  # Cowrie requires the latest verison of Twisted.
+  git clone -b trunk https://github.com/twisted/twisted.git
+  cd twisted
+  python setup.py install
+  cd ../..
+  rm -rf tmp
+  pip install -U -r requirements.txt
   echo "Making underprivileged user..."
   useradd -r -s /bin/false cowrie
   mkdir -p /var/run/cowrie

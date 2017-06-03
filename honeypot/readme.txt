@@ -1,4 +1,4 @@
-Honeypot AutoInstall Script v0.3
+Honeypot AutoInstall Script v0.4.2
 by Chris Campbell
 
 Twitter: @phage_nz
@@ -6,7 +6,7 @@ GitHub: phage-nz
 Blog: https://phage.nz
 
 Installs:
-Dionaea
+Dionaea and DionaeaFR
 p0f
 Cowrie
 
@@ -37,6 +37,7 @@ Essential:
 
 - Create and apply security group with the following ports:
 Management SSH (22/TCP) - restricted to your public IP. Only used if Cowrie is not installed.
+DionaeaFR HTTP (8000/TCP) - restricted to your public IP.
 FTP (21/TCP) 
 HTTP/HTTPS (80/TCP and 443/TCP) 
 NameServer (42/TCP) 
@@ -131,3 +132,8 @@ e.g. root:0:toor
 -- Format for a denied password:
 <user>:0:!<password>
 e.g. root:0:!toor
+
+
+To-Do
+"""""
+- Lower privileges DionaeaFR runs under.
