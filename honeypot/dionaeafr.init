@@ -1,0 +1,60 @@
+#!/bin/sh
+
+ADDRESS='0.0.0.0'
+PORT='8000'
+PYTHON="/usr/bin/python"
+GUNICORN="/usr/local/bin/gunicorn"
+PROJECTLOC="/opt/DionaeaFR"
+MANAGELOC="$PROJECTLOC/manage.py"
+DEFAULT_ARGS="-w=3 --daemon -b=$ADDRESS:$PORT DionaeaFR.wsgi:application"
+BASE_CMD="$GUNICORN $DEFAULT_ARGS"
+
+SERVER_PID="$PROJECTLOC/$PORT.pid"
+
+start_server () {
+  if [ -f $1 ]; then
+    #pid exists, check if running
+    if [ "$(ps -p `cat $1` | wc -l)" -gt 1 ]; then
+       echo "Server already running on ${ADDRESS}:${2}"
+       return
+    fi
+  fi
+  cd $PROJECTLOC
+  echo "starting ${ADDRESS}:${2}"
+  $BASE_CMD --pid=$1
+}
+
+stop_server (){
+  if [ -f $1 ] && [ "$(ps -p `cat $1` | wc -l)" -gt 1 ]; then
+    echo "stopping server ${ADDRESS}:${2}"
+    kill -9 `cat $1`
+    rm $1
+  else 
+    if [ -f $1 ]; then
+      echo "server ${ADDRESS}:${2} not running"
+    else
+      echo "No pid file found for server ${ADDRESS}:${2}"
+    fi
+  fi
+}
+
+case "$1" in
+'start')
+  start_server $SERVER_PID $PORT 
+  ;;
+'stop')
+  stop_server $SERVER_PID $PORT
+  ;;
+'restart')
+  stop_server $SERVER_PID $PORT
+  sleep 2
+  start_server $SERVER_PID $PORT
+  sleep 2
+  ;;
+*)
+  echo "Usage: $0 { start | stop | restart }"
+  ;;
+esac
+
+exit 0
+r

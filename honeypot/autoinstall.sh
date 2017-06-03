@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.3
+# Honeypot AutoInstall Script v0.4.1
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -8,7 +8,7 @@
 # Blog: https://phage.nz
 
 # Installs:
-# Dionaea
+# Dionaea and DionaeaFR
 # p0f
 # Cowrie
 #
@@ -16,6 +16,7 @@
 
 # Variables:
 INSTALL_DIONAEA="yes" # yes or no.
+INSTALL_DIONAEAFR="yes" # yes or no.
 INSTALL_COWRIE="no" # yes or no.
 
 SSL_C="US" # Country code.
@@ -38,16 +39,13 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
-# Install dependencies if either Dionaea or Cowrie is to be installed.
-if [ "$INSTALL_DIONAEA" == "yes" ] || [ "$INSTALL_COWRIE" == "yes" ] ; then
+# Install main dependencies.
+if [ "$INSTALL_DIONAEA" == "yes" ] || [ "$INSTALL_COWRIE" == "yes" ] || [ "$INSTALL_DIONAEAFR" == "yes" ] ; then
   echo "Updating server..."
   apt update
   apt upgrade -y
-  echo "Installing dependencies..."
-  apt install autoconf automake build-essential check cython3 git libcurl4-openssl-dev libemu-dev libev-dev libffi-dev libglib2.0-dev libgmp-dev libloudmouth1-dev libmpc-dev libmpfr-dev libnetfilter-queue-dev libnl-dev libpcap-dev libpython-dev libreadline-dev libsqlite3-dev libssl-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python-dev python-pip python-software-properties python-virtualenv python3 python3-dev python3-yaml software-properties-common -y
-  # Cowrie requires the latest version of Python OpenSSL.
-  apt remove python-openssl -y
-  pip install pyopenssl
+  echo "Installing main dependencies..."
+  apt install autoconf automake build-essential check git libssl-dev python-dev python-pip python-software-properties software-properties-common -y
 else
   echo "Nothing to be installed."
   exit 0
@@ -56,6 +54,7 @@ fi
 # Install Dionaea.
 if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Installing Dionaea..."
+  apt install autoconf automake build-essential cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-dev libpcap-dev libreadline-dev libsqlite3-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python3 python3-dev python3-bson python3-yaml -y
   cd /opt
   git clone -b WannaCry https://github.com/DinoTools/dionaea.git
   cd dionaea
@@ -138,11 +137,66 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Dionaea install complete! You may wish to alter the enabled handlers and services in /opt/dionaea/etc/dionaea."
 fi
 
+if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
+  echo "Installing DionaeaFR..."
+  pip install Django==1.6.5 django-compressor==1.4 django-filter==0.7 django-htmlmin django-pagination django-tables2==1.0 gunicorn pygeoip six==1.5.2
+  cd /opt
+  git clone https://github.com/rubenespadas/DionaeaFR.git
+  cd DionaeaFR
+  mkdir tmp
+  cd tmp
+  git clone https://github.com/benjiec/django-tables2-simplefilter
+  cd django-tables2-simplefilter
+  python setup.py install
+  cd ..
+  git clone git://git.bro-ids.org/pysubnettree.git
+  cd pysubnettree
+  python setup.py install
+  cd ..
+  wget http://nodejs.org/dist/v4.7.1/node-v4.7.1.tar.gz  
+  tar xzvf node-v4.7.1.tar.gz
+  cd node-v4.7.1
+  ./configure
+  make
+  make install
+  cd ..
+  wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+  wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+  gunzip GeoLiteCity.dat.gz
+  gunzip GeoIP.dat.gz
+  mv GeoIP.dat /opt/DionaeaFR/DionaeaFR/static
+  mv GeoLiteCity.dat /opt/DionaeaFR/DionaeaFR/static
+  cd ..
+  rm -rf tmp
+  apt install npm python-netaddr -y
+  npm install -g less -y
+  echo "Fixing up DionaeaFR config files..."
+  cp /opt/DionaeaFR/DionaeaFR/settings.py.dist /opt/DionaeaFR/settings.py
+  sed -i 's#/var/lib/dionaea/logsql.sqlite#/opt/dionaea/var/dionaea/dionaea.sqlite#g' /opt/DionaeaFR/settings.py
+  sed -i 's/DionaeaFR.settings/settings/g' /opt/DionaeaFR/manage.py
+  cp -r /opt/DionaeaFR/DionaeaFR/Templates /opt/DionaeaFR/
+  cp -r /opt/DionaeaFR/DionaeaFR/static /opt/DionaeaFR/
+  mkdir /var/run/dionaeafr/
+  echo "Preparing static content..."
+  python manage.py collectstatic --noinput
+  echo "Setting service to autostart..."
+  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.init -O /etc/init.d/dionaeafr
+  chmod +x /etc/init.d/dionaeafr
+  update-rc.d dionaeafr defaults
+  echo "Starting service..."
+  /etc/init.d/dionaeafr start
+  echo "DionaeaFR install complete!"
+fi
+
 # Install Cowrie.
 if [ "$INSTALL_COWRIE" == "yes" ]; then
   echo "Installing Cowrie..."
+  apt install libffi-dev libgmp-dev libmpc-dev libmpfr-dev libpython-dev python-virtualenv -y
+  # Cowrie requires the latest version of Python OpenSSL.
+  apt remove python-openssl -y
+  pip install pyopenssl
   cd /opt
-  git clone https://github.com/micheloosterhof/cowrie
+  git clone https://github.com/micheloosterhof/cowrie.git
   cd cowrie
   cp cowrie.cfg.dist cowrie.cfg
   pip install -r requirements.txt
