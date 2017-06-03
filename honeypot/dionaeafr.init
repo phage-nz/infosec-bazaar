@@ -3,11 +3,16 @@
 . /lib/lsb/init-functions
 
 BASEDIR="/opt/DionaeaFR"
-PIDFILE="/var/run/dionaeafr/dionaeafr.pid"
+PIDFOLDER="/var/run/dionaeafr"
+PIDFILE=$PIDFOLDER/dionaea.pid
 LOGFILE="/var/log/dionaeafr/dionaeafr.log"
 NAME="dionaeafr"
 DAEMON="dionaeafr"
 PORT=8000
+
+if [ ! -d "$PIDFOLDER" ]; then
+  mkdir $PIDFOLDER
+fi
 
 case $1 in
   start)
