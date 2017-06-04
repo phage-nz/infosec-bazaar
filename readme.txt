@@ -4,10 +4,10 @@ ______ |  |__ _____     ____   ____
 |  |_> >   Y  \/ __ \_/ /_/  >  ___/ 
 |   __/|___|  (____  /\___  / \___  >
 |__|        \/     \//_____/      \/ 
-               phage
-             @phage_nz
-        bytefog.blogspot.com
 
+Twitter: @phage_nz
+GitHub: phage-nz
+Blog: https://phage.nz
 
 https://github.com/phage-nz/malware-hunting
 
