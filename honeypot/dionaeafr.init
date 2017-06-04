@@ -4,7 +4,7 @@
 
 BASEDIR="/opt/DionaeaFR"
 PIDFOLDER="/var/run/dionaeafr"
-PIDFILE=$PIDFOLDER/dionaea.pid
+PIDFILE=$PIDFOLDER/dionaeafr.pid
 LOGFILE="/var/log/dionaeafr/dionaeafr.log"
 NAME="dionaeafr"
 DAEMON="dionaeafr"

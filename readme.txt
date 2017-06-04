@@ -19,12 +19,13 @@ Current inventory:
 - install.sh - automatically install Cuckoo Sandbox, all dependencies, additional processing modules and create a cloaked VM.
 - readme.txt - notes for the installation of Cuckoo Sandbox and the creation of cloaked VM's.
 \honeypot
-- autoinstall.sh - automatic install script for Cowrie, Dionaea and p0f.
+- autoinstall.sh - automatic install script for Dionaea, DionaeaFR, Cowrie and p0f.
 - cowrie.init - init.d script for Cowrie.
 - cowrie.logrotate - logrotate.d script for Cowrie.
 - dionaea.init - init.d script for Dionaea.
 - dionaea.logrotate - logrotate.d script for Dionaea.
-- dionaea_query.py - script for performing common queries against the Dionaea sqlite database. Original script by Andrew Waite (www.infosanity.co.uk)
+- dionaeafr.init - init.d script for DionaeaFR.
+- dionaeafr.logrotate - logrotate.d script for DionaeaFR.
 - generate_user_db.py - script to generate a random target user database for the Dionaea mysql service.
 - p0f.init - init.d script for p0f.
 - readme.txt - notes for the installation of Dionaea, p0f and Cowrie.

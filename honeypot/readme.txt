@@ -24,6 +24,8 @@ nano autoinstall.sh
 # Run the script and happy hunting!
 sudo ./autoinstall.sh
 
+DionaeaFR will be accessible at http://<server DNS/IP>:8000
+
 Refer to the notes below for information on where customisations can be made.
 
 Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.
@@ -57,12 +59,14 @@ netstat -putan|grep dionaea
 
 - Check the error log in /opt/dionaea/var/dionaea/dionaea-errors.log
 
-- General logs is /opt/dionaea/var/dionaea/dionaea.log and download binaries are in /opt/dionaea/var/dionaea/binaries
+- General logs are /opt/dionaea/var/dionaea/dionaea.log and /var/log/dionaeafr/dionaeafr.log, and download binaries are in /opt/dionaea/var/dionaea/binaries
 
 
 Optional:
 
 - The main operational config is /opt/dionaea/etc/dionaea/dionaea.cfg
+
+- Insert your public IP addresses (in CIDR format) into the 'RESERVED_IP' array in /opt/DionaeaFR/settings.py
 
 - To generate a fresh MySQL target database:
 

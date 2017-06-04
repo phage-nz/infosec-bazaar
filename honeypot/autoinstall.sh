@@ -142,7 +142,7 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Installing DionaeaFR..."
   pip install Django==1.6.5 django-compressor==1.4 django-filter==0.7 django-htmlmin django-pagination django-tables2==1.0 pygeoip six==1.5.2
   cd /opt
-  git clone https://github.com/rubenespadas/DionaeaFR.git
+  git clone https://github.com/phage-nz/DionaeaFR.git
   cd DionaeaFR
   mkdir tmp
   cd tmp
@@ -181,6 +181,8 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   mkdir /var/log/dionaeafr
   echo "Preparing static content..."
   python manage.py collectstatic --noinput
+  echo "Making logrotate script..."
+  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.logrotate -O /etc/logrotate.d/dionaeafr
   echo "Setting service to autostart..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.init -O /etc/init.d/dionaeafr
   chmod +x /etc/init.d/dionaeafr
