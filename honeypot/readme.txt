@@ -1,4 +1,4 @@
-Honeypot AutoInstall Script v0.4.2
+Honeypot AutoInstall Script v0.4.3
 by Chris Campbell
 
 Twitter: @phage_nz
@@ -96,6 +96,8 @@ TO> r.VersionToken.TokenType = 0xAA
 - Comment out the following line in /opt/dionaea/lib/dionaea/python/dionaea/virustotal.py if you wish to disable automatic commenting of files uploaded to VirusTotal (done by default):
 
 self.make_comment(sf[0], sf[1], sf[2], 'comment')
+
+- If you wish DionaeaFR to listen on a port other than 8000, update the port definition in /etc/init.d/dionaeafr and restart the service.
 
 
 Cowrie
