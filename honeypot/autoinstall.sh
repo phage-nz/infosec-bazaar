@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.4.2
+# Honeypot AutoInstall Script v0.4.3
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -56,7 +56,7 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Installing Dionaea..."
   apt install autoconf automake build-essential cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-dev libpcap-dev libreadline-dev libsqlite3-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python3 python3-dev python3-bson python3-yaml -y
   cd /opt
-  git clone -b WannaCry https://github.com/DinoTools/dionaea.git
+  git clone https://github.com/DinoTools/dionaea.git
   cd dionaea
   git clone https://github.com/gento/liblcfg
   cd liblcfg/code
@@ -141,6 +141,7 @@ fi
 if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Installing DionaeaFR..."
   pip install Django==1.6.5 django-compressor==1.4 django-filter==0.7 django-htmlmin django-pagination django-tables2==1.0 pygeoip six==1.5.2
+  apt install python-netaddr -y
   cd /opt
   git clone https://github.com/phage-nz/DionaeaFR.git
   cd DionaeaFR
@@ -169,7 +170,7 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   mv GeoLiteCity.dat /opt/DionaeaFR/DionaeaFR/static
   cd ..
   rm -rf tmp
-  apt install npm python-netaddr -y
+  apt install npm -y
   npm install -g less -y
   echo "Fixing up DionaeaFR config files..."
   cp /opt/DionaeaFR/DionaeaFR/settings.py.dist /opt/DionaeaFR/settings.py
