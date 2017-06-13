@@ -13,20 +13,35 @@
 # Loki installation directory.
 $baseDirectory = "C:\tools\loki"
 
+# Log directory.
+$logDirectory = "C:\tools\loki\logs"
+
+# Update Loki prior to scan?
+$updateLoki = "yes" # "yes" or "no".
+
 #Define mail settings.
 $msg = New-Object System.Net.Mail.MailMessage # Do not change.
 $msg.To.Add("bob@example.com")
 $msg.CC.Add("jane@example.com") 
 $msg.From = "noreply@example.com" 
 $smtpServer = "smtp.example.com" 
-$smtpClient = New-Object Net.Mail.SmtpClient($smtpServer) #Do not change.
+$smtpClient = New-Object Net.Mail.SmtpClient($smtpServer) # Do not change.
 
 # Fixed variables.
 $timeStamp = Get-Date -format yyyy-MM-dd-HH-mm-ss
 $baseDirectory = $baseDirectory.TrimEnd('\')
 $lokiBin = "{0}\loki.exe" -f $baseDirectory
-$lokiLog = "{0}\loki_{1}_{2}.log" -f $baseDirectory, $env:computername, $timeStamp
+$lokiLog = "{0}\loki_{1}_{2}.log" -f $logDirectory, $env:computername, $timeStamp
 $procArgs = "--csv --dontwait --intense --noindicator --onlyrelevant -l {0}" -f $lokiLog
+
+Function UpdateLoki()
+{
+    # Update Loki.
+    Write-Host "Updating Loki..."
+    $runProc = Start-Process $lokiUpdater $updateArgs -WindowStyle Hidden -PassThru -Wait
+    $exitCode = $runProc.ExitCode
+    Write-Host "Update complete!"
+}
 
 Function RunLoki()
 {
@@ -64,6 +79,11 @@ Function RunLoki()
                 Write-Host "Processing alerts..."
 
                 ProcessAlerts($alerts)
+            }
+
+            else
+            {
+                Write-Host "No alerts recorded!"
             }
         }
 
@@ -140,6 +160,11 @@ Function GetRandomString ($length)
     }
     
     Return $randomString   
+}
+
+if ($updateLoki.ToLower() -eq "yes")
+{
+    UpdateLoki
 }
 
 RunLoki
