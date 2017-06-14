@@ -30,6 +30,7 @@ $smtpClient = New-Object Net.Mail.SmtpClient($smtpServer) # Do not change.
 # Fixed variables.
 $timeStamp = Get-Date -format yyyy-MM-dd-HH-mm-ss
 $baseDirectory = $baseDirectory.TrimEnd('\')
+$logDirectory = $logDirectory.TrimEnd('\')
 $lokiBin = "{0}\loki.exe" -f $baseDirectory
 $lokiLog = "{0}\loki_{1}_{2}.log" -f $logDirectory, $env:computername, $timeStamp
 $procArgs = "--csv --dontwait --intense --noindicator --onlyrelevant -l {0}" -f $lokiLog
