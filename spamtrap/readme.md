@@ -30,7 +30,7 @@ mail.example.com
 *curl -s https://mailinabox.email/setup.sh | sudo bash*
 
 - Follow the installation instructions. Ensure that you record any credentials that you set up in your password manager.
-- SCP your static web files to /home/user-data/www/default/ - they will become accessible at https://\<your domain\>, which will redirect to https://www.\<your domain\>
+- SCP your static web files to /home/user-data/www/default/ - they will become accessible at https://<your domain\>, which will redirect to https://www.<your domain\>
 - Stop Spam Assassin:
 
 */etc/init.d/spamassassin stop*
@@ -56,13 +56,13 @@ smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, rej
 smtpd_sender_restrictions = 
 
 - Reboot the box (easy way to restart everything).
-- To complete the setup, visit https://mail.\<your domain\>/admin
+- To complete the setup, visit https://mail.<your domain\>/admin
     - Log in with the administrative credentials that you configured during the setup.
     - Work through any issues identified by the status checks.
     - Navigate to System > External DNS. Ensure that all of the listed records are defined in your DNS registrar/provider zone configuration.
     - Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
     - Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
-- Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.\<your domain\>/mail
+- Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.<your domain\>/mail
     - Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
 
 #### Operation ####
@@ -94,7 +94,7 @@ sudo chown ubuntu:ubuntu shiva-installer*
 
 - Fetch and install Shiva:
 
-*git clone https://github.com/shiva-spampot/shiva.git   shiva-installer  
+*git clone https://github.com/shiva-spampot/shiva.git shiva-installer  
 cd shiva-installer  
 ./install.sh*
 
