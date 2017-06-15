@@ -29,7 +29,7 @@ chmod +x autoinstall.sh*
 
 *sudo ./autoinstall.sh*
 
-- DionaeaFR will be accessible at http://<server DNS/IP>:8000
+- DionaeaFR will be accessible at http://\<server DNS/IP\>:8000
 - Refer to the notes below for information on where customisations can be made.
 - Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.
 
@@ -84,7 +84,7 @@ TO> r.VersionToken.TokenType = 0xAA
 
 - Comment out the following line in /opt/dionaea/lib/dionaea/python/dionaea/virustotal.py if you wish to disable automatic commenting of files uploaded to VirusTotal (done by default):
 
-self.make_comment(sf[0], sf[1], sf[2], 'comment')
+self.make_comment(sf\[0\], sf\[1\], sf\[2\], 'comment')
 
 - If you wish DionaeaFR to listen on a port other than 8000, update the port definition in /etc/init.d/dionaeafr and restart the service.
 
@@ -102,7 +102,7 @@ Management SSH (8925/TCP) - restrict to your public IP.
 
 - Test (using a password defined in userdb.txt):
 
-*ssh root@<server name>*
+*ssh root@\<server name\>*
 
 Optional:
 
@@ -117,10 +117,10 @@ TO>*whatever you want*
 
 - Add some more root passwords (if desired) to /opt/cowrie/data/userdb.txt
  - Format for an accepted password:  
-<user>:0:<password>  
+\<user\>:0:\<password\>  
 *e.g. root:0:toor*
  - Format for a denied password:  
-<user>:0:!<password>  
+\<user\>:0:!\<password\>  
 *e.g. root:0:!toor*
 
 ### To-Do ###

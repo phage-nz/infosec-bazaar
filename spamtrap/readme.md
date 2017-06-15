@@ -10,15 +10,15 @@
 - Spin up an EC2 Micro Ubuntu instance.
 - Obtain the public IP of the instance and configure the following A record's for your domain that will resolve to it:
 
-*<naked>  
+*\<naked\>  
 www  
-mail  *
+mail*
 
 For example:
 
-*example.com  
+example.com  
 www.example.com  
-mail.example.com  *
+mail.example.com
 
 #### Setup ####
 - Upgrade the box:
@@ -30,7 +30,7 @@ mail.example.com  *
 *curl -s https://mailinabox.email/setup.sh | sudo bash*
 
 - Follow the installation instructions. Ensure that you record any credentials that you set up in your password manager.
-- SCP your static web files to /home/user-data/www/default/ - they will become accessible at https://<your domain>, which will redirect to https://www.<your domain>
+- SCP your static web files to /home/user-data/www/default/ - they will become accessible at https://\<your domain\>, which will redirect to https://www.\<your domain\>
 - Stop Spam Assassin:
 
 */etc/init.d/spamassassin stop*
@@ -47,8 +47,8 @@ smtpd_relay_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_unau
 \#mydestination = ...  
 mydestination=localhost
 
--\#virtual_transport=lmtp:[127.0.0.1]:10025
-virtual_transport=lmtp:[127.0.0.1]:10026-
+\#virtual_transport=lmtp:\[127.0.0.1\]:10025
+virtual_transport=lmtp:\[127.0.0.1\]:10026-
 
 \#smtpd_sender_restrictions=reject_non_fqdn_sender,reject_unknown_sender_domain,reject_authenticated_sender_login_mismatch,reject_rhsbl_sender dbl.spamhaus.org
 \#smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_rbl_client zen.spamhaus.org,reject_unlisted_recipient,check_policy_service inet:127.0.0.1:10023  
@@ -56,13 +56,13 @@ smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, rej
 smtpd_sender_restrictions = 
 
 - Reboot the box (easy way to restart everything).
-- To complete the setup, visit https://mail.<your domain>/admin
+- To complete the setup, visit https://mail.\<your domain\>/admin
 - Log in with the administrative credentials that you configured during the setup.
 - Work through any issues identified by the status checks.
 - Navigate to System > External DNS. Ensure that all of the listed records are defined in your DNS registrar/provider zone configuration.
 - Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
-- Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@<your domain> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@<your domain>, without the requirement to make an inbox for it.
-- Log on to the webmail interface using admin@<your domain> and the password you configured during setup, at https://mail.<your domain>/mail
+- Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
+- Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.\<your domain\>/mail
 - Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
 
 #### Operation ####

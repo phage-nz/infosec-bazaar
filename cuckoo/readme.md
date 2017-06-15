@@ -56,7 +56,7 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 #### VMCloak Notes ####
 - Configure VM (example):
 
-*vmcloak init -d --win7x86 --iso-mount <location of mounted ISO> --serial-key <serial>*
+*vmcloak init -d --win7x86 --iso-mount \<location of mounted ISO\> --serial-key <serial>*
 
 - Install software (e.g. Acrobat Reader 9, WinRAR) and perform tasks (e.g. remotetooltips, windows_cleanup):
 
@@ -64,7 +64,7 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 
 - Install Office 2k7:
 
-*vmcloak install win7 office2007 office2007.isopath=<path to iso> office2007.serialkey=<serial>*
+*vmcloak install win7 office2007 office2007.isopath=\<path to iso\> office2007.serialkey=\<serial\>*
 
 - At this point 'win7' is your working template. It can be further modified if need be. To make a usable VM, however, it must be snapshotted with makes it immutable. So, the template is cloned:
 
