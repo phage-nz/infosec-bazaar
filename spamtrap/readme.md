@@ -2,9 +2,9 @@
 
 #### Preparation ####
 - Devise an organisational identity. Consider industries that are currently highly targeted, for example:
- - Political parties
- - Critical infrastructure.
- - Managed Service Providers.
+    - Political parties
+    - Critical infrastructure.
+    - Managed Service Providers.
 - Produce a static HTML site that will form the public presence of your organisation. Ensure that you embed your email addresses in the site wherever possible.
 - Register a domain to be used for creating your organisation's identity. Ensure that your registrar provides WHOIS masking, or that the body who manages and administers the TLD is able to provide this service. If not - choose a different TLD.
 - Spin up an EC2 Micro Ubuntu instance.
@@ -57,13 +57,13 @@ smtpd_sender_restrictions =
 
 - Reboot the box (easy way to restart everything).
 - To complete the setup, visit https://mail.\<your domain\>/admin
-- Log in with the administrative credentials that you configured during the setup.
-- Work through any issues identified by the status checks.
-- Navigate to System > External DNS. Ensure that all of the listed records are defined in your DNS registrar/provider zone configuration.
-- Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
-- Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
+    - Log in with the administrative credentials that you configured during the setup.
+    - Work through any issues identified by the status checks.
+    - Navigate to System > External DNS. Ensure that all of the listed records are defined in your DNS registrar/provider zone configuration.
+    - Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
+    - Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
 - Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.\<your domain\>/mail
-- Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
+    - Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
 
 #### Operation ####
 Some ideas on how to seed your addresses into the world wide interwebs are:
