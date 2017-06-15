@@ -20,7 +20,7 @@ example.com
 www.example.com  
 mail.example.com
 
-- Also configure an MX record (for the naked domain, e.g. example.com) that resolves to mail.<your domain\> (e.g. mail.domain.com).
+- Also configure an MX record (for the naked domain, e.g. example.com) that resolves to mail.<your domain\> (e.g. mail.example.com).
 
 #### Setup ####
 - Upgrade the box:
