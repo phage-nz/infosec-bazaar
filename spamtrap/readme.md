@@ -57,6 +57,12 @@ virtual_transport=lmtp:\[127.0.0.1\]:10026-
 smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
 smtpd_sender_restrictions = 
 
+- Configure the 2FA plugin for Roundcube:
+
+git clone https://github.com/alexandregz/twofactor_gauthenticator.git /usr/local/lib/roundcubemail/plugins/twofactor_gauthenticator  
+nano /usr/local/lib/roundcubemail/config/config.inc.php  
+
+- Update $config['plugins'\] = array('...'); to include 'twofactor_gauthenticator'.
 - Reboot the box (easy way to restart everything).
 - To complete the setup, visit https://mail.<your domain\>/admin
     - Log in with the administrative credentials that you configured during the setup.
@@ -65,6 +71,7 @@ smtpd_sender_restrictions =
     - Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
     - Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
 - Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.<your domain\>/mail
+    - Navigate to Settings > 2-Factor Authentication. Tick 'Activate'. Click 'Show secret' and then 'Save'. Finally, click 'Show QR code ' to retrieve your QR code that you can scan into Google Authenticator.
     - Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
 
 #### Operation ####
