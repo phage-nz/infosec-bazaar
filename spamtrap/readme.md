@@ -59,10 +59,10 @@ smtpd_sender_restrictions =
 
 - Configure the 2FA plugin for Roundcube:
 
-git clone https://github.com/alexandregz/twofactor_gauthenticator.git /usr/local/lib/roundcubemail/plugins/twofactor_gauthenticator  
-nano /usr/local/lib/roundcubemail/config/config.inc.php  
+*git clone https://github.com/alexandregz/twofactor_gauthenticator.git /usr/local/lib/roundcubemail/plugins/twofactor_gauthenticator  
+nano /usr/local/lib/roundcubemail/config/config.inc.php*
 
-- Update $config['plugins'\] = array('...'); to include 'twofactor_gauthenticator'.
+- In the config, update $config['plugins'\] = array('...'); to include 'twofactor_gauthenticator'.
 - Reboot the box (easy way to restart everything).
 - To complete the setup, visit https://mail.<your domain\>/admin
     - Log in with the administrative credentials that you configured during the setup.
