@@ -32,8 +32,11 @@ $timeStamp = Get-Date -format yyyy-MM-dd-HH-mm-ss
 $baseDirectory = $baseDirectory.TrimEnd('\')
 $logDirectory = $logDirectory.TrimEnd('\')
 $lokiBin = "{0}\loki.exe" -f $baseDirectory
+$lokiUpdater = "{0}\loki-upgrader.exe" -f $baseDirectory
 $lokiLog = "{0}\loki_{1}_{2}.log" -f $logDirectory, $env:computername, $timeStamp
+$lokiUpdateLog = "{0}\loki-upgrader_{1}_{2}.log" -f $logDirectory, $env:computername, $timeStamp
 $procArgs = "--csv --dontwait --intense --noindicator --onlyrelevant -l {0}" -f $lokiLog
+$updateArgs = "-l {0}" -f $lokiUpdateLog
 
 Function UpdateLoki()
 {
