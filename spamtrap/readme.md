@@ -2,9 +2,9 @@
 
 #### Preparation ####
 - Devise an organisational identity. Consider industries that are currently highly targeted, for example:
- - Political parties
- - Critical infrastructure.
- - Managed Service Providers.
+    - Political parties
+    - Critical infrastructure.
+    - Managed Service Providers.
 - Produce a static HTML site that will form the public presence of your organisation. Ensure that you embed your email addresses in the site wherever possible.
 - Register a domain to be used for creating your organisation's identity. Ensure that your registrar provides WHOIS masking, or that the body who manages and administers the TLD is able to provide this service. If not - choose a different TLD.
 - Spin up an EC2 Micro Ubuntu instance.
@@ -20,6 +20,8 @@ example.com
 www.example.com  
 mail.example.com
 
+- Also configure an MX record (for the naked domain, e.g. example.com) that resolves to mail.<your domain\> (e.g. mail.example.com).
+
 #### Setup ####
 - Upgrade the box:
 
@@ -30,7 +32,7 @@ mail.example.com
 *curl -s https://mailinabox.email/setup.sh | sudo bash*
 
 - Follow the installation instructions. Ensure that you record any credentials that you set up in your password manager.
-- SCP your static web files to /home/user-data/www/default/ - they will become accessible at https://\<your domain\>, which will redirect to https://www.\<your domain\>
+- SCP your static web files to /home/user-data/www/default/ - they will become accessible at https://<your domain\>, which will redirect to https://www.<your domain\>
 - Stop Spam Assassin:
 
 */etc/init.d/spamassassin stop*
@@ -55,15 +57,22 @@ virtual_transport=lmtp:\[127.0.0.1\]:10026-
 smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
 smtpd_sender_restrictions = 
 
+- Configure the 2FA plugin for Roundcube:
+
+*git clone https://github.com/alexandregz/twofactor_gauthenticator.git /usr/local/lib/roundcubemail/plugins/twofactor_gauthenticator  
+nano /usr/local/lib/roundcubemail/config/config.inc.php*
+
+- In the config, update $config['plugins'\] = array('...'); to include 'twofactor_gauthenticator'.
 - Reboot the box (easy way to restart everything).
-- To complete the setup, visit https://mail.\<your domain\>/admin
-- Log in with the administrative credentials that you configured during the setup.
-- Work through any issues identified by the status checks.
-- Navigate to System > External DNS. Ensure that all of the listed records are defined in your DNS registrar/provider zone configuration.
-- Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
-- Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
-- Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.\<your domain\>/mail
-- Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
+- To complete the setup, visit https://mail.<your domain\>/admin
+    - Log in with the administrative credentials that you configured during the setup.
+    - Work through any issues identified by the status checks.
+    - Navigate to System > External DNS. Ensure that all of the listed records are defined in your DNS registrar/provider zone configuration.
+    - Navigate to System > TLS (SSL) Certificates. Issue certificates using Lets Encrypt for all of your domains. Optional: use your own CA issued certificates. Important: do not use self-signed certificates.
+    - Navigate to Mail > Aliases. Create a 'Catch-All' alias for your domain that forwards to admin@\<your domain\> (e.g. admin@example.com). This will send mail to ANY alias that you make to admin@\<your domain\>, without the requirement to make an inbox for it.
+- Log on to the webmail interface using admin@\<your domain\> and the password you configured during setup, at https://mail.<your domain\>/mail
+    - Navigate to Settings > 2-Factor Authentication. Tick 'Activate'. Click 'Show secret' and then 'Save'. Finally, click 'Show QR code ' to retrieve your QR code that you can scan into Google Authenticator.
+    - Send and receive some test emails. Ensure that you include Windows Live and Gmail in your tests.
 
 #### Operation ####
 Some ideas on how to seed your addresses into the world wide interwebs are:
@@ -94,7 +103,7 @@ sudo chown ubuntu:ubuntu shiva-installer*
 
 - Fetch and install Shiva:
 
-*git clone https://github.com/shiva-spampot/shiva.git   shiva-installer  
+*git clone https://github.com/shiva-spampot/shiva.git shiva-installer  
 cd shiva-installer  
 ./install.sh*
 
