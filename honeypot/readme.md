@@ -11,7 +11,7 @@
 - p0f  
 - Cowrie  
 
-Tested on Ubuntu 14.04 (EC2 t2.micro instance)
+Tested on Ubuntu 14.04 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)
 
 
 ### Default Install Notes ###
@@ -37,7 +37,7 @@ chmod +x autoinstall.sh*
 #### Dionaea ####
 Essential:
 
-- Create and apply security group with the following ports:
+- Create and apply a security group or firewall with the following ports opened:
 
 Management SSH (22/TCP) - restricted to your public IP. Only used if Cowrie is not installed.  
 DionaeaFR HTTP (8000/TCP) - restricted to your public IP.  
@@ -91,7 +91,7 @@ self.make_comment(sf\[0\], sf\[1\], sf\[2\], 'comment')
 #### Cowrie ####
 Essential:
 
-- Create and apply security group with the following ports:
+- Create and apply a security group or firewall with the following ports opened:
 
 Cowrie SSH (22/TCP)  
 Management SSH (8925/TCP) - restrict to your public IP.
