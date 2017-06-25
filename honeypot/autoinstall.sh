@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.4.3
+# Honeypot AutoInstall Script v0.4.4
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -107,7 +107,7 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   sed -i 's/^\(ssl.default.ou=\).*/\1'"$SSL_OU"'/' /opt/dionaea/etc/dionaea/dionaea.cfg
   sed -i 's/apikey: "........."/apikey: "'"$VT_KEY"'"/g' /opt/dionaea/etc/dionaea/ihandlers-available/virustotal.yaml
   sed -i 's/\/tmp/\/var\/run/g' /opt/dionaea/etc/dionaea/ihandlers-available/p0f.yaml
-    sed -i '9,10 s/^#//' /opt/dionaea/etc/dionaea/services-available/mysql.yaml
+  sed -i '9,10 s/^#//' /opt/dionaea/etc/dionaea/services-available/mysql.yaml
   sed -i 's/\/path\/to\/cc_info.sqlite/\/opt\/dionaea\/var\/dionaea\/target_db.sqlite/g' /opt/dionaea/etc/dionaea/services-available/mysql.yaml
   sed -i '4,6 s/^#//' /opt/dionaea/etc/dionaea/services-available/pptp.yaml
   sed -e '/self.make_comment/ s/^#*/#/' -i /opt/dionaea/lib/dionaea/python/dionaea/virustotal.py
