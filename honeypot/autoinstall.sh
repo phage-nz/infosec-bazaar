@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.4.4
+# Honeypot AutoInstall Script v0.4.5
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -12,7 +12,7 @@
 # p0f
 # Cowrie
 #
-# Tested on Ubuntu 14.04 (EC2 t2.micro instance)
+# Tested on Ubuntu 14.04 and 16.04 (EC2 t2.micro instance)
 
 # Variables:
 INSTALL_DIONAEA="yes" # yes or no.
@@ -54,7 +54,7 @@ fi
 # Install Dionaea.
 if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Installing Dionaea..."
-  apt install autoconf automake build-essential cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-dev libpcap-dev libreadline-dev libsqlite3-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python3 python3-dev python3-bson python3-yaml -y
+  apt install autoconf automake build-essential cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-3-dev libpcap-dev libreadline-dev libsqlite3-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python3 python3-dev python3-bson python3-yaml -y
   cd /opt
   git clone https://github.com/DinoTools/dionaea.git
   cd dionaea
