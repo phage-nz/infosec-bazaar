@@ -20,6 +20,7 @@ Current inventory:
 - readme.txt - notes for the installation of Cuckoo Sandbox and the creation of cloaked VM's.
 \honeypot
 - autoinstall.sh - automatic install script for Dionaea, DionaeaFR, Cowrie and p0f.
+- dionaea-housekeeper.sh - cron script used to archive select Dionaea output on a daily basis.
 - cowrie.init - init.d script for Cowrie.
 - cowrie.logrotate - logrotate.d script for Cowrie.
 - dionaea.init - init.d script for Dionaea.

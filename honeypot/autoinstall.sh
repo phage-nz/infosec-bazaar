@@ -125,6 +125,9 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   sudo -u dionaea mkdir -p /opt/dionaea/var/dionaea/rtp/default
   echo "Making logrotate script..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.logrotate -O /etc/logrotate.d/dionaea
+  echo "Making housekeeper script..."
+  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea-housekeeper.sh -O /etc/cron.daily/dionaea-housekeeper
+  chmod +x /etc/cron.daily/dionaea-housekeeper
   echo "Setting all services to autostart..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.init -O /etc/init.d/dionaea
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/p0f.init -O /etc/init.d/p0f
