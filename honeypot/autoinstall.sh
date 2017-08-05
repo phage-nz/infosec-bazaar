@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.4.5
+# Honeypot AutoInstall Script v0.5.0
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -249,7 +249,7 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   echo 'exit 0' >> /etc/network/if-up.d/iptablesload
   chmod +x /etc/network/if-up.d/iptablesload
   echo "Starting service..."
-  service cowrie start&
+  service cowrie start
   echo "Cowrie install complete!"
 fi
 
