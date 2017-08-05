@@ -1,0 +1,9 @@
+[Unit]
+Description=Cowrie SSH/Telnet sockets
+
+[Socket]
+ListenStream=0.0.0.0:2222
+ListenStream=0.0.0.0:2223
+
+[Install]
+WantedBy=sockets.target

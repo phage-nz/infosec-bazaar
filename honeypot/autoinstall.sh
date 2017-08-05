@@ -231,20 +231,25 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   echo "Making logrotate script..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.logrotate -O /etc/logrotate.d/cowrie
   echo "Setting service to autostart..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.init -O /etc/init.d/cowrie
-  chmod +x /etc/init.d/cowrie
-  update-rc.d cowrie defaults
-  echo "Redirecting port 22 to Cowrie. You will need to re-establish your SSH session on port 8925 after the service reloads."
+  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.service -O /etc/systemd/system/cowrie.service
+  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.socket -O /etc/systemd/system/cowrie.socket
+  sed -i 's/tcp:2222:interface=0.0.0.0/systemd:domain=INET:index=0/g' /opt/cowrie/cowrie.cfg
+  sed -i 's/tcp:2223:interface=0.0.0.0/systemd:domain=INET:index=1/g' /opt/cowrie/cowrie.cfg
+  systemctl daemon-reload
+  systemctl enable --now cowrie.socket
+  systemctl enable cowrie.service
+  echo "Redirecting port 22 and 23 to Cowrie. You will need to re-establish your SSH session on port 8925 after the service reloads."
   sed -i 's/Port 22/Port 8925/g' /etc/ssh/sshd_config
   service ssh reload
   iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+  iptables -t nat -A PREROUTING -p tcp --dport 23 -j REDIRECT --to-port 2223
   iptables-save > /etc/iptables.rules
   echo '#!/bin/sh' >> /etc/network/if-up.d/iptablesload 
   echo 'iptables-restore < /etc/iptables.rules' >> /etc/network/if-up.d/iptablesload 
   echo 'exit 0' >> /etc/network/if-up.d/iptablesload
   chmod +x /etc/network/if-up.d/iptablesload
   echo "Starting service..."
-  /etc/init.d/cowrie start
+  service cowrie start&
   echo "Cowrie install complete!"
 fi
 

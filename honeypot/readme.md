@@ -1,4 +1,4 @@
-## Honeypot AutoInstall Script v0.4.5 ##
+## Honeypot AutoInstall Script v0.5.0 ##
 #### by Chris Campbell ####
 
 **Twitter:** @phage_nz  
@@ -34,26 +34,30 @@ chmod +x autoinstall.sh*
 - Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.
 
 ### Post-Install Notes ###
+#### Networking ####
+Create and apply a security group or firewall with the following ports opened:
+
+- Management SSH (22/TCP) - restricted to your public IP. Do not restrict if Cowrie is installed.  
+- Management SSH (8925/TCP) - restricted to your public IP. Only required if Cowrie is installed.
+- Management DionaeaFR HTTP (8000/TCP) - restricted to your public IP.
+- FTP (21/TCP)  
+- SSH (22/TCP) - Only public if Cowrie is installed.
+- Telnet (23/TCP) - Only public if Cowrie is installed.
+- HTTP/HTTPS (80/TCP and 443/TCP)  
+- NameServer (42/TCP)  
+- MSRPC (135/TCP)  
+- SMB (445/TCP)  
+- TFTP (69/UDP)  
+- MSSQL (1433/TCP) 
+- PPTP (1723/TCP)  
+- SCADA (1883/TCP)  
+- UPnP (1900/UDP)  
+- MySQL (port 3306/TCP)  
+- SIP/SIP-TLS (5060/TCP+UDP and 5061/TCP)  
+- Memcache (11211/TCP)
+
 #### Dionaea ####
 Essential:
-
-- Create and apply a security group or firewall with the following ports opened:
-
-Management SSH (22/TCP) - restricted to your public IP. Only used if Cowrie is not installed.  
-DionaeaFR HTTP (8000/TCP) - restricted to your public IP.  
-FTP (21/TCP)  
-HTTP/HTTPS (80/TCP and 443/TCP)  
-NameServer (42/TCP)  
-MSRPC (135/TCP)  
-SMB (445/TCP)  
-TFTP (69/UDP)  
-MSSQL (1433/TCP) 
-PPTP (1723/TCP)  
-SCADA (1883/TCP)  
-UPnP (1900/UDP)  
-MySQL (port 3306/TCP)  
-SIP/SIP-TLS (5060/TCP+UDP and 5061/TCP)  
-Memcache (11211/TCP)
 
 - Ensure Dionaea is listening:
 
@@ -91,18 +95,15 @@ self.make_comment(sf\[0\], sf\[1\], sf\[2\], 'comment')
 #### Cowrie ####
 Essential:
 
-- Create and apply a security group or firewall with the following ports opened:
-
-Cowrie SSH (22/TCP)  
-Management SSH (8925/TCP) - restrict to your public IP.
-
 - Ensure Cowrie is listening:
 
-*netstat -putan|grep 2222*
+*netstat -putan|grep 2222*  
+*netstat -putan|grep 2223*  
 
 - Test (using a password defined in userdb.txt):
 
-*ssh root@\<server name\>*
+*ssh root@\<server name\>*  
+*telnet \<server name\>*
 
 Optional:
 
