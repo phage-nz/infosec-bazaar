@@ -29,6 +29,8 @@ SERVER="EXAMPLE-SERVER" # Server name.
 
 VT_KEY="" # Your VirusTotal API key.
 
+HOST_NAME="" # Your host name (for DionaeaFR).
+
 #
 # SCRIPT START
 #
@@ -46,6 +48,7 @@ if [ "$INSTALL_DIONAEA" == "yes" ] || [ "$INSTALL_COWRIE" == "yes" ] || [ "$INST
   apt upgrade -y
   echo "Installing main dependencies..."
   apt install autoconf automake build-essential check git libssl-dev python-dev python-pip python-software-properties software-properties-common -y
+  pip install --upgrade pip
 else
   echo "Nothing to be installed."
   exit 0
@@ -144,7 +147,7 @@ fi
 # Install DionaeaFR.
 if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Installing DionaeaFR..."
-  pip install Django==1.6.5 django-compressor==1.4 django-filter==0.7 django-htmlmin django-pagination django-tables2==1.0 pygeoip six==1.5.2
+  pip install Django django-compressor django-filter django-htmlmin django-pagination django-tables2 pygeoip six
   apt install python-netaddr -y
   cd /opt
   git clone https://github.com/phage-nz/DionaeaFR.git
@@ -176,16 +179,16 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   rm -rf tmp
   apt install npm -y
   npm install -g less -y
-  echo "Fixing up DionaeaFR config files..."
-  cp /opt/DionaeaFR/DionaeaFR/settings.py.dist /opt/DionaeaFR/settings.py
-  sed -i 's#/var/lib/dionaea/logsql.sqlite#/opt/dionaea/var/dionaea/dionaea.sqlite#g' /opt/DionaeaFR/settings.py
-  sed -i 's/DionaeaFR.settings/settings/g' /opt/DionaeaFR/manage.py
-  cp -r /opt/DionaeaFR/DionaeaFR/Templates /opt/DionaeaFR/
-  cp -r /opt/DionaeaFR/DionaeaFR/static /opt/DionaeaFR/
+  echo "Fixing up DionaeaFR settings file..."
+  cp /opt/DionaeaFR/DionaeaFR/settings.py.dist /opt/DionaeaFR/DionaeaFR/settings.py
+  sed -i 's#/var/lib/dionaea/logsql.sqlite#/opt/dionaea/var/dionaea/dionaea.sqlite#g' /opt/DionaeaFR/DionaeaFR/settings.py
+  sed -i 's/HOST.NAME/'"$HOST_NAME"'/g' /opt/DionaeaFR/DionaeaFR/settings.py
   mkdir /var/run/dionaeafr
   mkdir /var/log/dionaeafr
   echo "Preparing static content..."
   python manage.py collectstatic --noinput
+  echo "Performing outstanding DB migrations..."
+  python manage.py migrate --noinput
   echo "Making logrotate script..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.logrotate -O /etc/logrotate.d/dionaeafr
   echo "Setting service to autostart..."
