@@ -11,8 +11,7 @@
 - p0f  
 - Cowrie  
 
-Tested on Ubuntu 14.04 and 16.04 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)
-
+Tested on Ubuntu 14.04 and 16.04 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)  
 
 ### Default Install Notes ###
 
@@ -31,7 +30,7 @@ chmod +x autoinstall.sh*
 
 - DionaeaFR will be accessible at http://\<server DNS/IP\>:8000
 - Refer to the notes below for information on where customisations can be made.
-- Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.
+- Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.  
 
 ### Post-Install Notes ###
 #### Networking ####
@@ -54,7 +53,7 @@ Create and apply a security group or firewall with the following ports opened:
 - UPnP (1900/UDP)  
 - MySQL (port 3306/TCP)  
 - SIP/SIP-TLS (5060/TCP+UDP and 5061/TCP)  
-- Memcache (11211/TCP)
+- Memcache (11211/TCP)  
 
 #### Dionaea ####
 Essential:
@@ -88,9 +87,17 @@ TO> r.VersionToken.TokenType = 0xAA
 
 - Comment out the following line in /opt/dionaea/lib/dionaea/python/dionaea/virustotal.py if you wish to disable automatic commenting of files uploaded to VirusTotal (done by default):
 
-self.make_comment(sf\[0\], sf\[1\], sf\[2\], 'comment')
+self.make_comment(sf\[0\], sf\[1\], sf\[2\], 'comment')  
 
-- If you wish DionaeaFR to listen on a port other than 8000, update the port definition in /etc/init.d/dionaeafr and restart the service.
+#### DionaeaFR ####
+Optional:  
+- If you wish DionaeaFR to listen on a port other than 8000:
+  - Update the port definition in /etc/init.d/dionaeafr
+  - If wanting to use port 80 then you first need to disable the Dionaea HTTP service (if it is enabled):  
+*rm /opt/dionaea/etc/dionaea/service-enabled/http.yaml  
+/etc/init.d/dionaea restart*  
+  - Restart the DionaeaFR service:  
+*/etc/init.d/dionaeafr restart*  
 
 #### Cowrie ####
 Essential:
@@ -122,7 +129,7 @@ TO>*whatever you want*
 *e.g. root:0:toor*
  - Format for a denied password:  
 \<user\>:0:!\<password\>  
-*e.g. root:0:!toor*
+*e.g. root:0:!toor*  
 
 ### To-Do ###
 - Lower privileges DionaeaFR runs under.
