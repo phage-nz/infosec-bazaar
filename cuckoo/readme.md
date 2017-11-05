@@ -82,6 +82,7 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 - After this you can start the VM and perform such tasks as:
  - Enabling MS Office macro's.
  - Ensuring IP addressing is correct.
+ - Enable internet access: *sudo vmcloak-iptables*
 
 
 #### VirtualBox Interfaces ####
