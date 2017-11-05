@@ -61,7 +61,7 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 
 - Configure VM (example):
 
-*vmcloak init -d --win10x64 --iso-mount /mnt/win10x64 --serial-key <serial> <VM name>*
+*vmcloak init -d --win10x64 --iso-mount /mnt/win10x64 --serial-key \<serial\> \<VM name\>*
 
 - Install software (e.g. Acrobat Reader 9, WinRAR) and perform tasks (e.g. remotetooltips, windows_cleanup). See full list of options here: https://github.com/jbremer/vmcloak/tree/master/vmcloak/dependencies:
 
@@ -69,7 +69,7 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 
 - Install Office 2k7:
 
-*vmcloak install <VM name> office2007 office2007.isopath=\<path to iso\> office2007.serialkey=\<serial\>*
+*vmcloak install \<VM name\> office2007 office2007.isopath=\<path to iso\> office2007.serialkey=\<serial\>*
 
 - At this point 'win10' is your working template. It can be further modified if need be. To make a usable VM, however, it must be snapshotted which makes it immutable. So, the template is cloned:
 
@@ -77,12 +77,11 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 
 - A VM is made using this clone, which makes "win10a1" immutable whilst leaving "win10" free to be modified:
 
-*vmcloak snapshot win10a1 cuckoo1 192.168.56.101*
+*vmcloak snapshot win10a1 cuckoo1 --cpus \<number CPU\> --ramsize \<RAM in MB\> --resolution \<resolution\>*
 
 - After this you can start the VM and perform such tasks as:
  - Enabling MS Office macro's.
  - Ensuring IP addressing is correct.
- - Enable internet access: *sudo vmcloak-iptables*
 
 
 #### VirtualBox Interfaces ####
