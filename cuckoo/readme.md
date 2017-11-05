@@ -54,25 +54,30 @@ snapshot = \[the name of the snapshot taken with virtual box\]
 
 
 #### VMCloak Notes ####
+- Mount ISO (example):
+
+*mkdir /mnt/win10x64*  
+*mount -o loop,ro vms/Win10_1511_2_EnglishInternational_x64.iso /mnt/win10x64*
+
 - Configure VM (example):
 
-*vmcloak init -d --win7x86 --iso-mount \<location of mounted ISO\> --serial-key <serial>*
+*vmcloak init -d --win10x64 --iso-mount /mnt/win10x64 --serial-key <serial> <VM name>*
 
-- Install software (e.g. Acrobat Reader 9, WinRAR) and perform tasks (e.g. remotetooltips, windows_cleanup):
+- Install software (e.g. Acrobat Reader 9, WinRAR) and perform tasks (e.g. remotetooltips, windows_cleanup). See full list of options here: https://github.com/jbremer/vmcloak/tree/master/vmcloak/dependencies:
 
-*vmcloak install win7 adobe9 wic pillow dotnet40 ava7 silverlight pil iexplore removetooltips windows_cleanup winrar*
+*vmcloak install <VM name> adobe9 wic pillow dotnet40 java7 silverlight pillow removetooltips windows_cleanup winrar*
 
 - Install Office 2k7:
 
-*vmcloak install win7 office2007 office2007.isopath=\<path to iso\> office2007.serialkey=\<serial\>*
+*vmcloak install <VM name> office2007 office2007.isopath=\<path to iso\> office2007.serialkey=\<serial\>*
 
-- At this point 'win7' is your working template. It can be further modified if need be. To make a usable VM, however, it must be snapshotted with makes it immutable. So, the template is cloned:
+- At this point 'win10' is your working template. It can be further modified if need be. To make a usable VM, however, it must be snapshotted which makes it immutable. So, the template is cloned:
 
-*vmcloak clone win7 win7a1*
+*vmcloak clone win10 win10a1*
 
-- A VM is made using this clone, which makes "win7a1" immutable whilst leaving "win7" free to be modified:
+- A VM is made using this clone, which makes "win10a1" immutable whilst leaving "win10" free to be modified:
 
-*vmcloak snapshot win7a1 cuckoo1 192.168.56.101*
+*vmcloak snapshot win10a1 cuckoo1 192.168.56.101*
 
 - After this you can start the VM and perform such tasks as:
  - Enabling MS Office macro's.
