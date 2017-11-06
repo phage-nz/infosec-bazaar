@@ -39,7 +39,7 @@ sudo mount -o loop,ro path/to/windows.iso /mnt/win10x64*
 
 - Snapshot the clone. This will make a VM named 'Windows' available in VirtualBox:
 
-*vmcloak snapshot Winodws Windows --cpus 2 --ramsize 4096*
+*vmcloak snapshot Windows Windows --cpus 2 --ramsize 4096*
 
 - Before starting the VM, add any additional resolutions you desire (these can later be changed inside the guest):
 
