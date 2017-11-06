@@ -15,10 +15,6 @@ A collection of scripts and information for Malware Hunting.
 
 
 ## Current Inventory ##
-**\cuckoo**  
-- install.sh - automatically install Cuckoo Sandbox, all dependencies, additional processing modules and create a cloaked VM.
-- readme.txt - notes for the installation of Cuckoo Sandbox and the creation of cloaked VM's.  
-
 **\honeypot**  
 - autoinstall.sh - automatic install script for Dionaea, DionaeaFR, Cowrie and p0f.
 - dionaea-housekeeper.sh - cron script used to archive select Dionaea output on a daily basis.
@@ -48,6 +44,9 @@ A collection of scripts and information for Malware Hunting.
 
 **\malware-intel**  
 - A tool used to automatically generate an HTML formatted report of various malware OSINT sources.  
+
+**\sandbox**  
+- readme.md - A set of instructions to build hardened malware analysis VM's using VMCloak and FLARE VM.  
 
 **\spamtrap**
 - readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
