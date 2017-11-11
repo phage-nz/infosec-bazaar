@@ -87,3 +87,14 @@ sysctl -w net.ipv4.ip_forward=1*
   - fakenet-ng --force
   - floss.python --force
 - Close all windows and take a clean snapshot of the VM.
+
+### File Copies ###
+
+The copyfrom/copyto vboxmanage functions seem to work in the occassional release of VirtualBox - however cannot be relied upon. Additionally, as the Guest Additions cannot be installed in the guest, that basically leaves any native VirtualBox methods of file copy out of the question. The method I've settled on is:
+
+- Put the files you wish to copy to the guest into a single folder on the host.  
+- Convert the folder into an ISO image:
+
+*genisoimage -o \<name\>.iso -V BACKUP -R -J ./\<folder name\>/*
+
+- Mount the ISO in the VirtualBox guest. It will become accessible as a regular CD/DVD disc.
