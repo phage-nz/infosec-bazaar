@@ -55,7 +55,7 @@ sysctl -w net.ipv4.ip_forward=1*
 
 If permitting internet access, be mindful of:
 - Connecting directly to attacker infrastructure. Route through a VPN or Tor.  
-- Permitting outbound access on wormable ports, e.g. WinRM or SMB.
+- Permitting outbound access on wormable ports, e.g. WinRM and SMB.
 
 ### Guest Configuration ###
 
