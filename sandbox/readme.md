@@ -51,7 +51,11 @@ sudo mount -o loop,ro path/to/windows.iso /mnt/win10x64*
 iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT  
 iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT  
 iptables -A POSTROUTING -t nat -j MASQUERADE  
-sysctl -w net.ipv4.ip_forward=1*
+sysctl -w net.ipv4.ip_forward=1*  
+
+If permitting internet access, be mindful of:
+- Connecting directly to attacker infrastructure. Route through a VPN or Tor.  
+- Permitting outbound access on wormable ports, e.g. WinRM or SMB.
 
 ### Guest Configuration ###
 
