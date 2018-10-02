@@ -42,11 +42,12 @@ A collection of scripts and information for Malware Hunting.
 **\malware-crawler**  
 - readme.txt - reference to ph0neutria.  
 
-**\malware-intel**  
-- A tool used to automatically generate an HTML formatted report of various malware OSINT sources.  
-
 **\sandbox**  
 - readme.md - A set of instructions to build hardened malware analysis VM's using VMCloak and FLARE VM.  
+
+**\soc**  
+- \Cortex-Analyzers - Custom analyzers for Hive Project's Cortex.  
+- \Graylog - Custom content packs for Graylog.  
 
 **\spamtrap**
 - readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
