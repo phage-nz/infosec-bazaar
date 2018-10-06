@@ -1,9 +1,6 @@
 ## Sandbox Build Notes ##
 
 ### VM Build ###
-- These instructions assume you already have the following:
-  - Windows 10 ISO + serial.
-  - Microsoft Office 2010 ISO + serial.
 
 - Install VirtualBox:  
 
@@ -11,9 +8,18 @@
 sudo apt update  
 sudo apt install virtualbox-5.2*
 
-- Download VirtualBox extensions and install in VirtualBox (File > Preferences > Extensions):
+- Download the latest VirtualBox extensions from https://www.virtualbox.org/wiki/Downloads and install in VirtualBox (File > Preferences > Extensions).
 
-*wget http://download.virtualbox.org/virtualbox/5.2.0/Oracle_VM_VirtualBox_Extension_Pack-5.2.0-118431.vbox-extpack*
+#### Option 1: Pre-Built Microsoft Development VM ####
+
+- Download a 64-bit VirtualBox appliance from: https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/  
+- Import the appliance into VirtualBox.  
+
+#### Option 2: Scratch-Built and Hardened VM ####
+
+- These instructions assume you already have the following:
+  - Windows 10 ISO + serial.
+  - Microsoft Office 2010 ISO + serial.
 
 - Install VMCloak:
 
@@ -45,6 +51,8 @@ sudo mount -o loop,ro path/to/windows.iso /mnt/win10x64*
 
 *vboxmanage setextradata "Windows" CustomVideoMode1 1366x768x32*
 
+### Post-Install Configuration ####
+
 - The VM will have a host-only adapter, you can either enable internet access for this (or change to a NAT/NAT network adapter):
 
 *VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1  
@@ -53,14 +61,16 @@ iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -A POSTROUTING -t nat -j MASQUERADE  
 sysctl -w net.ipv4.ip_forward=1*  
 
-If permitting internet access, be mindful of:
-- Connecting directly to attacker infrastructure. Route through a VPN or Tor.  
-- Permitting outbound access on wormable ports, e.g. WinRM and SMB.
+### Precautions ###
+
+- The host should be on it's own VLAN.  
+- If permitting internet access, route through a VPN or Tor.  
+- Do not permit outbound access on wormable ports, e.g. WinRM and SMB.  
 
 ### Guest Configuration ###
 
 - Boot into guest and:
-   - Disable UAC.  
+  - Disable UAC.  
   - Create new administrator account.  
   - Log in as the new user.  
   - Reset the password of and then disable the built-in administrator account.  
@@ -94,7 +104,7 @@ If permitting internet access, be mindful of:
 
 ### File Copies ###
 
-The copyfrom/copyto vboxmanage functions seem to work in the occassional release of VirtualBox - however cannot be relied upon. Additionally, as the Guest Additions cannot be installed in the guest, that basically leaves any native VirtualBox methods of file copy out of the question. The method I've settled on is:
+The copyfrom/copyto vboxmanage functions seem to work in the occassional release of VirtualBox - however cannot be relied upon. Additionally, as the Guest Additions is not desirable to in the guest, that basically leaves any native VirtualBox methods of file copy out of the question. The method I've settled on is:
 
 - Put the files you wish to copy to the guest into a single folder on the host.  
 - Convert the folder into an ISO image:
