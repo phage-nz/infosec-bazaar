@@ -12,7 +12,7 @@
 # p0f
 # Cowrie
 #
-# Tested on Ubuntu 14.04 and 16.04 (EC2 t2.micro instance)
+# Tested on Ubuntu 14.04.5 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)
 
 # Variables:
 INSTALL_DIONAEA="yes" # yes or no.
@@ -57,44 +57,15 @@ fi
 # Install Dionaea.
 if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Installing Dionaea..."
-  apt install autoconf automake build-essential cython3 libcurl4-openssl-dev libemu-dev libev-dev libglib2.0-dev libloudmouth1-dev libnetfilter-queue-dev libnl-3-dev libpcap-dev libreadline-dev libsqlite3-dev libtool libudns-dev libxml2-dev libxslt1-dev p0f python3 python3-dev python3-bson python3-yaml -y
-  cd /opt
-  git clone https://github.com/DinoTools/dionaea.git
-  cd dionaea
-  git clone https://github.com/gento/liblcfg
-  cd liblcfg/code
-  autoreconf -vi
-  ./configure --prefix=/opt/dionaea
-  make install
-  cd ../..
-  autoreconf -vi
-  ./configure \
-    --disable-werror \
-    --prefix=/opt/dionaea \
-    --with-python=/usr/bin/python3 \
-    --with-cython-dir=/usr/bin \
-    --with-ev-include=/usr/include \
-    --with-ev-lib=/usr/lib \
-    --with-emu-lib=/usr/lib/libemu \
-    --with-emu-include=/usr/include \
-    --with-gc-include=/usr/include/gc \
-    --enable-nl \
-    --with-nl-include=/usr/include/libnl3 \
-    --with-nl-lib=/usr/lib \
-    --with-lcfg-lib=/opt/dionaea/lib/ \
-    --with-curl-config=/usr/bin/
-  make
-  make install
-  echo "Making underprivileged user..."
-  useradd -r -s /bin/false dionaea
-  chown -R dionaea:dionaea /opt/dionaea/
-  mkdir /home/dionaea
-  chown dionaea:dionaea /home/dionaea
+  apt install software-properties-common
+  add-apt-repository ppa:honeynet/nightly
+  apt update
+  apt install dionaea p0f
   echo "Making Dionaea honeypot database..."
-  mkdir /opt/dionaea/var/dionaea/scripts
+  mkdir -p /opt/dionaea/var/dionaea/scripts
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/wordlist.txt -P /opt/dionaea/var/dionaea/scripts
-  chown -R dionaea:dionaea /opt/dionaea/var/dionaea/scripts
+  chown -R dionaea:dionaea /opt/dionaea/var/dionaea
   chmod +x /opt/dionaea/var/dionaea/scripts/generate_user_db.py
   sudo -u dionaea touch /opt/dionaea/var/dionaea/target_db.sqlite
   sudo -u dionaea /opt/dionaea/var/dionaea/scripts/generate_user_db.py
@@ -147,7 +118,7 @@ fi
 # Install DionaeaFR.
 if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Installing DionaeaFR..."
-  pip install Django django-compressor django-filter django-htmlmin django-pagination django-tables2 pygeoip six
+  pip install Django==1.11 django-compressor django-filter==1.1 django-htmlmin django-pagination django-tables2 pygeoip six
   apt install python-netaddr -y
   cd /opt
   git clone https://github.com/phage-nz/DionaeaFR.git
