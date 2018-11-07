@@ -106,8 +106,11 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea-housekeeper.sh -O /etc/cron.daily/dionaea-housekeeper
   chmod +x /etc/cron.daily/dionaea-housekeeper
   echo "Setting all services to autostart..."
+  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.init -O /etc/init.d/dionaea
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/p0f.init -O /etc/init.d/p0f
+  chmod +x /etc/init.d/dionaea
   chmod +x /etc/init.d/p0f
+  update-rc.d dionaea defaults
   update-rc.d p0f defaults
   echo "Dionaea install complete! You may wish to alter the enabled handlers and services in /opt/dionaea/etc/dionaea."
 fi
@@ -115,7 +118,7 @@ fi
 # Install DionaeaFR.
 if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Installing DionaeaFR..."
-  pip install Django==1.11 django-compressor django-filter==1.1 django-htmlmin django-pagination django-tables2 pygeoip six
+  pip install Django==1.11 django-compressor django-filter==1.1 django-htmlmin django-pagination django-tables2==1.21.2 pygeoip six
   apt install python-netaddr -y
   cd /opt
   git clone https://github.com/phage-nz/DionaeaFR.git
@@ -226,7 +229,7 @@ echo "Starting services..."
 # Start Dionaea.
 if [ "$INSTALL_DIONAEA" == "yes" ]; then
   /etc/init.d/p0f start
-  service dionaea start
+  /etc/init.d/dionaea start
 fi
 
 # Start DionaeaFR.
