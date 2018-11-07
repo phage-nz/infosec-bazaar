@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Honeypot AutoInstall Script v0.5.0
+# Honeypot AutoInstall Script v0.6.0
 # by Chris Campbell
 #
 # Twitter: @phage_nz
@@ -54,21 +54,24 @@ else
   exit 0
 fi
 
+# Install services.
+echo "Installing services..."
+
 # Install Dionaea.
 if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Installing Dionaea..."
   apt install software-properties-common
-  add-apt-repository ppa:honeynet/nightly
+  add-apt-repository ppa:honeynet/nightly -y
   apt update
-  apt install dionaea p0f
+  apt install dionaea p0f -y
   echo "Making Dionaea honeypot database..."
   mkdir -p /opt/dionaea/var/dionaea/scripts
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/wordlist.txt -P /opt/dionaea/var/dionaea/scripts
   chown -R dionaea:dionaea /opt/dionaea/var/dionaea
   chmod +x /opt/dionaea/var/dionaea/scripts/generate_user_db.py
-  sudo -u dionaea touch /opt/dionaea/var/dionaea/target_db.sqlite
-  sudo -u dionaea /opt/dionaea/var/dionaea/scripts/generate_user_db.py
+  touch /opt/dionaea/var/dionaea/target_db.sqlite
+  python /opt/dionaea/var/dionaea/scripts/generate_user_db.py
   echo "Fixing up Dionaea config files..."
   sed -e '/errors.filename/ s/^#*/#/' -i /opt/dionaea/etc/dionaea/dionaea.cfg
   sed -e '/errors.levels/ s/^#*/#/' -i /opt/dionaea/etc/dionaea/dionaea.cfg
@@ -92,26 +95,20 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   sed -i 's/"ServerName", "HOMEUSER-3AF6FE"/"ServerName", "'"$SERVER"'"/g' /opt/dionaea/lib/dionaea/python/dionaea/smb/include/smbfields.py
   sed -i  's/^\(\s*r\.VersionToken\.TokenType\s*=\s*\).*$/\10xAA/' /opt/dionaea/lib/dionaea/python/dionaea/mssql/mssql.py
   echo "Enabling VirusTotal handler..."
-  sudo -u dionaea ln -s /opt/dionaea/etc/dionaea/ihandlers-available/virustotal.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled 
+  ln -s /opt/dionaea/etc/dionaea/ihandlers-available/virustotal.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled 
   echo "Enabling Dionaea p0f handler..."
-  sudo -u dionaea ln -s /opt/dionaea/etc/dionaea/ihandlers-available/p0f.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled
+  ln -s /opt/dionaea/etc/dionaea/ihandlers-available/p0f.yaml /opt/dionaea/etc/dionaea/ihandlers-enabled
   echo "Making a folder for SIP pcap's..."
-  sudo -u dionaea mkdir -p /opt/dionaea/var/dionaea/rtp/default
+  mkdir -p /opt/dionaea/var/dionaea/rtp/default
   echo "Making logrotate script..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.logrotate -O /etc/logrotate.d/dionaea
   echo "Making housekeeper script..."
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea-housekeeper.sh -O /etc/cron.daily/dionaea-housekeeper
   chmod +x /etc/cron.daily/dionaea-housekeeper
   echo "Setting all services to autostart..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.init -O /etc/init.d/dionaea
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/p0f.init -O /etc/init.d/p0f
-  chmod +x /etc/init.d/dionaea
   chmod +x /etc/init.d/p0f
-  update-rc.d dionaea defaults
   update-rc.d p0f defaults
-  echo "Starting services..."
-  /etc/init.d/p0f start
-  /etc/init.d/dionaea start
   echo "Dionaea install complete! You may wish to alter the enabled handlers and services in /opt/dionaea/etc/dionaea."
 fi
 
@@ -166,8 +163,6 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.init -O /etc/init.d/dionaeafr
   chmod +x /etc/init.d/dionaeafr
   update-rc.d dionaeafr defaults
-  echo "Starting service..."
-  /etc/init.d/dionaeafr start
   echo "DionaeaFR install complete!"
 fi
 
@@ -222,9 +217,26 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   echo 'iptables-restore < /etc/iptables.rules' >> /etc/network/if-up.d/iptablesload 
   echo 'exit 0' >> /etc/network/if-up.d/iptablesload
   chmod +x /etc/network/if-up.d/iptablesload
-  echo "Starting service..."
-  service cowrie start
   echo "Cowrie install complete!"
+fi
+
+# Start services.
+echo "Starting services..."
+
+# Start Dionaea.
+if [ "$INSTALL_DIONAEA" == "yes" ]; then
+  /etc/init.d/p0f start
+  service dionaea start
+fi
+
+# Start DionaeaFR.
+if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
+  /etc/init.d/dionaeafr start
+fi
+
+# Start Cowrie.
+if [ "$INSTALL_COWRIE" == "yes" ]; then
+  service cowrie start
 fi
 
 exit 0
