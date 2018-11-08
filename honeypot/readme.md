@@ -11,7 +11,7 @@
 - p0f  
 - Cowrie  
 
-Tested on Ubuntu 14.04 and 16.04 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)  
+Tested on Ubuntu 14.04.5 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)  
 
 ### Default Install Notes ###
 
