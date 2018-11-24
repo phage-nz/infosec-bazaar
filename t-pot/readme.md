@@ -1,4 +1,4 @@
-## T-Pot Honeypot Installation NOtes ##
+## T-Pot Honeypot Installation Notes ##
 
 ### Requirements ###
 #### System ####
