@@ -87,4 +87,13 @@ Issue your certificate:
 
 *sudo certbot --nginx -d example.com -d example.com*  
 
-Test and restart nginx again using the commands above, then log in to the web interface on HTTPS port 64297 (this time using your custom FQDN) and restart Glastopf in Portainer.
+Test and restart nginx again using the commands above, then log in to the web interface on HTTPS port 64297 (this time using your custom FQDN) and restart Glastopf in Portainer.  
+
+### Notes ###
+
+If your honeypot attracts a high volume of 'wild' SMB traffic it'll likely dump a lot of WannaCry binaries and binary-streams into \/data\/dionaea. Automatic archiving will take place but the backups will fill up your disk very in a matter of days. To keep this under control, create an executable script under \/etc\/cron.daily as follows:  
+
+*#!\/bin\/bash*  
+*find \/data\/dionaea -type f -name '*.gz' -mtime +2 -exec rm {} \\;*  
+
+This will clear dionaea gzip backups older than 2 days on a daily basis.
