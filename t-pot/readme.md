@@ -94,6 +94,6 @@ Test and restart nginx again using the commands above, then log in to the web in
 If your honeypot attracts a high volume of 'wild' SMB traffic it'll likely dump a lot of WannaCry binaries and binary-streams into \/data\/dionaea. Automatic archiving will take place but the backups will fill up your disk very in a matter of days. To keep this under control, create an executable script under \/etc\/cron.daily as follows:  
 
 *#!\/bin\/bash*  
-*find \/data\/dionaea -type f -name '*.gz' -mtime +2 -exec rm {} \\;*  
+*find \/data\/dionaea -type f -name '\*.gz' -mtime +2 -exec rm {} \\;*  
 
 This will clear dionaea gzip backups older than 2 days on a daily basis.

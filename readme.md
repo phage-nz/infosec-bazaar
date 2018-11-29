@@ -52,5 +52,8 @@ A collection of scripts and information for Malware Hunting.
 **\spamtrap**
 - readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
 
+**\t-pot**  
+- readme.md - Instructions on deploying T-Pot honeypot platform.  
+
 **\volatility**
 - autoinstall.sh - A script to automatically install Volatility, bulk_extractor and vshot by Crowd Strike.
