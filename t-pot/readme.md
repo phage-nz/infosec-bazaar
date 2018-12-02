@@ -2,7 +2,7 @@
 
 ### Requirements ###
 #### System ####
-This process has been tested on a DigitalOcean droplet with the following specs:
+This process has been tested on a DigitalOcean and Vultr servers with (roughly) the following specs:
 
 - Ubuntu 16.04  
 - 2x vCPU  
@@ -58,7 +58,7 @@ Begin by SSH'ing onto the box as root and making a regular user (if required, ot
 *chmod 700 /home/\<username\>/.ssh*  
 *chmod 600 /home/\<username\>/.ssh/authorized_keys*  
 *rm -rf /root/.ssh*  
-*wget https://raw.githubusercontent.com/dtag-dev-sec/t-pot-autoinstall/master/install.sh*  
+*wget https://raw.githubusercontent.com/phage-nz/t-pot-autoinstall/master/install.sh*  
 *chmod +x install.sh*
 *./install.sh*  
 
