@@ -56,4 +56,7 @@ A collection of scripts and information for Malware Hunting.
 - readme.md - Instructions on deploying T-Pot honeypot platform.  
 
 **\volatility**
-- autoinstall.sh - A script to automatically install Volatility, bulk_extractor and vshot by Crowd Strike.
+- autoinstall.sh - A script to automatically install Volatility, bulk_extractor and vshot by Crowd Strike.  
+
+**\yeti**
+- autoinstall.sh - A script to automatically install Yeti and custom plugins stored under \res.  

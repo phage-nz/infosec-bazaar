@@ -2,7 +2,7 @@
 
 ### Requirements ###
 #### System ####
-This process has been tested on a DigitalOcean and Vultr servers with (roughly) the following specs:
+This process has been tested on a DigitalOcean droplet with (roughly) the following specs:
 
 - Ubuntu 16.04  
 - 2x vCPU  
@@ -21,6 +21,7 @@ Restrict to personal IP ranges:
 - 64295 (T-Pot SSH)  
 - 64297 (T-Pot HTTPS)  
 
+**Option 1 (Restrictive):**  
 Permit to public:  
 
 - 20  
@@ -45,6 +46,13 @@ Permit to public:
 - 9200  
 - 27017  
 - 28113  
+
+**Option 2 (Open):**  
+Permit to public:  
+- 1-64290  
+- 64310-65535  
+
+Ports not explicitly tied to a honeypot will be reported by honeytrap.  
 
 ### Installation ###
 
