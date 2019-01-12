@@ -211,6 +211,7 @@ class ThreatTracking(Feed):
             primary = actor_names[0]
 
             _actor = Actor.get_or_create(name=primary)
+            _actor.tags = [primary]
             _actor.aliases = actor_names[1:]
             _actor.save()
 
@@ -223,9 +224,13 @@ class ThreatTracking(Feed):
 
                 try:
                     _campaign = Campaign.get_or_create(name=c)
+                    _campaign.tags = [c]
+                    _campaign.save()
 
                 except DoesNotExist:
                     _campaign = Campaign.get_or_create(name="CAMPAIGN-" + c)
+                    _campaign.tags = ["CAMPAIGN-" + c]
+                    _campaign.save()
 
                 _actor.action(_campaign, self.name)
 
@@ -235,9 +240,13 @@ class ThreatTracking(Feed):
 
                 try:
                     _mal = Malware.get_or_create(name=mal)
+                    _mal.tags = [mal]
+                    _mal.save()
 
                 except DoesNotExist:
                     _mal = Malware.get_or_create(name="MALWARE-" + mal)
+                    _mal.tags = ["MALWARE-" + mal]
+                    _mal.save()
 
                 _actor.action(_mal, self.name)
         return
