@@ -20,6 +20,9 @@ class UrlHausPayloads(Feed):
             "URLhaus is a project from abuse.ch with the goal of sharing malicious URLs that are being used for malware distribution.",
     }
 
+    bad_prefixes = ['adware', 'coinminer', 'dlr', 'downloader', 'heur:trojan', 'ransomware',
+        'rootkit', 'spambot', 'trojan', 'trojan-clicker', 'win32', 'win64', 'worm']
+
     def update(self):
         for line in self.update_csv(delimiter=',', quotechar='"'):
             self.analyze(line)
@@ -42,13 +45,18 @@ class UrlHausPayloads(Feed):
             try:
                 url_obs = Url.get_or_create(value=url)
 
+                if signature != 'None':
+                    if '.' in signature:
+                        signature = [s for s in signature.split('.')
+                            if s.lower() not in self.bad_prefixes][0]
+
+                if signature != 'None':
+                    url_obs.tag(signature)
+
                 context = {
                     'first_seen': first_seen,
                     'source': self.name
                 }
-
-                if signature != 'None':
-                    url_obs.tag(signature)
 
                 url_obs.add_context(context)
                 url_obs.add_source('feed')

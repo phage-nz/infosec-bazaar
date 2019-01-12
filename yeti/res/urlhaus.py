@@ -20,12 +20,14 @@ class UrlHaus(Feed):
             "URLhaus is a project from abuse.ch with the goal of sharing malicious URLs that are being used for malware distribution.",
     }
 
+    bad_prefixes = ['adware', 'coinminer', 'dlr', 'downloader', 'heur:trojan', 'ransomware',
+        'rootkit', 'spambot', 'trojan', 'trojan-clicker', 'win32', 'win64', 'worm']
+
     def update(self):
         for line in self.update_csv(delimiter=',',quotechar='"'):
             self.analyze(line)
 
     def analyze(self, item):
-
         if not item or item[0].startswith("#"):
             return
 
@@ -38,19 +40,29 @@ class UrlHaus(Feed):
         if item_date < limit_date:
             return
 
-        context = {
-            "id_urlhaus": id_feed,
-            "first_seen": dateadded,
-            "status": url_status,
-            "source": self.name,
-            "report": urlhaus_link,
-            "threat": threat
-        }
-
         if url:
             try:
                 url_obs = Url.get_or_create(value=url)
-                url_obs.tag(tags.split(','))
+
+                if 'tags' != 'None':
+                    tags = tags.split(',')
+
+                    for index, tag in enumerate(tags):
+                        if '.' in tag:
+                            tag_part = [s for s in tag.split('.') if s.lower() not in self.bad_prefixes][0]
+                            tags[index] = tag_part
+
+                    url_obs.tag(tags)
+
+                context = {
+                    "id_urlhaus": id_feed,
+                    "first_seen": dateadded,
+                    "status": url_status,
+                    "source": self.name,
+                    "report": urlhaus_link,
+                    "threat": threat
+                }
+
                 url_obs.add_context(context)
                 url_obs.add_source('feed')
 
