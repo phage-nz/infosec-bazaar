@@ -12,6 +12,13 @@ read YETI_FQDN
 echo "[?] How many days worth of observables do you want to ingest for feeds that employ no date limit (e.g. URLhaus)?"
 read AGE_LIMIT
 
+echo "[?] What is your Google Sheets API key? (for APT Groups and Operations spreadsheet)."
+echo "[+] You can make one here: https://developers.google.com/sheets/api/quickstart/python"
+read GOOGLE_KEY
+
+# Google Sheets key for the APT Groups and Operations sheet (http://apt.threattracking.com):
+TRACKER_KEY="1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU"
+
 echo "[+] Preparing the OS..."
 
 export LC_ALL="en_US.UTF-8"
@@ -64,6 +71,7 @@ sed -i 's/timedelta(minutes=20)/timedelta(hours=1)/g' plugins/feeds/public/urlha
 echo "[+] Preparing Yeti configuration file..."
 cp yeti.conf.sample yeti.conf
 echo -e "\n[limits]\n\nmax_age = $AGE_LIMIT\n" >> yeti.conf
+echo -e "\n[threattracking]\n\ngoogle_api_key = $GOOGLE_KEY\n\nsheet_key = $TRACKER_KEY\n" >> yeti.conf
 
 echo "[+] Disabling unused plugins..."
 mkdir plugins/feeds/disabled

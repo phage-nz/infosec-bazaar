@@ -47,5 +47,6 @@ class FeodoTrackerC2(Feed):
                     ip_obs.tag([variant, 'malware', 'crimeware', 'banker', 'c2'])
                     ip_obs.add_context(context)
                     ip_obs.add_source('feed')
+
                 except ObservableValidationError as e:
                     logging.error(e)

@@ -44,5 +44,6 @@ class h3xTracker(Feed):
                 url_obs.tag([family, 'malware'])
                 url_obs.add_context(context)
                 url_obs.add_source('feed')
+
             except ObservableValidationError as e:
                 logging.error(e)

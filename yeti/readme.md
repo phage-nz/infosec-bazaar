@@ -2,6 +2,7 @@
 
 ### Requirements ###
 #### System ####
+
 This has been tested on a Vultr server with (roughly) the following specs:  
 
 - Ubuntu 16.04  
@@ -15,6 +16,15 @@ This has been tested on a Vultr server with (roughly) the following specs:
 Permit to public:  
 - 80  
 - 443  
+
+#### Accounts ####
+
+At a minimum you really need:  
+
+- Google Sheets API key.  
+- MalShare API key.  
+- Shodan API key.   
+- VirusTotal API key.  
 
 ### Installation ###
 

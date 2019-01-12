@@ -56,5 +56,6 @@ class PhishTank(Feed):
                 url.add_context(context)
                 url.add_source('feed')
                 url.tag(tags)
+
             except ObservableValidationError as e:
                 logging.error(e)

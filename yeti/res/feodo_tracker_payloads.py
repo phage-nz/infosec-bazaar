@@ -45,5 +45,6 @@ class FeodoTrackerPayloads(Feed):
                     hash_obs.tag([variant, 'malware', 'crimeware', 'banker'])
                     hash_obs.add_context(context)
                     hash_obs.add_source('feed')
+
                 except ObservableValidationError as e:
                     logging.error(e)

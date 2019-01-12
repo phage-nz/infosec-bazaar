@@ -24,5 +24,6 @@ class ETCompromisedList(Feed):
             host_ip.add_context({'source': self.name})
             host_ip.add_source('feed')
             host_ip.tag(['compromised'])
+
         except ObservableValidationError as e:
             logging.error(e)

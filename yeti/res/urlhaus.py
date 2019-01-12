@@ -53,6 +53,7 @@ class UrlHaus(Feed):
                 url_obs.tag(tags.split(','))
                 url_obs.add_context(context)
                 url_obs.add_source('feed')
+
             except ObservableValidationError as e:
                 logging.error(e)
 

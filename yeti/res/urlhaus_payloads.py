@@ -41,12 +41,15 @@ class UrlHausPayloads(Feed):
         if url:
             try:
                 url_obs = Url.get_or_create(value=url)
+
                 context = {
                     'first_seen': first_seen,
                     'source': self.name
                 }
+
                 if signature != 'None':
                     url_obs.tag(signature)
+
                 url_obs.add_context(context)
                 url_obs.add_source('feed')
 
@@ -62,6 +65,7 @@ class UrlHausPayloads(Feed):
                 sha256 = Hash.get_or_create(value=sha256)
                 sha256.tag(filetype)
                 sha256.add_context(context_malware)
+
                 if signature != 'None':
                     sha256.tag(signature)
 
@@ -75,10 +79,11 @@ class UrlHausPayloads(Feed):
                 malware_file.active_link_to(md5, 'md5', self.name)
 
                 malware_file.active_link_to(sha256, 'sha256', self.name)
+
                 if signature != 'None':
                     malware_file.tag(signature)
-                malware_file.tag(filetype)
 
+                malware_file.tag(filetype)
                 url_obs.active_link_to(malware_file, 'drops', self.name)
 
             except ObservableValidationError as e:
