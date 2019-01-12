@@ -9,6 +9,9 @@ INSTALL_DIR="$(pwd)"
 echo "[?] What FQDN will Yeti be accessed using?"
 read YETI_FQDN
 
+echo "[?] How many days worth of observables do you want to ingest for feeds that employ no date limit (e.g. URLhaus)?"
+read AGE_LIMIT
+
 echo "[+] Preparing the OS..."
 
 export LC_ALL="en_US.UTF-8"
@@ -58,19 +61,17 @@ sed -i "s/pysocks==1.6.8 ; extra == 'socks'/pysocks==1.6.8/g" requirements.txt
 sed -i 's/timedelta(minutes=5)/timedelta(hours=1)/g' plugins/feeds/public/hybrid_analysis.py
 sed -i 's/timedelta(minutes=20)/timedelta(hours=1)/g' plugins/feeds/public/urlhaus.py
 
+echo "[+] Preparing Yeti configuration file..."
+cp yeti.conf.sample yeti.conf
+echo -e "\n[limits]\n\nmax_age = $AGE_LIMIT\n" >> yeti.conf
+
 echo "[+] Disabling unused plugins..."
 mkdir plugins/feeds/disabled
-mv plugins/feeds/public/asprox_tracker.py plugins/feeds/disabled # replace with http://tracker.h3x.eu/api/sites_1hour.php
+mv plugins/feeds/public/asprox_tracker.py plugins/feeds/disabled
 mv plugins/feeds/public/feodo_tracker.py plugins/feeds/disabled
-mv plugins/feeds/public/misp.py plugins/feeds/disabled
-mv plugins/feeds/public/virustotal_hunting.py plugins/feeds/disabled
 
 echo "[+] Enabling custom plugins..."
-cp $INSTALL_DIR/res/cisco_talos.py plugins/feeds/public
-cp $INSTALL_DIR/res/et_compromised.py plugins/feeds/public
-cp $INSTALL_DIR/res/feodo_tracker_c2.py plugins/feeds/public
-cp $INSTALL_DIR/res/feodo_tracker_payloads.py plugins/feeds/public
-cp $INSTALL_DIR/res/ransomware_tracker_blocklist.py plugins/feeds/public
+cp $INSTALL_DIR/res/*.py plugins/feeds/public
 
 echo "[+] Installing Yeti requirements..."
 pip install setuptools wheel

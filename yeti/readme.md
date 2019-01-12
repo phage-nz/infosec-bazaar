@@ -44,10 +44,27 @@ Restart NGINX:
 - Reset the password for Yeti.  
 - Roll the yeti account API key.  
 - Create a new user and log in as them.  
-- Under Settings > Analytics disable any processes you do not wish to run (e.g. ResolveHostnames - this can produce sketchy results).
+- Disable the default Yeti user.  
+- Under Settings > Dataflows disable any feeds you do not wish to use (e.g. VirusTotalHunting if you don't have VTI key, any payload feeds if you only want network observables).  
+- Under Settings > Analytics disable any processes you do not wish to run (e.g. ResolveHostnames).  
 - Define any external API keys under user management for One-Shot operations.  
 - Create a CSV export template:  
 
 *value,tags  
 {%for obs in elements%},{{obs.value}}{{obs.created}}  
 {%endfor%}*
+
+### Notes ###
+To unlock feeds that are stuck in updating state:  
+
+*$ mongo  
+use yeti  
+db.schedule_entry.update({lock: true}, {$set :{lock:false}}, {multi:true})*  
+
+Reference: https://github.com/yeti-platform/yeti/issues/88  
+
+To drop the database:  
+
+*$ mongo  
+use yeti  
+db.dropDatabase()*  

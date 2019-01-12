@@ -1,9 +1,11 @@
-from datetime import timedelta
+import dateutil.parser
 import logging
 
+from core.config.config import yeti_config
+from core.errors import ObservableValidationError
 from core.feed import Feed
 from core.observables import Url, Ip, Observable
-from core.errors import ObservableValidationError
+from datetime import datetime, timedelta
 
 TYPE_DICT = {
     "Payment Site": ['payment_site'],
@@ -13,7 +15,6 @@ TYPE_DICT = {
 
 
 class RansomwareTracker(Feed):
-
     default_values = {
         "frequency":
             timedelta(hours=1),
@@ -30,12 +31,18 @@ class RansomwareTracker(Feed):
             self.analyze(line)
 
     def analyze(self, line):
-
         if not line or line[0].startswith("#"):
             return
 
         date, _type, family, hostname, url, status, registrar, ips, asns, countries = tuple(
             line)
+
+        item_date = dateutil.parser.parse(date)
+        max_age = yeti_config.get('limits', 'max_age')
+        limit_date = datetime.now() - timedelta(days=max_age)
+
+        if item_date < limit_date:
+            return
 
         tags = []
         tags += TYPE_DICT[_type]
@@ -67,6 +74,7 @@ class RansomwareTracker(Feed):
                             "First seen IP",
                             self.name,
                             clean_old=False)
+		
                     except ObservableValidationError as e:
                         logging.error("Invalid Observable: {}".format(e))
 
