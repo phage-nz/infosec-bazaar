@@ -60,9 +60,16 @@ Restart NGINX:
 - Define any external API keys under user management for One-Shot operations.  
 - Create a CSV export template:  
 
-*value,tags  
-{%for obs in elements%},{{obs.value}}{{obs.created}}  
+*value,created
+{%for entry in elements%}"{{entry.value}}","{{entry.created}}"  
 {%endfor%}*
+
+- If you want tags to be included too:
+
+*value,created,tags  
+{%for entry in elements%}"{{entry.value}}","{{entry.created}}","{%for tag in entry.tags%}{%if not loop.last%}{{tag}},{%else%}{{tag}}{%endif%}{%endfor%}"  
+{%endfor%}*  
+
 
 ### Notes ###
 To unlock feeds that are stuck in updating state:  
