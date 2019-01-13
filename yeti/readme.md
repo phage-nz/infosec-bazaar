@@ -60,7 +60,7 @@ Restart NGINX:
 - Define any external API keys under user management for One-Shot operations.  
 - Create a CSV export template:  
 
-*value,created
+*value,created  
 {%for entry in elements%}"{{entry.value}}","{{entry.created}}"  
 {%endfor%}*
 
