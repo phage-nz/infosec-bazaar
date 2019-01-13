@@ -42,7 +42,7 @@ Run the install script:
 
 Follow the instructions at the end of the script to install a cert for your NGINX site:  
 
-*certbot --nginx -d <domain name>*
+*certbot --nginx -d \<domain name\>*
 
 Restart NGINX:  
 
