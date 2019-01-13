@@ -70,7 +70,6 @@ Restart NGINX:
 {%for entry in elements%}"{{entry.value}}","{{entry.created}}","{%for tag in entry.tags%}{%if not loop.last%}{{tag}},{%else%}{{tag}}{%endif%}{%endfor%}"  
 {%endfor%}*  
 
-
 ### Notes ###
 To unlock feeds that are stuck in updating state:  
 
