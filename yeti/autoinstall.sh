@@ -16,6 +16,11 @@ echo "[?] What is your Google Sheets API key? (for APT Groups and Operations spr
 echo "[+] You can make one here: https://developers.google.com/sheets/api/quickstart/python"
 read GOOGLE_KEY
 
+echo "[?] What is your CleanMX User Agent?"
+echo "[+] You can apply for one here: http://support.clean-mx.com/"
+echo "[+] If you do not have one, enter some junk and ensure to disable the plugin."
+read CLEANMX_AGENT
+
 # Google Sheets key for the APT Groups and Operations sheet (http://apt.threattracking.com):
 TRACKER_KEY="1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU"
 
@@ -70,8 +75,9 @@ sed -i 's/timedelta(minutes=20)/timedelta(hours=1)/g' plugins/feeds/public/urlha
 
 echo "[+] Preparing Yeti configuration file..."
 cp yeti.conf.sample yeti.conf
-echo -e "\n[limits]\n\nmax_age = $AGE_LIMIT\n" >> yeti.conf
-echo -e "\n[threattracking]\n\ngoogle_api_key = $GOOGLE_KEY\n\nsheet_key = $TRACKER_KEY\n" >> yeti.conf
+echo -e "\n[limits]\nmax_age = $AGE_LIMIT\n" >> yeti.conf
+echo -e "\n[threattracking]\ngoogle_api_key = $GOOGLE_KEY\nsheet_key = $TRACKER_KEY\n" >> yeti.conf
+echo -e "\n[cleanmx]\nuser_agent = $CLEANMX_AGENT\n" >> yeti.conf
 
 echo "[+] Disabling unused plugins..."
 mkdir plugins/feeds/disabled

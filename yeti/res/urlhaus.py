@@ -20,9 +20,6 @@ class UrlHaus(Feed):
             "URLhaus is a project from abuse.ch with the goal of sharing malicious URLs that are being used for malware distribution.",
     }
 
-    bad_prefixes = ['adware', 'coinminer', 'dlr', 'downloader', 'heur:trojan', 'ransomware',
-        'rootkit', 'spambot', 'trojan', 'trojan-clicker', 'win32', 'win64', 'worm']
-
     def update(self):
         for line in self.update_csv(delimiter=',',quotechar='"'):
             self.analyze(line)
@@ -44,14 +41,15 @@ class UrlHaus(Feed):
             try:
                 url_obs = Url.get_or_create(value=url)
 
-                if 'tags' != 'None':
+                if tags != None:
+                    tags = tags\
+                        .replace(' ', '_')\
+                        .replace('/', '_')\
+                        .replace(':', '_')\
+                        .replace('.', '-')\
+                        .replace('!', '-')
+
                     tags = tags.split(',')
-
-                    for index, tag in enumerate(tags):
-                        if '.' in tag:
-                            tag_part = [s for s in tag.split('.') if s.lower() not in self.bad_prefixes][0]
-                            tags[index] = tag_part
-
                     url_obs.tag(tags)
 
                 context = {
@@ -68,4 +66,3 @@ class UrlHaus(Feed):
 
             except ObservableValidationError as e:
                 logging.error(e)
-

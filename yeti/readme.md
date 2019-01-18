@@ -26,6 +26,10 @@ At a minimum you really need:
 - Shodan API key.   
 - VirusTotal API key.  
 
+Optional:  
+
+- Registered CleanMX user agent.  
+
 ### Installation ###
 
 Begin by SSH'ing onto the box as root and updating it:  
