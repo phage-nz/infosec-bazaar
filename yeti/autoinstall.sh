@@ -16,6 +16,10 @@ echo "[?] What is your Google Sheets API key? (for APT Groups and Operations spr
 echo "[+] You can make one here: https://developers.google.com/sheets/api/quickstart/python"
 read GOOGLE_KEY
 
+echo "[?] What is your AlienVault OTX API key?"
+echo "[+] You can find it here: https://otx.alienvault.com/settings"
+read OTX_KEY
+
 echo "[?] What is your CleanMX User Agent?"
 echo "[+] You can apply for one here: http://support.clean-mx.com/"
 echo "[+] If you do not have one, enter some junk and ensure to disable the plugin."
@@ -77,6 +81,7 @@ echo "[+] Preparing Yeti configuration file..."
 cp yeti.conf.sample yeti.conf
 echo -e "\n[limits]\nmax_age = $AGE_LIMIT\n" >> yeti.conf
 echo -e "\n[threattracking]\ngoogle_api_key = $GOOGLE_KEY\nsheet_key = $TRACKER_KEY\n" >> yeti.conf
+echo -e "\n[otx]\napi_key = $OXT_KEY\n" >> yeti.conf
 echo -e "\n[cleanmx]\nuser_agent = $CLEANMX_AGENT\n" >> yeti.conf
 
 echo "[+] Disabling unused plugins..."
@@ -91,7 +96,7 @@ echo "[+] Installing Yeti requirements..."
 pip install setuptools wheel
 pip3 install pyasn1
 pip install -r requirements.txt
-pip install uwsgi
+pip install hammock OTXv2 uwsgi validators
 yarn install
 
 echo "[+] Configuring Yeti services..."
