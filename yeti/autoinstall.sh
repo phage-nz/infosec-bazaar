@@ -81,7 +81,7 @@ echo "[+] Preparing Yeti configuration file..."
 cp yeti.conf.sample yeti.conf
 echo -e "\n[limits]\nmax_age = $AGE_LIMIT\n" >> yeti.conf
 echo -e "\n[threattracking]\ngoogle_api_key = $GOOGLE_KEY\nsheet_key = $TRACKER_KEY\n" >> yeti.conf
-echo -e "\n[otx]\napi_key = $OXT_KEY\n" >> yeti.conf
+echo -e "\n[otx]\napi_key = $OTX_KEY\n" >> yeti.conf
 echo -e "\n[cleanmx]\nuser_agent = $CLEANMX_AGENT\n" >> yeti.conf
 
 echo "[+] Disabling unused plugins..."
