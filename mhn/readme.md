@@ -2,7 +2,13 @@
 
 ### Install Issues ###
 
-- The legacy MaxMind geo databases have been discontinued. Until MHN is updated to support the new format the legacy databases are available under the geo_databases folder of this repo and should be extracted to into \/opt on the MHN server. May need to make a copy of the city file as \/opt\/GeoLite2-City.dat  
+- The legacy MaxMind geo databases have been discontinued. Pull them from a mirror such as that hosted by Slackware and replace the DAT file values in/opt/hpfeeds/examples/geoloc/geoloc.py from GeoLite2-City.dat to the respective legacy file names for v4 and v6:  
+
+*wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoLiteCity.dat.gz && gzip -d GeoLiteCity.dat.gz  
+wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoLiteCityv6.dat.gz && gzip -d GeoLiteCityv6.dat.gz  
+wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNum.dat.gz && gzip -d GeoLiteCity.dat.gz  
+wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNumv6.dat.gz && gzip -d GeoIPASNumv6.dat.gz*  
+    
 - As per this Google Groups thread (https://groups.google.com/forum/#!searchin/modern-honey-network/logstash%7Csort:relevance/modern-honey-network/vUO1B_1hzPw/8NpVAo0cBgAJ) change 'index_type' to 'document_type' in \/opt\/logstash\/mhn.conf, and define a since_db path for Logstash.  
 - Provide www-data permission to write to mhn.log (reference: https://github.com/threatstream/mhn/wiki/MHN-Troubleshooting-Guide#password-reset-through-the-web-app-is-not-working-andor-retrieving-httpyour-sitestaticmhnrules-causes-a-404), as required by the Celery worker: sudo chown www-data:www-data \/var\/log\/mhn\/mhn.log  
 
