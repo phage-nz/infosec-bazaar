@@ -42,6 +42,9 @@ A collection of scripts and information for Malware Hunting.
 **\malware-crawler**  
 - readme.txt - reference to ph0neutria.  
 
+**\mhn**  
+- readme.md - A collection of notes on extending and troubleshooting MHN.  
+
 **\sandbox**  
 - readme.md - A set of instructions to build hardened malware analysis VM's using VMCloak and FLARE VM.  
 
