@@ -33,14 +33,13 @@ python setup.py install
 
 # Prepare RDPY configuration:
 mkdir pki
-openssl req -nodes -x509 -newkey rsa:2048 -keyout pki/key.pem -out pki/cert.pem -days 1095 -subj '/CN=localhost'
+SERVER_ID="WIN-$(cat /dev/urandom | tr -dc 'A-Z0-9' | fold -w 11 | head -n 1)"
+openssl req -nodes -x509 -newkey rsa:2048 -keyout pki/key.pem -out pki/cert.pem -days 1095 -subj "/CN=$SERVER_ID'"
 mkdir rss
 wget https://github.com/dtag-dev-sec/tpotce/raw/master/docker/rdpy/dist/1 -O rss/1
 wget https://github.com/dtag-dev-sec/tpotce/raw/master/docker/rdpy/dist/2 -O rss/2
 wget https://github.com/dtag-dev-sec/tpotce/raw/master/docker/rdpy/dist/3 -O rss/3
 mkdir /var/log/rdpy
-# Optional, use TLS:
-#rdpy-rdphoneypot.py -k /opt/rdpy/pki/key.pem -c /opt/rdpy/pki/cert.pem /opt/rdpy/rss/$(shuf -i 1-3 -n 1) >> /var/log/rdpy/rdpy.log
 
 # Register the sensor with the MHN server.
 wget $server_url/static/registration.txt -O registration.sh
@@ -54,7 +53,7 @@ CLIENT_IP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-
 # Config for supervisor.
 cat > /etc/supervisor/conf.d/rdpy-rdphoneypot.conf <<EOF
 [program:rdpy-rdphoneypot]
-command=rdpy-rdphoneypot.py /opt/rdpy/rss/$(shuf -i 1-3 -n 1)
+command=rdpy-rdphoneypot.py -k /opt/rdpy/pki/key.pem -c /opt/rdpy/pki/cert.pem /opt/rdpy/rss/$(shuf -i 1-3 -n 1)
 environment = 
     HPFEEDS_SERVER=$HPF_HOST,
     HPFEEDS_IDENT=$HPF_IDENT,

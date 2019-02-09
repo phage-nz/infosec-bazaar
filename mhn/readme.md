@@ -11,7 +11,8 @@ wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNumv6.dat.gz && gzip 
     
 - As per this Google Groups thread (https://groups.google.com/forum/#!searchin/modern-honey-network/logstash%7Csort:relevance/modern-honey-network/vUO1B_1hzPw/8NpVAo0cBgAJ) change 'index_type' to 'document_type' in \/opt\/logstash\/mhn.conf, and define a since_db path for Logstash.  
 - Provide www-data permission to write to mhn.log (reference: https://github.com/threatstream/mhn/wiki/MHN-Troubleshooting-Guide#password-reset-through-the-web-app-is-not-working-andor-retrieving-httpyour-sitestaticmhnrules-causes-a-404), as required by the Celery worker: sudo chown www-data:www-data \/var\/log\/mhn\/mhn.log  
-
+- Enable HTTPS for MHN and HoneyMap by referring to: https://github.com/threatstream/mhn/wiki/Running-MHN-Over-HTTPS  
+- Enable HTTPS for ELK using an nginx reverse proxy (similar to that used for HoneyMap), and enable basic auth (or similar): https://docs.nginx.com/nginx/admin-guide/security-controls/configuring-http-basic-authentication/  
 
 ### Dionaea Hardening ###
 
@@ -57,5 +58,5 @@ db.auth_key.update({"identifier": "mnemosyne"}, {"$push": {"subscribe": "rdpy.ev
 
 Deploy your sensor as per usual.
 
-#### Known Issues: ####
-- RDPY events don't seem to be logging to HoneyMap.
+#### To-Do: ####
+- Log RDPY login credentials to MHN ELK.
