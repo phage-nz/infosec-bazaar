@@ -16,7 +16,7 @@ wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNumv6.dat.gz && gzip 
 
 ### Dionaea Hardening ###
 
-deploy_dionaea.sh (still for Ubuntu 14.04, ugh) has been altered to generate a random server name and use a proper MS-SQL version string. This should help harden it against fingerprinting.  
+deploy_dionaea.sh (still for Ubuntu 14.04, ugh) has been altered to generate a random server name, use a proper MS-SQL version string and present accurate IIS FTP welcome banners. This should help harden it against fingerprinting.  
 
 
 ### RDPY Integration ###

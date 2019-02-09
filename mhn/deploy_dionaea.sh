@@ -554,6 +554,9 @@ sed --in-place='.bak' 's/addrs = { eth0 = \["::"\] }/addrs = { eth0 = ["::", "0.
 SERVER_ID="WIN-$(cat /dev/urandom | tr -dc 'A-Z0-9' | fold -w 11 | head -n 1)"
 sed -i 's/"ServerName", "HOMEUSER-3AF6FE"/"ServerName", "'"$SERVER_ID"'"/g' /usr/lib/dionaea/python/dionaea/smb/include/smbfields.py
 sed -i 's/^\(\s*r\.VersionToken\.TokenType\s*=\s*\).*$/\10xAA/' /usr/lib/dionaea/python/dionaea/mssql/mssql.py
+sed -i 's/Welcome to the ftp service/Microsoft FTP Service/g' /usr/lib/dionaea/python/dionaea/ftp.py
+sed -i 's/Anonymous login ok, access restrictions apply/Anonymous access allowed, send identity (e-mail name) as password/g' /usr/lib/dionaea/python/dionaea/ftp.py
+sed -i 's/User logged in, proceed/User logged in./g' /usr/lib/dionaea/python/dionaea/ftp.py
 
 mkdir -p /var/dionaea/bistreams 
 chown nobody:nogroup /var/dionaea/bistreams
