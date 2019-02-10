@@ -18,6 +18,12 @@ wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNumv6.dat.gz && gzip 
 
 deploy_dionaea.sh (still for Ubuntu 14.04, ugh) has been altered to generate a random server name, use a proper MS-SQL version string and present accurate IIS FTP welcome banners. This should help harden it against fingerprinting.  
 
+### Wordpot Hardening ###
+
+If deploying Wordpot alongside RDPY and/or Dionaea you may want to tweak the server header to create a consistent Microsoft platformed facade:  
+
+*sed -i 's/Apache\\/2.2.22 (Ubuntu)/Microsoft-IIS\\/7.5/g' /opt/wordpot/wordpot.conf*
+
 
 ### RDPY Integration ###
 
