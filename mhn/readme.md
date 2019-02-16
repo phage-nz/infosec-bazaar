@@ -43,7 +43,7 @@ def rdpy_events(identifier, payload, gi):
         print 'exception processing rdpy event'  
         traceback.print_exc()  
         return None  
-    return create_message('rdpy.events', identifier, gi, src_ip=dec.src_ip, src_port=dec.src_port, dst_ip=dec.dst_ip, dst_port=dec.dst_port)
+    return create_message('rdpy.events', identifier, gi, src_ip=dec.src_ip, dst_ip=dec.dst_ip)
 ```
 
 Add rdpy.events to the channels mappings in:  
@@ -52,6 +52,7 @@ Add rdpy.events to the channels mappings in:
 - \/opt\/mnemosyne\/normalizer\/normalizer.py  
 - \/opt\/hpfeeds\/geoloc.json  
 - \/opt/hpfeeds\/examples\/geoloc\/geoloc.py  
+- \/opt\/hpfeeds-logger\/json.json  
 
 More info is available here: https://github.com/threatstream/mhn/wiki/Howto%3A-Add-Support-for-New-Sensors-to-the-MHN
 
