@@ -6,12 +6,13 @@
 
 *wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoLiteCity.dat.gz && gzip -d GeoLiteCity.dat.gz  
 wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoLiteCityv6.dat.gz && gzip -d GeoLiteCityv6.dat.gz  
-wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNum.dat.gz && gzip -d GeoLiteCity.dat.gz  
+wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNum.dat.gz && gzip -d GeoIPASNum.dat.gz  
 wget https://mirrors.slackware.com/mb-sources/GeoIP/GeoIPASNumv6.dat.gz && gzip -d GeoIPASNumv6.dat.gz*  
     
-- As per this Google Groups thread (https://groups.google.com/forum/#!searchin/modern-honey-network/logstash%7Csort:relevance/modern-honey-network/vUO1B_1hzPw/8NpVAo0cBgAJ) change 'index_type' to 'document_type' in \/opt\/logstash\/mhn.conf, and define a since_db path for Logstash.  
+- As per this Google Groups thread (https://groups.google.com/forum/#!searchin/modern-honey-network/logstash%7Csort:relevance/modern-honey-network/vUO1B_1hzPw/8NpVAo0cBgAJ) change 'index_type' to 'document_type' in \/opt\/logstash\/mhn.conf, and define a since_db path for Logstash (under 'file', example: sincedb_path => "\/opt\/logstash\/tmp\/sincedb").  
 - Provide www-data permission to write to mhn.log (reference: https://github.com/threatstream/mhn/wiki/MHN-Troubleshooting-Guide#password-reset-through-the-web-app-is-not-working-andor-retrieving-httpyour-sitestaticmhnrules-causes-a-404), as required by the Celery worker: sudo chown www-data:www-data \/var\/log\/mhn\/mhn.log  
 - Enable HTTPS for MHN and HoneyMap by referring to: https://github.com/threatstream/mhn/wiki/Running-MHN-Over-HTTPS  
+- You can use the following guide to set up Let's Encrypt certbot: https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04  
 - Enable HTTPS for ELK using an nginx reverse proxy (similar to that used for HoneyMap), and enable basic auth (or similar): https://docs.nginx.com/nginx/admin-guide/security-controls/configuring-http-basic-authentication/  
 
 ### Dionaea Hardening ###
@@ -31,7 +32,7 @@ If deploying Wordpot alongside RDPY and/or Dionaea you may want to tweak the ser
  
 Configure a new deployment script for RDPY through the 'Deploy' page of the MHN web interface using the contents of deploy_rdpy.sh  
 
-Copy rdpy_events.py to \/opt\/mnemosyne\/normalizer\/module\s/rdpy_events.py  
+Copy rdpy_events.py to \/opt\/mnemosyne\/normalizer\/modules\/rdpy_events.py  
 
 In \/opt\/hpfeeds\/examples\/geoloc\/processors.py create a new processor for RDPY events:  
 ```
@@ -42,12 +43,12 @@ def rdpy_events(identifier, payload, gi):
         print 'exception processing rdpy event'  
         traceback.print_exc()  
         return None  
-    return create_message('rdpy.events', identifier, gi, src_ip=dec.src_ip, dst_ip=dec.dst_ip)
+    return create_message('rdpy.events', identifier, gi, src_ip=dec.src_ip, src_port=dec.src_port, dst_ip=dec.dst_ip, dst_port=dec.dst_port)
 ```
 
 Add rdpy.events to the channels mappings in:  
 - \/opt\/mhn/server\/config.py  
-- \/opt\/hpfeeds\/geoloc.json  
+- \/opt\/mnemosyne\/mnemosyne.cfg  
 - \/opt\/mnemosyne\/normalizer\/normalizer.py  
 - \/opt\/hpfeeds\/geoloc.json  
 - \/opt/hpfeeds\/examples\/geoloc\/geoloc.py  
