@@ -88,6 +88,7 @@ echo "[+] Disabling unused plugins..."
 mkdir plugins/feeds/disabled
 mv plugins/feeds/public/asprox_tracker.py plugins/feeds/disabled
 mv plugins/feeds/public/feodo_tracker.py plugins/feeds/disabled
+mv plugins/feeds/public/otx_alienvault.py plugins/feeds/disabled
 
 echo "[+] Enabling custom plugins..."
 cp $INSTALL_DIR/res/*.py plugins/feeds/public
