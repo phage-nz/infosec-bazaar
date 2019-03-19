@@ -88,3 +88,23 @@ To drop the database:
 *$ mongo  
 use yeti  
 db.dropDatabase()*  
+
+If you run into problems with Mongo consuming all memory and killing Yeti, ensure you look over the tuning guide in the Yeti documentation (https://yeti-platform.readthedocs.io/en/latest/installation.html#production-use). If this still presents itself as a problem then you can restart MongoDB as regularly as required by running the following script with a cron job:  
+```
+#!/bin/bash  
+while true; do  
+	JOB_COUNT=$(mongo --quiet yeti --eval "db.schedule_entry.count({lock: true})")  
+  
+	echo "There are $JOB_COUNT jobs running..."  
+  
+	if [ "$JOB_COUNT" == "0" ]; then  
+		echo "Restarting MongoDB..."  
+		service mongod restart  
+		break  
+	fi  
+  
+	echo "Waiting for jobs to complete..."  
+	sleep 300  
+done
+```  
+This job will wait for all scheduled tasks to complete before restarting the Mongo DB service.
