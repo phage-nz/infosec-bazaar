@@ -283,4 +283,5 @@ def do_run():
 
     LOGGER.info('Run complete!')
 
-do_run()
+if __name__ == '__main__':
+    do_run()
