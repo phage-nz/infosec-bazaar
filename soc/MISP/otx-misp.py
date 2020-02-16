@@ -22,7 +22,7 @@ import urllib3
 import validators
 
 LOGGER = logging.getLogger('otx-misp')
-LOGGER.setLevel(logging.INFO)
+logging.basicConfig(filename='otx-misp.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.DEBUG)
 coloredlogs.install(level='INFO')
 
 OTX_API_KEY = 'YOUR API KEY'
