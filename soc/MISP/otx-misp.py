@@ -27,6 +27,7 @@ coloredlogs.install(level='INFO')
 
 OTX_API_KEY = 'YOUR API KEY'
 OTX_USER_BLACKLIST = []
+OTX_USER_WHITELIST = []
 
 MISP_URL = 'https://misp.yourdomain.com'
 MISP_API_KEY = 'YOUR API KEY'
@@ -128,11 +129,15 @@ def process_pulses(misp, pulses):
     LOGGER.info('Processing pulses...')
 
     for pulse in pulses:
-        if pulse['author_name'] in OTX_USER_BLACKLIST:
-            continue
-
         title = pulse['name']
         author = pulse['author_name']
+
+        if author in OTX_USER_BLACKLIST:
+            continue
+
+        if OTX_USER_WHITELIST:
+            if author in OTX_USER_WHITELIST:
+                continue
 
         LOGGER.info('New pulse from {0}: {1}'.format(author, title))
 
