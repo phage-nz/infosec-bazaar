@@ -136,7 +136,7 @@ def process_pulses(misp, pulses):
             continue
 
         if OTX_USER_WHITELIST:
-            if author in OTX_USER_WHITELIST:
+            if not author in OTX_USER_WHITELIST:
                 continue
 
         LOGGER.info('New pulse from {0}: {1}'.format(author, title))
