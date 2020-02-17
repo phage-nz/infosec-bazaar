@@ -22,7 +22,7 @@ import urllib3
 import validators
 
 LOGGER = logging.getLogger('otx-misp')
-logging.basicConfig(filename='otx-misp.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.DEBUG)
+logging.basicConfig(filename='otx-misp.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
 OTX_API_KEY = 'YOUR API KEY'
@@ -35,7 +35,7 @@ MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
-HOURS_TO_CHECK = 24
+HOURS_TO_CHECK = 12
 
 def disable_ssl_warnings():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -53,6 +53,10 @@ def is_valid_url(url):
         LOGGER.warning('Error validating URL: {0}'.format(str(ex)))
 
     return False
+
+def get_tags(misp, term):
+    tags = [x.name for x in misp.tags(pythonify=True)]
+    return [t for t in tags if term in t]
 
 def get_pulses(otx, date_since):
     LOGGER.info('Getting recent pulses...')
@@ -95,7 +99,14 @@ def make_new_event(misp, pulse):
 
     if adversary:
         LOGGER.info('Adding tags for adversary: {0}'.format(adversary))
-        event.add_tag('misp-galaxy:threat-actor="{0}"'.format(adversary))
+        adversary_tags = get_tags(misp, adversary)
+
+        if adversary_tags:
+            for tag in adversary_tags:
+                event.add_tag(tag)
+
+        else:
+            event.add_tag('misp-galaxy:threat-actor="{0}"'.format(adversary))
 
     if description:
         LOGGER.info('Adding external analysis attribute.')
@@ -103,8 +114,15 @@ def make_new_event(misp, pulse):
 
     if malware_families:
         for malware_family in malware_families:
-            LOGGER.info('Adding tag for malware family: {0}'.format(malware_family))
-            event.add_tag('misp-galaxy:malware="{0}"'.format(malware_family.lower()))
+            LOGGER.info('Adding tags for malware family: {0}'.format(malware_family))
+            malware_tags = get_tags(misp, malware_family)
+
+            if malware_tags:
+                for tag in malware_tags:
+                    event.add_tag(tag)
+
+            else:
+                event.add_tag('misp-galaxy:tool="{0}"'.format(malware_family.lower()))
 
     if references:
         event.add_tag('type:OSINT')
@@ -132,8 +150,9 @@ def process_pulses(misp, pulses):
         title = pulse['name']
         author = pulse['author_name']
 
-        if author in OTX_USER_BLACKLIST:
-            continue
+        if OTX_USER_BLACKLIST:
+            if author in OTX_USER_BLACKLIST:
+                continue
 
         if OTX_USER_WHITELIST:
             if not author in OTX_USER_WHITELIST:
