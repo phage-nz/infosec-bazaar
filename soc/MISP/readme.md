@@ -69,11 +69,9 @@ Edit the host name in /etc/apache2/sites-enabled/misp-ssl.conf
 
 Install certbot:
 ```
-sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository universe
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
+sudo apt install python3-certbot-apache
 ```
 
 Script to renew:
