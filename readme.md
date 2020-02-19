@@ -51,6 +51,7 @@ A collection of scripts and information for Malware Hunting.
 **\soc**  
 - \Cortex-Analyzers - Custom analyzers for Hive Project's Cortex.  
 - \Graylog - Custom content packs for Graylog.  
+- \MISP - Install documentation and custom feeds.  
 
 **\spamtrap**
 - readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
