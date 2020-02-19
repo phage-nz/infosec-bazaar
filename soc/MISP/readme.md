@@ -90,3 +90,4 @@ Adjust the base URL in MISP admin settings.
 - General usage: https://www.circl.lu/doc/misp/  
 - Training slides: https://www.misp-project.org/misp-training/misp-training.pdf  
 - Setup and Python API usage: https://holdmybeersecurity.com/2020/01/28/install-setup-misp-on-ubuntu-18-04-with-an-intro-to-pymisp/
+- misp-modules Fix: https://github.com/MISP/misp-modules/issues/354#issuecomment-586918877

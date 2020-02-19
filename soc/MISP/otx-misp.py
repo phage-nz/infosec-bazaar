@@ -98,14 +98,15 @@ def make_new_event(misp, pulse):
     event.add_tag('otx-author:{0}'.format(author))
 
     if adversary:
-        LOGGER.info('Adding tags for adversary: {0}'.format(adversary))
         adversary_tags = get_tags(misp, adversary)
 
         if adversary_tags:
             for tag in adversary_tags:
+                LOGGER.info('Adding default threat actor galaxy tag: misp-galaxy:threat-actor="{0}"'.format(adversary))
                 event.add_tag(tag)
 
         else:
+            LOGGER.info('Adding default threat actor galaxy tag: misp-galaxy:threat-actor="{0}"'.format(adversary))
             event.add_tag('misp-galaxy:threat-actor="{0}"'.format(adversary))
 
     if description:
@@ -114,15 +115,17 @@ def make_new_event(misp, pulse):
 
     if malware_families:
         for malware_family in malware_families:
-            LOGGER.info('Adding tags for malware family: {0}'.format(malware_family))
-            malware_tags = get_tags(misp, malware_family)
+            if malware_family:
+                malware_tags = get_tags(misp, malware_family)
 
-            if malware_tags:
-                for tag in malware_tags:
-                    event.add_tag(tag)
+                if malware_tags:
+                    for tag in malware_tags:
+                        LOGGER.info('Adding malware galaxy tag: {0}'.format(tag))
+                        event.add_tag(tag)
 
-            else:
-                event.add_tag('misp-galaxy:tool="{0}"'.format(malware_family.lower()))
+                else:
+                    LOGGER.info('Adding default malware galaxy tag: misp-galaxy:tool="{0}"'.format(malware_family))
+                    event.add_tag('misp-galaxy:tool="{0}"'.format(malware_family))
 
     if references:
         event.add_tag('type:OSINT')
