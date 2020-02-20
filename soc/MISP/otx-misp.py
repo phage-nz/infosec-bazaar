@@ -98,16 +98,31 @@ def make_new_event(misp, pulse):
     event.add_tag('otx-author:{0}'.format(author))
 
     if adversary:
-        adversary_tags = get_tags(misp, adversary)
+        adversary_list = []
+        tag_list = []
 
-        if adversary_tags:
-            for tag in adversary_tags:
-                LOGGER.info('Adding default threat actor galaxy tag: misp-galaxy:threat-actor="{0}"'.format(adversary))
-                event.add_tag(tag)
+        if ',' in adversary:
+            adversary_list = [s.strip() for s in adversary.split(',')]
 
         else:
-            LOGGER.info('Adding default threat actor galaxy tag: misp-galaxy:threat-actor="{0}"'.format(adversary))
-            event.add_tag('misp-galaxy:threat-actor="{0}"'.format(adversary))
+            adversary_list.append(adversary)
+
+        print(adversary_list)
+
+        for adversary in adversary_list:
+            galaxy_tags = get_tags(misp, adversary)
+
+            if galaxy_tags:
+                for galaxy_tag in galaxy_tags:
+                    LOGGER.info('Adding threat actor galaxy tag: "{0}"'.format(galaxy_tag))
+                    tag_list.append(galaxy_tag)
+
+            else:
+                LOGGER.info('Adding default threat actor galaxy tag: misp-galaxy:threat-actor="{0}"'.format(adversary))
+                tag_list.append('misp-galaxy:threat-actor="{0}"'.format(adversary))
+
+        for tag in tag_list:
+            event.add_tag(tag)
 
     if description:
         LOGGER.info('Adding external analysis attribute.')
@@ -116,10 +131,10 @@ def make_new_event(misp, pulse):
     if malware_families:
         for malware_family in malware_families:
             if malware_family:
-                malware_tags = get_tags(misp, malware_family)
+                galaxy_tags = get_tags(misp, malware_family)
 
-                if malware_tags:
-                    for tag in malware_tags:
+                if galaxy_tags:
+                    for tag in galaxy_tags:
                         LOGGER.info('Adding malware galaxy tag: {0}'.format(tag))
                         event.add_tag(tag)
 
