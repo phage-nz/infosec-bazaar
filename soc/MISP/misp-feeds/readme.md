@@ -8,7 +8,7 @@ This set of scripts is designed to offer better reliability and more control ove
 ### Variable Notes:
 - **MISP_ADMIN_KEY:** MISP feeds must be fetched by a Site Admin user.  
 - **MISP_USER_KEY:** This can be the key of an Org Admin, Sync User or your own custom role. They must be able to both manage and publish events, and hold the Tag Editor permission.  
-- By setting it to True, TEST_RUN allows you to bypass the schedule and immediately fetch all enabled feeds.
+- **TEST_RUN:** When set to True the schedule is bypassed and all enabled feeds are immediately fetched.  
 
 ### Installation:
 - Recommended: Ensure that the fetch_feeds and cache_feeds Scheduled Tasks are not enabled.  
