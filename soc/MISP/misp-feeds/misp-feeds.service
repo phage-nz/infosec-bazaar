@@ -1,0 +1,14 @@
+[Unit]
+Description=MISP Feeds Manager
+After=multi-user.target
+
+[Service]
+ExecStart=/home/ubuntu/misp-feeds/start_worker.sh
+PIDFile=/var/run/misp-feeds.pid
+ExecStop=/bin/kill -s TERM $MAINPID
+
+User=ubuntu
+Group=ubuntu
+
+[Install]
+WantedBy=default.target
