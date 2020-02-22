@@ -67,7 +67,9 @@ def start_worker():
     LOGGER.info('Starting MISP feeds worker...')
 
     while True:
-        if time.strftime('%M') == '00' or TEST_RUN:
+        run_start = time.strftime('%H:%M')
+
+        if run_start.split(':')[1] == '00' or TEST_RUN:
             LOGGER.info('Beginning hourly feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -78,7 +80,7 @@ def start_worker():
 
             LOGGER.info('Hourly feed run complete!')
 
-        if time.strftime('%H:%M') in MISP_TIMES or TEST_RUN:
+        if run_start in MISP_TIMES or TEST_RUN:
             LOGGER.info('Beginning MISP feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -91,7 +93,7 @@ def start_worker():
 
             LOGGER.info('MISP feed run complete!')
 
-        if time.strftime('%H:%M') in TEXT_TIMES or TEST_RUN:
+        if run_start in TEXT_TIMES or TEST_RUN:
             LOGGER.info('Beginning text feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -104,7 +106,7 @@ def start_worker():
 
             LOGGER.info('Text feed run complete!')
 
-        if time.strftime('%H:%M') in OTX_TIMES or TEST_RUN:
+        if run_start in OTX_TIMES or TEST_RUN:
             LOGGER.info('Beginning OTX run...')
             otx_run(misp_user)
             LOGGER.info('OTX run complete!')

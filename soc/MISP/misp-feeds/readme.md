@@ -5,6 +5,8 @@ This set of scripts is designed to offer better reliability and more control ove
 - **OTX_TIMES:** An array of times (24hr format) when the OTX API will be queried for new+updated pulses.  
 - **HOURLY_FEEDS** An array of the ID's of enabled feeds that you wish to run at the beginning of every hour.  
 
+Am still working out the best way of going about granular scheduling.
+
 ### Variable Notes:
 - **MISP_ADMIN_KEY:** MISP feeds must be fetched by a Site Admin user.  
 - **MISP_USER_KEY:** This can be the key of an Org Admin, Sync User or your own custom role. They must be able to both manage and publish events, and hold the Tag Editor permission.  
