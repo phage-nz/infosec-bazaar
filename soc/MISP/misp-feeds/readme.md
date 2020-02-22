@@ -23,6 +23,7 @@ Am still working out the best way of going about granular scheduling.
 chmod +x start_worker.sh
 pip3 install -r requirements.txt
 sudo mv misp-feeds.service /etc/systemd/system
+sudo chown root:root /etc/systemd/system/misp-feeds.service
 sudo systemctl daemon-reload
 sudo systemctl start misp-feeds.service
 ```
