@@ -43,6 +43,8 @@ For example:
 ```
 "T1048": {"name": "Exfiltration Over Alternative Protocol", "tests": [0], "parameters": {"ip_address": "127.0.0.1"}}
 ```
+The "parameters" value is optional. Where all tests for the technique do not require optional parameters, you can leave this out. Just refer to any of the samples to get an idea.
+
 To determine the list of tests to run (i.e. the TEST_INT values):
 - Run "python runner.py interactive".  
 - Enter the technique ID (e.g. T1077).  
