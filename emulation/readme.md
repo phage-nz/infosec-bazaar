@@ -1,8 +1,8 @@
 ## Adversary Emulation
 
-In this folder are sample wrapper scripts for the Atomic Red Team Attack Runner (https://github.com/redcanaryco/atomic-red-team/tree/master/execution-frameworks/contrib/python), to give you an idea how ART can be used. The general method can be applied to any group, just drop a config specific to the it in.
+In this folder are sample wrapper scripts for the Atomic Red Team Attack Runner (https://github.com/redcanaryco/atomic-red-team/tree/master/execution-frameworks/contrib/python), to give you an idea how ART can be used for emulation of groups. The general method can be applied to any group, just drop in a config specific to it.
 
-Only a few of the tests undo the changes that they make. Either be prepared to unpick the changes or - ideally - take a snapshot on the target before running them.
+Only a few of the tests undo the changes that they make. Either be prepared to unpick the changes or - ideally - take a snapshot of the target before running them.
 
 ### Use Cases
 Some ideas:
