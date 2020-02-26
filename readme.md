@@ -15,6 +15,10 @@ A collection of scripts and information for Malware Hunting.
 
 
 ## Current Inventory ##
+**\emulation**  
+- apt33.py - sample wrapper for APT33 tests.  
+- fin10.py - sample wrapper for FIN10 tests.  
+- turla.py - sample wrapper for Turla tests.  
 **\honeypot**  
 - autoinstall.sh - automatic install script for Dionaea, DionaeaFR, Cowrie and p0f.
 - dionaea-housekeeper.sh - cron script used to archive select Dionaea output on a daily basis.
