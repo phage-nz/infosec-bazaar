@@ -43,3 +43,7 @@ For example:
 ```
 "T1048": {"name": "Exfiltration Over Alternative Protocol", "tests": [0], "parameters": {"ip_address": "127.0.0.1"}}
 ```
+To determine the list of tests to run (i.e. the TEST_INT values):
+- Run "python runner.py interactive".  
+- Enter the technique ID (e.g. T1077).  
+- Above each test is a number. These numbers go in the "tests" list of your config. Where only a single test is available, just enter "0".  
