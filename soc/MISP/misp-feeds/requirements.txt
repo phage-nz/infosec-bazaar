@@ -1,4 +1,5 @@
 coloredlogs
 OTXv2
 pymisp
+stix
 validators

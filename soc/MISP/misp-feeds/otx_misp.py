@@ -205,7 +205,7 @@ def process_pulses(misp, pulses):
 
             if not attribute_search['Attribute'] == []:
                 for attribute_result in attribute_search['Attribute']:
-                    if attribute_result['event_id'] == event['id']:
+                    if int(attribute_result['event_id']) == int(event['id']):
                         attribute_exists = True
 
             if attribute_exists:
