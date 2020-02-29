@@ -126,7 +126,7 @@ def get_cases():
 
     return case_list
 
-def make_new_event(misp, case_data):
+def make_new_event(misp, case_data, references):
     LOGGER.info('Creating new event...')
     event = MISPEvent()
 
@@ -161,6 +161,17 @@ def make_new_event(misp, case_data):
     for tag in tag_list:
         LOGGER.info('Adding galaxy tag: "{0}"'.format(tag))
         event.add_tag(tag)
+
+    if references:
+        event.add_tag('type:OSINT')
+
+        for reference in references:
+            if is_valid_domain(reference):
+                reference = 'https://{0}'.format(reference)
+
+            if is_valid_url(reference):
+                LOGGER.info('Adding attribute for reference: {0}'.format(reference))
+                event.add_attribute('link', reference, category='External analysis')
 
     if tlp:
         LOGGER.info('Adding TLP tag: tlp:{0}'.format(tlp))
@@ -223,7 +234,7 @@ def process_cases(case_list):
             LOGGER.warning('Event already exists. Will only update attributes.')
 
         else:
-            event = make_new_event(misp, case_data)
+            event = make_new_event(misp, case_data, references)
 
         if not event:
             LOGGER.warning('Failed to make or retrieve event.')
@@ -288,17 +299,6 @@ def process_cases(case_list):
 
             attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': observable, 'to_ids': MISP_TO_IDS}
             new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
-
-        if references:
-            event.add_tag('type:OSINT')
-
-            for reference in references:
-                if is_valid_domain(reference):
-                    reference = 'https://{0}'.format(reference)
-
-                if is_valid_url(reference):
-                    LOGGER.info('Adding attribute for reference: {0}'.format(reference))
-                    event.add_attribute('link', reference, category='External analysis')
 
         if MISP_PUBLISH_EVENTS:
             LOGGER.info('Publishing event...')
