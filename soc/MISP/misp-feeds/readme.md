@@ -3,6 +3,7 @@ This set of scripts is designed to offer better reliability and more control ove
 - **MISP_TIMES:** An array of times (24hr format) when enabled MISP feeds will be fetched and cached.  
 - **TEXT_TIMES:** An array of times (24hr format) when enabled plaintext and CSV feeds will be fetched and cached.  
 - **OTX_TIMES:** An array of times (24hr format) when the OTX API will be queried for new+updated pulses.  
+- **XFORCE_TIMES:** An array of times (24hr format) when the X-Force API will be queried for new+updated cases.  
 - **HOURLY_FEEDS** An array of the ID's of enabled feeds that you wish to run at the beginning of every hour.  
 
 Am still working out the best way of going about granular scheduling.
@@ -17,7 +18,7 @@ Am still working out the best way of going about granular scheduling.
 - SCP this folder to your MISP server.  
 - Alter the paths in misp-feeds.service and start_worker.sh to point to where you've dropped the folder.  
 - Correct the user in misp-feeds.service if it is not ubuntu.  
-- Complete the variables at the top of both the feed_manager.py and otx_misp.py scripts.  
+- Complete the variables at the top of both the feed_manager.py, otx_misp.py and xforce_misp.py scripts.  
 - Run the following (in the misp-feeds folder):  
 ```
 chmod +x start_worker.sh
@@ -30,4 +31,4 @@ sudo systemctl start misp-feeds.service
 - Check misp_feeds.log for errors. You can also run both of the Python scripts from the command line for standalone, ad-hoc operation.  
 
 ### Known Issues:
-- Tagging of X-Force sourced events is currently limited to string matches in the case title. Events are not tagged with adversary or tool names, and string matches on text bodies is unreliable.  
+- Tagging of X-Force sourced events is currently limited to string matches in the case title. Cases are generically tagged (i.e. not tagged with specific adversary or tool names), and string matches on text bodies is unreliable.  
