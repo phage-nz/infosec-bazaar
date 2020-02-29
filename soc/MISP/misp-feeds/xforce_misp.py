@@ -147,7 +147,7 @@ def make_new_event(misp, stix_package):
         LOGGER.info('Adding external analysis attribute.')
         event.add_attribute('comment', summary, category='External analysis')
 
-    references = []
+    reference_links = []
 
     if 'References' in text_parts:
         ref_index = text_parts.index('References') + 1
@@ -155,16 +155,22 @@ def make_new_event(misp, stix_package):
 
     if 'Reference' in text_parts:
         ref_index = text_parts.index('Reference') + 1
-        references = [r.replace('\xa0', '') for r in text_parts[ref_index:]]
+        reference_links = [r.replace('\xa0', '') for r in text_parts[ref_index:]]
 
-    if references:
-        event.add_tag('type:OSINT')
+    if reference_links:
+        references = []
 
-        for reference in references:
-            if is_valid_domain(reference):
-                reference = 'https://{0}'.format(reference)
+        for link in reference_links:
+            if is_valid_domain(link):
+                link = 'https://{0}'.format(link)
 
-            if not any(d in reference for d in XFORCE_LINK_IGNORE) and is_valid_url(reference):
+            if not any(d in link for d in XFORCE_LINK_IGNORE) and is_valid_url(link):
+                references.append(link)
+
+        if references:
+            event.add_tag('type:OSINT')
+
+            for reference in references:
                 LOGGER.info('Adding attribute for reference: {0}'.format(reference))
                 event.add_attribute('link', reference, category='External analysis')
 
