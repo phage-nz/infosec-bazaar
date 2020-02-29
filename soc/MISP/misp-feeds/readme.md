@@ -28,3 +28,6 @@ sudo systemctl daemon-reload
 sudo systemctl start misp-feeds.service
 ```
 - Check misp_feeds.log for errors. You can also run both of the Python scripts from the command line for standalone, ad-hoc operation.  
+
+### Known Issues:
+- Tagging of X-Force sourced events is currently limited to string matches in the case title. Events are not tagged with adversary or tool names, and string matches on text bodies is unreliable.  

@@ -5,6 +5,7 @@
 
 from otx_misp import otx_run
 from pymisp import PyMISP
+from xforce_misp import xforce_run
 
 import coloredlogs
 import logging
@@ -14,6 +15,7 @@ import urllib3
 MISP_TIMES = ['08:00', '20:00']
 TEXT_TIMES = ['06:00', '14:00', '22:00']
 OTX_TIMES = ['06:00', '18:00']
+XFORCE_TIMES = ['06:00', '18:00']
 HOURLY_FEEDS = ['16', '33', '42']
 
 MISP_URL = 'https://misp.yourdomain.com'
@@ -67,9 +69,9 @@ def start_worker():
     LOGGER.info('Starting MISP feeds worker...')
 
     while True:
-        run_start = time.strftime('%H:%M')
+        current_time = time.strftime('%H:%M')
 
-        if run_start.split(':')[1] == '00' or TEST_RUN:
+        if current_time.split(':')[1] == '00' or TEST_RUN:
             LOGGER.info('Beginning hourly feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -80,7 +82,7 @@ def start_worker():
 
             LOGGER.info('Hourly feed run complete!')
 
-        if run_start in MISP_TIMES or TEST_RUN:
+        if current_time in MISP_TIMES or TEST_RUN:
             LOGGER.info('Beginning MISP feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -93,7 +95,7 @@ def start_worker():
 
             LOGGER.info('MISP feed run complete!')
 
-        if run_start in TEXT_TIMES or TEST_RUN:
+        if current_time in TEXT_TIMES or TEST_RUN:
             LOGGER.info('Beginning text feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -106,10 +108,15 @@ def start_worker():
 
             LOGGER.info('Text feed run complete!')
 
-        if run_start in OTX_TIMES or TEST_RUN:
+        if current_time in OTX_TIMES or TEST_RUN:
             LOGGER.info('Beginning OTX run...')
             otx_run(misp_user)
             LOGGER.info('OTX run complete!')
+
+        if current_time in XFORCE_TIMES or TEST_RUN:
+            LOGGER.info('Beginning X-Force run...')
+            xforce_run(misp_user)
+            LOGGER.info('X-Force run complete!')
 
         time.sleep(60)
 
