@@ -184,7 +184,7 @@ def make_new_event(misp, stix_package):
     time.sleep(1)
     return misp.add_event(event, pythonify=True)
 
-def process_cases(case_list):
+def process_cases(misp, case_list):
     for case_id in case_list:
         LOGGER.info('Fetching case: {0}'.format(case_id))
 
@@ -312,7 +312,7 @@ def xforce_run(misp):
     cases = get_cases()
 
     if cases:
-        process_cases(cases)
+        process_cases(misp, cases)
 
     LOGGER.info('Run complete!')
 
