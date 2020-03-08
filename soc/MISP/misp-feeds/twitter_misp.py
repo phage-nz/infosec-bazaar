@@ -44,7 +44,7 @@ INCLUDE_DOMAINS = False
 USERNAME_LIST = ['avman1995','bad_packets','Cryptolaemus1','CNMF_VirusAlert','executemalware','FewAtoms','James_inthe_box','JAMESWT_MHT','Jan0fficial','JayTHL','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
 SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
 
-URL_BLACKLIST = ['//t.co/', '//t.c\u2026', 'abuse.ch', 'app.any.run', 'otx.alienvault.com', 'proofpoint.com', 'twitter.com', 'virustotal.com']
+URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'otx.alienvault.com', 'proofpoint.com', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
 IP_BLACKLIST = ['127.0.0.1', '127.0.1.1']
 
 SCRAPER_HEADERS = {
@@ -87,7 +87,7 @@ def is_valid_url(url):
     if any(s in url for s in IP_BLACKLIST):
         return False
 
-    if '...' in url:
+    if url.endswith('\u2026'):
         return False
 
     # iocextract can incorrectly match on http://123.123:123
@@ -442,8 +442,6 @@ def process_indicators(misp, indicator_list):
         misp.publish(event)
 
 def twitter_run(misp):
-    LOGGER.warning('This is an experimental module!')
-
     LOGGER.info('Setting up Twitter connector...')
 
     try:
