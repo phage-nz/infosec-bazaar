@@ -5,6 +5,7 @@
 
 from otx_misp import otx_run
 from pymisp import PyMISP
+from twitter_misp import twitter_run
 from xforce_misp import xforce_run
 
 import coloredlogs
@@ -12,18 +13,16 @@ import logging
 import time
 import urllib3
 
-MISP_TIMES = ['08:00', '20:00']
-TEXT_TIMES = ['06:00', '14:00', '22:00']
-OTX_TIMES = ['06:00', '18:00']
-XFORCE_TIMES = ['06:00', '18:00']
+MISP_TIMES = ['06:00', '18:00']
+TEXT_TIMES = ['06:00', '12:00', '18:00', '00:00']
+OTX_TIMES = ['06:00', '12:00', '18:00', '00:00']
+TWITTER_TIMES = ['06:00', '12:00', '18:00', '00:00']
+XFORCE_TIMES = ['06:00', '14:00', '22:00']
 HOURLY_FEEDS = ['16', '33', '42']
 
-MISP_URL = 'https://misp.yourdomain.com'
-MISP_ADMIN_KEY = 'YOUR ADMIN KEY'
-MISP_USER_KEY = 'YOUR USER KEY'
-MISP_VALIDATE_SSL = False
-
-TEST_RUN = False
+ENABLE_OTX = True
+ENABLE_TWITTER = True
+ENABLE_XFORCE = True
 
 LOGGER = logging.getLogger('mispfeedmanager')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
@@ -71,7 +70,7 @@ def start_worker():
     while True:
         current_time = time.strftime('%H:%M')
 
-        if current_time.split(':')[1] == '00' or TEST_RUN:
+        if current_time.split(':')[1] == '00':
             LOGGER.info('Beginning hourly feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -82,7 +81,7 @@ def start_worker():
 
             LOGGER.info('Hourly feed run complete!')
 
-        if current_time in MISP_TIMES or TEST_RUN:
+        if current_time in MISP_TIMES:
             LOGGER.info('Beginning MISP feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -95,7 +94,7 @@ def start_worker():
 
             LOGGER.info('MISP feed run complete!')
 
-        if current_time in TEXT_TIMES or TEST_RUN:
+        if current_time in TEXT_TIMES:
             LOGGER.info('Beginning text feed run...')
 
             for feed in misp_admin.feeds(pythonify=True):
@@ -108,12 +107,17 @@ def start_worker():
 
             LOGGER.info('Text feed run complete!')
 
-        if current_time in OTX_TIMES or TEST_RUN:
+        if current_time in OTX_TIMES and ENABLE_OTX:
             LOGGER.info('Beginning OTX run...')
             otx_run(misp_user)
             LOGGER.info('OTX run complete!')
 
-        if current_time in XFORCE_TIMES or TEST_RUN:
+        if current_time in TWITTER_TIMES and ENABLE_TWITTER:
+            LOGGER.info('Beginning Twitter run...')
+            twitter_run(misp_user)
+            LOGGER.info('Twitter run complete!')
+
+        if current_time in XFORCE_TIMES and ENABLE_XFORCE:
             LOGGER.info('Beginning X-Force run...')
             xforce_run(misp_user)
             LOGGER.info('X-Force run complete!')

@@ -32,7 +32,7 @@ MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
-HOURS_TO_CHECK = 12
+HOURS_TO_CHECK = 7
 
 def disable_ssl_warnings():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -57,7 +57,13 @@ def get_tags(misp, term):
 
 def get_pulses(otx, date_since):
     LOGGER.info('Getting recent pulses...')
-    pulses = otx.getsince(date_since, limit=None)
+    
+    try:
+        pulses = otx.getsince(date_since, limit=None)
+
+    except Exception as ex:
+        LOGGER.error('Cannot connect to OTX: {0}'.format(str(ex)))
+        return False
 
     if pulses:
         LOGGER.info('OTX request OK! Returning pulses...')

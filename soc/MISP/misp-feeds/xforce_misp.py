@@ -36,7 +36,7 @@ MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
-HOURS_TO_CHECK = 12
+HOURS_TO_CHECK = 9
 
 def disable_ssl_warnings():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
