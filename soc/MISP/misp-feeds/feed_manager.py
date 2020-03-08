@@ -24,6 +24,11 @@ ENABLE_OTX = True
 ENABLE_TWITTER = True
 ENABLE_XFORCE = True
 
+MISP_URL = 'https://misp.domain.com'
+MISP_ADMIN_KEY = 'YOUR ADMIN KEY'
+MISP_USER_KEY = 'YOUR USER KEY'
+MISP_VALIDATE_SSL = False
+
 LOGGER = logging.getLogger('mispfeedmanager')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
