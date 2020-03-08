@@ -70,6 +70,16 @@ def disable_ssl_warnings():
 def is_valid_domain(domain):
     return validators.domain(domain)
 
+def apply_url_fixes(url):
+    # Handle unconventional defanging:
+    if url.startswith('p://'):
+        url = url.replace('p://', 'http://')
+
+    if url.startswith('s://'):
+        url = url.replace('s://', 'https://')
+
+    return url
+
 def is_valid_url(url):
     if any(s in url for s in URL_BLACKLIST):
         return False
@@ -83,13 +93,6 @@ def is_valid_url(url):
     # iocextract can incorrectly match on http://123.123:123
     if re.search(r'http://[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}', url):
         return False
-
-    # Handle some unconventional defanging:
-    if url.startswith('p://'):
-        url = url.replace('p://', 'http://')
-
-    if url.startswith('s://'):
-        url = url.replace('s://', 'https://')
 
     try:
         result = urllib.parse.urlparse(url)
@@ -242,7 +245,7 @@ def extract_text_indicators(username, tweet_id, text):
     tweet_url = 'https://twitter.com/{0}/status/{1}'.format(username, tweet_id)
 
     try:
-        for ip in iocextract.extract_ips(text):
+        for ip in iocextract.extract_ipv4s(text, refang=True):
             if is_valid_ip(ip):
                 indicator_list.append(TwitterIndicator(user_id, tweet_url, 'IPv4', ip))
 
@@ -252,12 +255,14 @@ def extract_text_indicators(username, tweet_id, text):
             if hash_type:
                 indicator_list.append(TwitterIndicator(user_id, tweet_url, hash_type, hash))
 
-        for url in iocextract.extract_urls(text):
+        for url in iocextract.extract_urls(text, refang=True):
             if 'ghostbin.com' in url or 'pastebin.com' in url:
                 paste_indicators = extract_paste_indicators(username, url)
 
                 if len(paste_indicators) > 0:
                     indicator_list.extend(paste_indicators)
+
+            url = apply_url_fixes(url)
 
             if is_valid_url(url):
                 indicator_list.append(TwitterIndicator(user_id, tweet_url, 'URL', url))
