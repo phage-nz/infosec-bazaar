@@ -45,7 +45,7 @@ USERNAME_LIST = ['avman1995','bad_packets','Cryptolaemus1','CNMF_VirusAlert','ex
 SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
 
 URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'otx.alienvault.com', 'proofpoint.com', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
-IP_BLACKLIST = ['127.0.0.1', '127.0.1.1']
+IP_BLACKLIST = ['0.0.0.0', '127.0.0.1', '127.0.1.1', '192.168.1.']
 
 SCRAPER_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36',
