@@ -2,7 +2,9 @@
 
 In this folder are sample wrapper scripts for the Atomic Red Team Attack Runner (https://github.com/redcanaryco/atomic-red-team/tree/master/execution-frameworks/contrib/python), to give you an idea how ART can be used for emulation of groups. The general method can be applied to any group, just drop in a config specific to it.
 
-Only a few of the tests undo the changes that they make. Either be prepared to unpick the changes or - ideally - take a snapshot of the target before running them.
+Only a few of the tests undo the changes that they make. Either be prepared to unpick the changes or - ideally - take a snapshot of the target before running them.  
+
+Also contained in this folder is "cradle.ps1". Use this to PowerShell script to download live samples (either specific, or random) to test and execute endpoint detection capability.
 
 ### Use Cases
 Some ideas:
