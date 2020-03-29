@@ -13,7 +13,7 @@ Some ideas:
 - Analyst training. Fire the scripts at a server and set your analysts on a hunt!  
 
 ### Setup
-The folder structure I've used is:
+The folder structure you should end up with is:
 ```
 \atomic-tests
 \atomic-tests\apt33.py
@@ -25,9 +25,10 @@ The folder structure I've used is:
 \atomic-tests\atomics\
 ```
 
-- Get the atomics folder here: https://github.com/redcanaryco/atomic-red-team/tree/master/atomics  
-- Drop my patched T1086.yml in the T1086 atomics folder. It fixes a problem with the HTA test command syntax.  
-- Get runner.py here: https://github.com/redcanaryco/atomic-red-team/blob/master/execution-frameworks/contrib/python/runner.py  
+- Clone or download ("Clone or download" > "Download ZIP") the Atomic Red Team project from: https://github.com/redcanaryco/atomic-red-team/  
+- Discard all except the atomics folder.  
+- Drop my patched T1086.yml into the T1086 atomics folder. It fixes a problem with the HTA test command syntax.  
+- Into the same folder, download runner.py from: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/execution-frameworks/contrib/python/runner.py    
 - Line 26 of runner.py should be modified to point to the atomic subdirectory:  
 ```
 ATOMICS_DIR_RELATIVE_PATH = os.path.join("atomics")
