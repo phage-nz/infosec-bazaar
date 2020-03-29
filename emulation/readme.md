@@ -33,7 +33,10 @@ The folder structure you should end up with is:
 ```
 ATOMICS_DIR_RELATIVE_PATH = os.path.join("atomics")
 ```
-- Manually install the pre-req's described in atomic-requirements.txt (not exhaustive, there may be others needed) and use pip to install Python requirements from python-requirements.txt (pip install -r python-requirements.txt).  
+- Manually install the pre-req's described in atomic-requirements.txt (not exhaustive, there may be others needed) and use pip to install Python requirements from python-requirements.txt:
+```
+pip install -r python-requirements.txt
+```
 
 ### Operation
 Once the folder structure is set up you can either develop new tests or run the samples (as simple as 'python filename.py'). To develop a new test, all you really need to do is redefine ACTOR_NAME, ACTOR_URL and ACTOR_CONFIG. The name and URL are purely for the standard output, but ACTOR_CONFIG will need changing:
@@ -52,3 +55,8 @@ To determine the list of tests to run (i.e. the TEST_INT values):
 - Run "python runner.py interactive".  
 - Enter the technique ID (e.g. T1077).  
 - Above each test is a number. These numbers go in the "tests" list of your config. Where only a single test is available, just enter "0".  
+
+When you have assembled a complete test you can run it simply by calling the script, for example:
+```
+python apt33.py
+```
