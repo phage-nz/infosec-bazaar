@@ -103,6 +103,7 @@ def export_run(misp, start_fresh=False):
 
             with open(out_path, mode='wt', encoding='utf-8') as out_file:
                 sorted_list = sorted(list(attr_set))
+                sorted_list = list(filter(None, sorted_list))
                 out_file.write('\n'.join(sorted_list))
 
         else:
