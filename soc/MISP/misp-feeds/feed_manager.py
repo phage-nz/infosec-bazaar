@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
+# Requirements:
+# pip3 install coloredlogs pymisp
+
 # References:
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 
+from misp_export import export_run
 from otx_misp import otx_run
 from pymisp import PyMISP
 from twitter_misp import twitter_run
@@ -19,7 +23,9 @@ OTX_TIMES = ['06:00', '12:00', '18:00', '00:00']
 TWITTER_TIMES = ['06:00', '12:00', '18:00', '00:00']
 XFORCE_TIMES = ['06:00', '14:00', '22:00']
 HOURLY_FEEDS = ['16', '33', '42']
+FULL_EXPORT_TIME = '00:00'
 
+ENABLE_EXPORT = True
 ENABLE_OTX = True
 ENABLE_TWITTER = True
 ENABLE_XFORCE = True
@@ -126,6 +132,17 @@ def start_worker():
             LOGGER.info('Beginning X-Force run...')
             xforce_run(misp_user)
             LOGGER.info('X-Force run complete!')
+
+        if ENABLE_EXPORT:
+            if current_time == FULL_EXPORT_TIME:
+                LOGGER.info('Beginning full export run...')
+                export_run(misp_user, start_fresh=True)
+                LOGGER.info('Full export run complete!')
+
+            elif current_time.split(':')[1] == '00':
+                LOGGER.info('Beginning hourly export run...')
+                export_run(misp_user)
+                LOGGER.info('Hourly export run complete!')
 
         time.sleep(60)
 
