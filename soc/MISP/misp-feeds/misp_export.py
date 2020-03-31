@@ -26,6 +26,8 @@ EXPORT_MERGE_HOSTNAME = True
 EXPORT_PATH = '/var/www/MISP/app/webroot/export'
 EXPORT_KEY = 'RANDOM STRING'
 
+WHITELIST_FILE = 'whitelist.txt'
+
 def disable_ssl_warnings():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -36,6 +38,11 @@ def get_api():
     return tweepy.API(auth, wait_on_rate_limit=THROTTLE_REQUESTS)
 
 def export_run(misp, start_fresh=False):
+    LOGGER.info('Loading whitelist...')
+
+    with open(WHITELIST_FILE, mode='r', encoding='utf-8') as in_file:
+        white_list = [line.rstrip('\n') for line in in_file]
+
     for attr_type in EXPORT_TYPES:
         if EXPORT_MERGE_HOSTNAME:
             if all(t in EXPORT_TYPES for t in ['domain', 'hostname']) and attr_type == 'domain':
@@ -101,9 +108,14 @@ def export_run(misp, start_fresh=False):
                     LOGGER.info('File is currently empty.')
                     attr_set = set(attr_list)
 
+            LOGGER.info('Sorting list...')
+            sorted_list = sorted(list(attr_set))
+            sorted_list = list(filter(None, sorted_list))
+
+            LOGGER.info('Applying whitelist...')
+            attr_list = [attr for attr in sorted_list if attr not in white_list]
+
             with open(out_path, mode='wt', encoding='utf-8') as out_file:
-                sorted_list = sorted(list(attr_set))
-                sorted_list = list(filter(None, sorted_list))
                 out_file.write('\n'.join(sorted_list))
 
         else:

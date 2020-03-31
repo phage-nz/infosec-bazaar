@@ -1,0 +1,6 @@
+1drv.ms
+amazon.com
+bitbucket.org
+drive.google.com
+office.com
+storage.googleapis.com
