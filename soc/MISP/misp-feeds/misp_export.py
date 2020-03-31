@@ -113,7 +113,7 @@ def export_run(misp, start_fresh=False):
             sorted_list = list(filter(None, sorted_list))
 
             LOGGER.info('Applying whitelist...')
-            attr_list = [attr for attr in sorted_list if attr not in white_list]
+            sorted_list = [attr for attr in sorted_list if attr not in white_list]
 
             with open(out_path, mode='wt', encoding='utf-8') as out_file:
                 out_file.write('\n'.join(sorted_list))
