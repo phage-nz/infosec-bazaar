@@ -1,1 +1,0 @@
-# Refer to: ./misp-feeds/otx_misp.py
