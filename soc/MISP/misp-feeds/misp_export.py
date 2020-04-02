@@ -77,7 +77,7 @@ def export_run(misp, start_fresh=False):
         attr_list = []
 
         while True:
-            attr_search = misp.search(controller='attributes', type_attribute=attr_type, tags=EXPORT_TAGS, date_from=date_from, limit=EXPORT_PAGE_SIZE, page=attr_page, return_format='csv', requested_attributes=['value'], headerless=True, metadata=False)
+            attr_search = misp.search(controller='attributes', type_attribute=attr_type, tags=EXPORT_TAGS, date_from=date_from, limit=EXPORT_PAGE_SIZE, page=attr_page, return_format='csv', requested_attributes=['value'], headerless=True, metadata=False, enforce_warninglist=True)
             attr_lines = attr_search.splitlines()
 
             if len(attr_lines) > 1:
