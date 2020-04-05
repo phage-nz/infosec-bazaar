@@ -319,7 +319,7 @@ def insert_parameters(command, parameters):
 def stage_command(shell, command, working_dir):
     if 'powershell' in shell:
         LOGGER.info('[-] Executing with {0}: {1}'.format(shell, command))
-        stdout, stderr = execute_command([shell, '-Command', command], working_dir)
+        stdout, stderr = execute_command(shell, command, working_dir)
         print_command_output(stdout, stderr)
         LOGGER.info('[-] Command completed.')
 
@@ -327,19 +327,29 @@ def stage_command(shell, command, working_dir):
         for line in command.split('\n'):
             if line:
                 LOGGER.info('[-] Executing with {0}: {1}'.format(shell, line))
-                stdout, stderr = execute_command([shell, '/k', line], working_dir)
+                stdout, stderr = execute_command(shell, line, working_dir)
                 print_command_output(stdout, stderr)
                 LOGGER.info('[-] Command completed.')
                 
-def execute_command(exec_string, working_dir):
+def execute_command(shell, command, working_dir):
     try:
-        process = subprocess.run(exec_string, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-            env=os.environ, cwd=working_dir, timeout=COMMAND_TIMEOUT, universal_newlines=True)
+        if 'powershell' in shell:
+            process = subprocess.run([shell, '-Command', command], shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                env=os.environ, cwd=working_dir, timeout=COMMAND_TIMEOUT, universal_newlines=True)
 
-        stdout = process.stdout
-        stderr = process.stderr
+            return process.stdout, process.stderr
 
-        return stdout, stderr
+        else:
+            process = subprocess.Popen(shell, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=os.environ, cwd=working_dir)
+            stdout, stderr = process.communicate(bytes(command, 'utf-8') + b'\n', timeout=COMMAND_TIMEOUT)
+            
+            if stdout:
+                stdout = stdout.decode('utf-8', 'ignore')
+                
+            if stderr:
+                stderr = stderr.decode('utf-8', 'ignore')
+            
+            return stdout, stderr
 
     except subprocess.TimeoutExpired as e:
         if e.output:
@@ -353,6 +363,12 @@ def execute_command(exec_string, working_dir):
 
         LOGGER.warning('[!] Command timed out.')
         
+        try:
+            process.kill()
+
+        except Exception as e:
+            LOGGER.warning('[-] Process appears to have self-terminated.')
+
         return None, None
         
 def print_command_output(stdout, stderr):
