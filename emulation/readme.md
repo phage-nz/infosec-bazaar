@@ -45,7 +45,7 @@ techniques:
 - T1000
 - T1001
 ```
-T1000 in this case has an optional parameter. Default values are defined when the config is first generated, but you can of course change them. This of course means you can build a config by hand, too - but you must include all optional parameters (even defaults).  
+T1000 in this case has an optional parameter. Default values are defined when the config is first generated, but you can of course change them. This also means you can build a config by hand, but you must include all optional parameters (even defaults).  
 
 You can then run the tests by passing the config file name:
 ```
