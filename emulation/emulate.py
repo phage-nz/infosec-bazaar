@@ -73,14 +73,22 @@ def load_atomics(techniques):
     
 def get_group_refs(cti, group_name):
     LOGGER.info('[-] Getting references for group.')
-    group = next((g for g in cti.groups if group_name in g['aliases']), None)
+    groups_with_alias = [g for g in cti.groups if 'aliases' in g]
+    groups_without_alias = [g for g in cti.groups if 'aliases' not in g]
+    alias = next((g for g in groups_with_alias if group_name in g['aliases']), None)
+    group = next((g for g in groups_without_alias if g['name'] == group_name), None)
+    group_refs = []
 
-    if group:
+    if alias:
+        LOGGER.info('[-] Group found via alias. Returning references...')
+        group_refs = [r for r in cti.relationships if r['source_ref'] == alias['id']]
+        
+    elif group:
         LOGGER.info('[-] Group found. Returning references...')
         group_refs = [r for r in cti.relationships if r['source_ref'] == group['id']]
 
-        if group_refs:
-            return [r['target_ref'] for r in group_refs]
+    if group_refs:
+        return [r['target_ref'] for r in group_refs]
 
     LOGGER.error('[!] Group not found.')
 
@@ -417,4 +425,3 @@ if __name__ == '__main__':
 
     else:
         LOGGER.error('[!] Invalid mode of operation. Choose: configure, run or cleanup')
-    
