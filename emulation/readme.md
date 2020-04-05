@@ -23,7 +23,6 @@ The folder structure you should end up with is:
 
 - Clone or download ("Clone or download" > "Download ZIP") the Atomic Red Team project from: https://github.com/redcanaryco/atomic-red-team/  
 - Discard all except the atomics folder.  
-- Drop my patched T1086.yml into the T1086 atomics folder. It fixes a problem with the HTA test command syntax.  
 - Into the same folder, pull emulate.py and python-requirements.txt
 - Manually install the pre-req's described in atomic-requirements.txt (not exhaustive, there may be others needed - you'll be informed when generating a config) and use pip to install Python requirements from python-requirements.txt:
 ```
