@@ -25,6 +25,7 @@ COMMAND_TIMEOUT = 20
 ATOMICS_DIR_RELATIVE_PATH = os.path.join('atomics')
 
 LOGGER = logging.getLogger('art-emulate')
+logging.basicConfig(filename='art-emulate.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO', logger=LOGGER)
 
 class EnterpriseCTI:
