@@ -50,7 +50,8 @@ The installation isn't completely hands-off:
 - Make a new organisation admin user (Administration > Add User, role: "Org Admin").  
 - Make a new organisation API user (Administration > Add User, role: "Publisher")  
 - Enable required feeds, including caching (Sync Actions > List Feeds).  
-- Define a feed pull schedule (Administration > Scheduled Tasks).
+- Define a feed pull schedule (Administration > Scheduled Tasks).  
+- Enable all Warninglists that are appropriate for filtering your exports (e.g. top 1000 domains, Office 365 domains and IP's).  
 
 ## Tweaks
 You may need to bump up memory in /etc/php/7.2/apache2/php.ini:

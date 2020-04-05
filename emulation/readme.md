@@ -1,6 +1,6 @@
 ## Adversary Emulation
 
-In this folder are sample wrapper scripts for the Atomic Red Team Attack Runner (https://github.com/redcanaryco/atomic-red-team/tree/master/execution-frameworks/contrib/python), to give you an idea how ART can be used for emulation of groups. The general method can be applied to any group, just drop in a config specific to it.
+In this folder is a wrapper script for the Atomic Red Team (ART) tests (https://github.com/redcanaryco/atomic-red-team/tree/master/execution-frameworks/contrib/python), to give you an idea how MITRE ATT&CK can be used for emulation of groups.  
 
 Only a few of the tests undo the changes that they make. Either be prepared to unpick the changes or - ideally - take a snapshot of the target before running them.  
 
@@ -16,47 +16,54 @@ Some ideas:
 The folder structure you should end up with is:
 ```
 \atomic-tests
-\atomic-tests\apt33.py
-\atomic-tests\atomic-requirements.txt
-\atomic-tests\fin10.py
 \atomic-tests\python-requirements.txt
-\atomic-tests\runner.py
-\atomic-tests\turla.py
+\atomic-tests\emulate.py
 \atomic-tests\atomics\
 ```
 
 - Clone or download ("Clone or download" > "Download ZIP") the Atomic Red Team project from: https://github.com/redcanaryco/atomic-red-team/  
 - Discard all except the atomics folder.  
 - Drop my patched T1086.yml into the T1086 atomics folder. It fixes a problem with the HTA test command syntax.  
-- Into the same folder, download runner.py from: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/execution-frameworks/contrib/python/runner.py    
-- Line 26 of runner.py should be modified to point to the atomic subdirectory:  
-```
-ATOMICS_DIR_RELATIVE_PATH = os.path.join("atomics")
-```
-- Manually install the pre-req's described in atomic-requirements.txt (not exhaustive, there may be others needed) and use pip to install Python requirements from python-requirements.txt:
+- Into the same folder, pull emulate.py and python-requirements.txt
+- Manually install the pre-req's described in atomic-requirements.txt (not exhaustive, there may be others needed - you'll be informed when generating a config) and use pip to install Python requirements from python-requirements.txt:
 ```
 pip install -r python-requirements.txt
 ```
 
 ### Operation
-Once the folder structure is set up you can either develop new tests or run the samples (as simple as 'python filename.py'). To develop a new test, all you really need to do is redefine ACTOR_NAME, ACTOR_URL and ACTOR_CONFIG. The name and URL are purely for the standard output, but ACTOR_CONFIG will need changing:
-- Begin by listing the techniques employed by the group, either based on your own intel or by referring to attack.mitre.org.  
-- The config is a JSON key value list of the format:
+Once the folder structure is set up you can either develop new profiles by hand or automate the creation of a profile (as per primary name or alias on https://attack.mitre.org/groups/). For example:
 ```
-"TECHNIQUE_ID": {"name": "TECHNIQUE_NAME", "tests": [TEST_INT, TEST_INT], "parameters": {"PARAM_NAME": "PARAM_VALUE", "PARAM_NAME": "PARAM_VALUE"}}
+python emulate.py --mode configure --group APT33
+``
+This will create the configuration file "APT33.yaml". Config files are laid out as follows:
 ```
-For example:
+group: NAME
+parameters:
+  T1000:
+    optional_parameter: value
+techniques:
+- T1000
+- T1001
 ```
-"T1048": {"name": "Exfiltration Over Alternative Protocol", "tests": [0], "parameters": {"ip_address": "127.0.0.1"}}
-```
-The "parameters" value is optional. Where all tests for the technique do not require optional parameters, you can leave this out. Just refer to any of the samples to get an idea.
+T1000 in this case has an optional parameter. Default values are defined when the config is first generated, but you can of course change them. This of course means you can build a config by hand, too - but you must include all optional parameters (even defaults).  
 
-To determine the list of tests to run (i.e. the TEST_INT values):
-- Run "python runner.py interactive".  
-- Enter the technique ID (e.g. T1077).  
-- Above each test is a number. These numbers go in the "tests" list of your config. Where only a single test is available, just enter "0".  
+You can then run the tests by passing the config file name:
+```
+python emulate.py --mode run --config APT33.yaml
+```
+Or, run any cleanup tasks that are defined for the techniques in your config:
+```
+python emulate.py --mode cleanup --config APT33.yaml
+```
+It is recommended to run a cleanup in between runs as some tests can hang if certain artifacts (e.g. registry keys) already exist.
+### To-Download
+- Provide support for Linux and MacOS tests.  
 
-When you have assembled a complete test you can run it simply by calling the script, for example:
-```
-python apt33.py
-```
+### Information Sources
+Beyond industry reports and whitepapers, the following publicly available sources will help you in building accurate profiles:
+- https://attack.mitre.org/groups/  
+- https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit  
+- https://www.crowdstrike.com/blog/meet-the-adversaries/  
+- https://www.fireeye.com/current-threats/apt-groups.html  
+- https://www.thaicert.or.th/downloads/files/A_Threat_Actor_Encyclopedia.pdf  
+- https://otx.alienvault.com - use search filters such as adversary, country and industry.  
