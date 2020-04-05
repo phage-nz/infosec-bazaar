@@ -34,7 +34,7 @@ pip install -r python-requirements.txt
 Once the folder structure is set up you can either develop new profiles by hand or automate the creation of a profile (as per primary name or alias on https://attack.mitre.org/groups/). For example:
 ```
 python emulate.py --mode configure --group APT33
-``
+```
 This will create the configuration file "APT33.yaml". Config files are laid out as follows:
 ```
 group: NAME
