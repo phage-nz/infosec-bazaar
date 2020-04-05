@@ -55,8 +55,9 @@ Or, run any cleanup tasks that are defined for the techniques in your config:
 python emulate.py --mode cleanup --config APT33.yaml
 ```
 It is recommended to run a cleanup in between runs as some tests can hang if certain artifacts (e.g. registry keys) already exist.
-### To-Download
+### To-Do
 - Provide support for Linux and MacOS tests.  
+- Permit disabling of specific tests.  
 
 ### Information Sources
 Beyond industry reports and whitepapers, the following publicly available sources will help you in building accurate profiles:
