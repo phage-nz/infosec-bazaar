@@ -16,9 +16,8 @@ A collection of infosec-related scripts and information.
 
 ## Current Inventory ##
 **\emulation**  
-- apt33.py - sample wrapper for APT33 tests.  
-- fin10.py - sample wrapper for FIN10 tests.  
-- turla.py - sample wrapper for Turla tests.  
+- cradle.ps1 - PowerShell cradle script to download an execute malware samples.  
+- emulate.py - MITRE ATT&CK wrapper for Atomic Red Team tests.  
 **\honeypot**  
 - autoinstall.sh - automatic install script for Dionaea, DionaeaFR, Cowrie and p0f.
 - dionaea-housekeeper.sh - cron script used to archive select Dionaea output on a daily basis.
@@ -55,7 +54,7 @@ A collection of infosec-related scripts and information.
 **\soc**  
 - \Cortex-Analyzers - Custom analyzers for Hive Project's Cortex.  
 - \Graylog - Custom content packs for Graylog.  
-- \MISP - Install documentation and custom feeds.  
+- \MISP - Install documentation and custom feed management.  
 
 **\spamtrap**
 - readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
