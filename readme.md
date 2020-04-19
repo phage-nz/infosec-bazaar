@@ -9,9 +9,9 @@
 **GitHub:** phage-nz  
 **Blog:** https://phage.nz  
 
-https://github.com/phage-nz/malware-hunting  
+https://github.com/phage-nz/infosec-bazaar
 
-A collection of scripts and information for Malware Hunting.  
+A collection of infosec-related scripts and information.  
 
 
 ## Current Inventory ##
