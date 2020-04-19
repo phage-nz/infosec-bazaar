@@ -48,6 +48,9 @@ A collection of infosec-related scripts and information.
 **\mhn**  
 - readme.md - A collection of notes on extending and troubleshooting MHN.  
 
+**\modules**  
+- readme.md - A collection of modules from retired projects of mine.  
+
 **\sandbox**  
 - readme.md - A set of instructions to build hardened malware analysis VM's using VMCloak and FLARE VM.  
 
