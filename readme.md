@@ -51,6 +51,9 @@ A collection of infosec-related scripts and information.
 **\modules**  
 - readme.md - A collection of modules from retired projects of mine.  
 
+**\powershell**  
+- iis-fortify.ps1 - Schannel hardening script.  
+
 **\sandbox**  
 - readme.md - A set of instructions to build hardened malware analysis VM's using VMCloak and FLARE VM.  
 
