@@ -1,0 +1,25 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <FileCreate onmatch="exclude">
+            <Image condition="is">C:\Windows\System32\smss.exe</Image>
+            <Image condition="is">C:\Windows\system32\CompatTelRunner.exe</Image>
+            <Image condition="is">C:\Windows\system32\wbem\WMIADAP.EXE</Image>
+            <TargetFilename condition="begin with">C:\Windows\System32\DriverStore\Temp\</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\wbem\Performance\</TargetFilename>
+            <TargetFilename condition="end with">WRITABLE.TST</TargetFilename>
+            <TargetFilename condition="contains">\AppData\Roaming\Microsoft\Windows\Recent\</TargetFilename>
+            <TargetFilename condition="begin with">C:\$WINDOWS.~BT\Sources\SafeOS\SafeOS.Mount\</TargetFilename>
+            <Image condition="begin with">C:\WINDOWS\winsxs\amd64_microsoft-windows</Image>
+            <Image condition="is">c:\windows\system32\provtool.exe</Image>
+            <Image condition="is">C:\WINDOWS\CCM\CcmExec.exe</Image>
+            <TargetFilename condition="begin with">C:\Windows\CCM</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\PLA\FabricTraces</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerRoleUsageCollector</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerCeipAssistant</TargetFilename>
+            <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+         </FileCreate>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

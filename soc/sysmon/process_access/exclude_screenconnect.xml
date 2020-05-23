@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <ProcessAccess onmatch="exclude">
+            <SourceImage condition="end with">ScreenConnect.ClientService.exe</SourceImage>
+         </ProcessAccess>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

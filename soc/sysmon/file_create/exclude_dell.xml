@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <FileCreate onmatch="exclude">
+            <Image condition="is">C:\Program Files (x86)\Dell\CommandUpdate\InvColPC.exe</Image>
+         </FileCreate>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

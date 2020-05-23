@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup groupRelation="or">
+         <ImageLoad onmatch="exclude">
+		    <Image condition="begin with">C:\Windows\CCM\</Image>
+		 </ImageLoad>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

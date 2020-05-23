@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <RegistryEvent onmatch="exclude">
+            <Image condition="is">C:\Program Files\Windows Defender\MsMpEng.exe</Image>
+         </RegistryEvent>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

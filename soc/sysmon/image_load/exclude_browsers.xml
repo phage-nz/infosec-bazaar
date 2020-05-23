@@ -1,0 +1,13 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup groupRelation="or">
+         <ImageLoad onmatch="exclude">
+		    <Image condition="is">C:\Program Files (x86)\BraveSoftware\Update\BraveUpdate.exe</Image>
+			<Image condition="is">C:\Program Files\Google\Update\GoogleUpdate.exe</Image>
+			<Image condition="is">C:\Program Files (x86)\Google\Update\GoogleUpdate.exe</Image>
+			<Image condition="is">C:\Program Files (x86)\BraveSoftware\Brave-Browser\Application\brave.exe</Image>
+			<Image condition="is">C:\Program Files (x86)\Google\Chrome\Application\chrome.exe</Image>
+		 </ImageLoad>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

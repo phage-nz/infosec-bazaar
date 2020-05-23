@@ -1,0 +1,23 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup name="" groupRelation="or">
+         <FileCreateStreamHash onmatch="include">
+            <TargetFilename condition="contains">Temp\7z</TargetFilename>
+            <TargetFilename condition="end with">.bat</TargetFilename>
+            <TargetFilename condition="end with">.cmd</TargetFilename>
+            <TargetFilename condition="end with">Temp\debug.bin</TargetFilename>
+            <TargetFilename condition="contains">Downloads</TargetFilename>
+            <TargetFilename condition="end with">.exe</TargetFilename>
+            <TargetFilename condition="end with">.hta</TargetFilename>
+            <TargetFilename condition="end with">.lnk</TargetFilename>
+            <TargetFilename condition="contains">Content.Outlook</TargetFilename>
+            <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">.ps1</TargetFilename>
+            <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">.ps2</TargetFilename>
+            <TargetFilename condition="end with">.reg</TargetFilename>
+            <TargetFilename condition="end with">.vb</TargetFilename>
+            <TargetFilename condition="end with">.vbe</TargetFilename>
+            <TargetFilename condition="end with">.vbs</TargetFilename>
+         </FileCreateStreamHash>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

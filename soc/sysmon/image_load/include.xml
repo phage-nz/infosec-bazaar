@@ -1,0 +1,47 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup name="" groupRelation="or">
+         <ImageLoad onmatch="include">
+            <Rule groupRelation="and">
+               <ImageLoaded name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\System32\samlib.dll</ImageLoaded>
+               <ImageLoaded name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\System32\WinSCard.dll</ImageLoaded>
+               <ImageLoaded name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\System32\cryptdll.dll</ImageLoaded>
+               <ImageLoaded name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\System32\hid.dll</ImageLoaded>
+               <ImageLoaded name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\System32\vaultcli.dll</ImageLoaded>
+               <ImageLoaded name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\System32\wlanapi.dll</ImageLoaded>
+            </Rule>
+            <ImageLoaded name="technique_id=T1137,technique_name=Office Application Startup,phase_name=Persistence" condition="end with">.wll</ImageLoaded>
+            <ImageLoaded name="technique_id=T1137,technique_name=Office Application Startup,phase_name=Persistence" condition="end with">.xll</ImageLoaded>
+            <ImageLoaded name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">system.management.automation.ni.dll</ImageLoaded>
+            <ImageLoaded name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">system.management.automation.dll</ImageLoaded>
+            <ImageLoaded name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="end with">taskschd.dll</ImageLoaded>
+			<ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains any">admin$;c$;\\;\appdata\;\temp\</ImageLoaded>
+			<ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Temp\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Media\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\addins\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\system32\config\systemprofile\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Debug\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\PerfLogs\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Help\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Intel\Logs\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Temp</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\repair\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\security\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Fonts\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">file:</ImageLoaded>
+            <ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains">$Recycle.bin\</ImageLoaded>
+            <ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains">\Windows\IME\</ImageLoaded>
+            <ImageLoaded name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="end with">wmiutils.dll</ImageLoaded>
+			<!-- Temporary while grouped exclusions for this event type don't seem to work: -->
+			<Rule groupRelation="and">
+               <ImageLoaded name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution,phase_name=Execution" condition="end with">scrobj.dll</ImageLoaded>
+               <Image condition="is not">C:\Windows\System32\cscript.exe</Image>
+			</Rule>
+			<Rule groupRelation="and">
+               <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">c:\programdata\</ImageLoaded>
+               <Image condition="is not">C:\Windows\System32\cscript.exe</Image>
+			</Rule>			
+         </ImageLoad>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

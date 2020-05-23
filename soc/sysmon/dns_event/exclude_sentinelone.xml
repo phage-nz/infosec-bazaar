@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <DnsQuery onmatch="exclude">
+            <QueryName condition="end with">.sentinelone.net</QueryName>
+         </DnsQuery>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

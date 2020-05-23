@@ -1,0 +1,19 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <DnsQuery onmatch="exclude">
+            <QueryName condition="end with">.mozaws.net</QueryName>
+            <QueryName condition="end with">.mozilla.com</QueryName>
+            <QueryName condition="end with">.mozilla.net</QueryName>
+            <QueryName condition="end with">.mozilla.org</QueryName>
+            <QueryName condition="is">clients1.google.com</QueryName>
+            <QueryName condition="is">clients2.google.com</QueryName>
+            <QueryName condition="is">clients3.google.com</QueryName>
+            <QueryName condition="is">clients4.google.com</QueryName>
+            <QueryName condition="is">clients5.google.com</QueryName>
+            <QueryName condition="is">clients6.google.com</QueryName>
+            <QueryName condition="is">safebrowsing.googleapis.com</QueryName>
+         </DnsQuery>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

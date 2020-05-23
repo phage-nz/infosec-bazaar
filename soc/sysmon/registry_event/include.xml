@@ -1,0 +1,128 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup name="" groupRelation="or">
+         <RegistryEvent onmatch="include">
+            <TargetObject name="technique_id=T1015,technique_name=Accessibility Features,phase_name=Persistence" condition="is">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+            <TargetObject name="technique_id=T1138,technique_name=Application Shimming,phase_name=Persistence" condition="contains">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB</TargetObject>
+            <TargetObject name="technique_id=T1138,technique_name=Application Shimming,phase_name=Persistence" condition="contains">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom</TargetObject>
+            <TargetObject name="technique_id=T1131,technique_name=Authentication Package,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa</TargetObject>
+            <TargetObject name="technique_id=T1060,technique_name=Registry Run Keys / Start Folder,phase_name=Persistence" condition="contains">\CurrentVersion\Run</TargetObject>
+            <TargetObject condition="contains">\Group Policy\Scripts</TargetObject>
+            <TargetObject name="technique_id=T1037,technique_name=Logon Scripts,phase_name=Lateral Movement" condition="contains">\Windows\System\Scripts</TargetObject>
+            <TargetObject name="technique_id=T1060,technique_name=Registry Run Keys / Start Folder,phase_name=Persistence" condition="contains">\Policies\Explorer\Run</TargetObject>
+            <TargetObject condition="end with">\ServiceDll</TargetObject>
+            <TargetObject condition="end with">\ImagePath</TargetObject>
+            <TargetObject condition="end with">\Start</TargetObject>
+            <TargetObject name="technique_id=T1004,technique_name=Winlogon Helper DLL,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify</TargetObject>
+            <TargetObject name="technique_id=T1004,technique_name=Winlogon Helper DLL,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit</TargetObject>
+            <TargetObject name="technique_id=T1004,technique_name=Winlogon Helper DLL,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Drivers32</TargetObject>
+            <TargetObject name="technique_id=T1060,technique_name=Registry Run Keys / Start Folder,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute</TargetObject>
+            <TargetObject name="technique_id=T1042,technique_name=Change Default File Association,phase_name=Persistence" condition="contains">\Explorer\FileExts</TargetObject>
+            <TargetObject condition="contains">\shell\install\command</TargetObject>
+            <TargetObject condition="contains">\shell\open\command</TargetObject>
+            <TargetObject condition="contains">\shell\open\ddeexec</TargetObject>
+            <TargetObject name="technique_id=T1060,technique_name=Registry Run Keys / Start Folder,phase_name=Persistence" condition="contains">Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\Startup</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="contains">\mscfile\shell\open\command</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="contains">ms-settings\shell\open\command</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="contains">Classes\exefile\shell\runas\command\isolatedCommand</TargetObject>
+            <TargetObject name="technique_id=T1122,technique_name=Component Object Model Hijacking,phase_name=Persistence" condition="contains">Software\Classes\CLSID</TargetObject>
+            <TargetObject name="technique_id=T1098,technique_name=Account Manipulation,phase_name=Credential Access" condition="contains">\services\Netlogon\Parameters\DisablePasswordChange</TargetObject>
+            <TargetObject name="technique_id=T1103,technique_name=Appinit DLLs,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\Appinit_Dlls</TargetObject>
+            <TargetObject name="technique_id=T1103,technique_name=Appinit DLLs,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows\Appinit_Dlls</TargetObject>
+            <TargetObject name="technique_id=T1103,technique_name=Appinit DLLs,phase_name=Persistence" condition="is">REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\DNS\Parameters\ServerLevelPluginDll</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions</TargetObject>
+            <TargetObject name="technique_id=T1183,technique_name=Image File Execution Options Injection,phase_name=Privilege Escalation" condition="begin with">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+            <TargetObject name="technique_id=T1183,technique_name=Image File Execution Options Injection,phase_name=Privilege Escalation" condition="begin with">HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+            <TargetObject condition="contains">\Internet Explorer\Toolbar</TargetObject>
+            <TargetObject condition="contains">\Internet Explorer\Extensions</TargetObject>
+            <TargetObject condition="contains">\Browser Helper Objects</TargetObject>
+            <TargetObject name="technique_id=T1013,technique_name=Port Monitors,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors</TargetObject>
+            <TargetObject name="technique_id=T1128,technique_name=Netsh Helper DLL,phase_name=Persistence" condition="contains">SOFTWARE\Microsoft\Netsh</TargetObject>
+            <TargetObject condition="end with">\UrlUpdateInfo</TargetObject>
+            <TargetObject condition="contains">\Microsoft\Office\Outlook\Addins</TargetObject>
+            <TargetObject condition="contains">\Software\Microsoft\VSTO\Security\Inclusion</TargetObject>
+            <TargetObject condition="contains">\Software\Microsoft\VSTO\SolutionMetadata</TargetObject>
+            <TargetObject name="technique_id=T1076,technique_name=Remote Desktop Protocol,phase_name=Lateral Movement" condition="is">HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services</TargetObject>
+            <TargetObject name="technique_id=T1101,technique_name=Security Support Provider,phase_name=Persistence" condition="contains">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe</TargetObject>
+            <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\OID</TargetObject>
+            <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\OID</TargetObject>
+            <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust</TargetObject>
+            <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\Providers\Trust</TargetObject>
+            <TargetObject name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="end with">\PsExec\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command And Control, Lateral Movement" condition="end with">\PsFile\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1033,technique_name=System Owner/User Discovery,phase_name=Discovery" condition="end with">\PsGetSID\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="end with">\PsInfo\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="end with">\PsKill\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="end with">\PsList\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1033,technique_name=System Owner/User Discovery,phase_name=Discovery" condition="end with">\PsLoggedOn\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="end with">\PsLogList\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1098,technique_name=Account Manipulation,phase_name=Credential Access" condition="end with">\PsPasswd\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="end with">\PsService\EulaAccepted</TargetObject>
+            <TargetObject name="undefined" condition="end with">\PsShutDown\EulaAccepted</TargetObject>
+            <TargetObject name="undefined" condition="end with">\PsSuspend\EulaAccepted</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="contains">SYSTEM\CurrentControlSet\services\SysmonDrv</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="contains">SYSTEM\CurrentControlSet\services\Sysmon</TargetObject>
+            <TargetObject name="technique_id=T1060,technique_name=Registry Run Keys / Start Folder,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\InitialProgram</TargetObject>
+            <TargetObject name="technique_id=T1209,technique_name=Time Providers,phase_name=Persistence" condition="contains">HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\W32Time\TimeProviders</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths</TargetObject>
+            <TargetObject name="technique_id=T1182,technique_name=AppCert DLLs,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCertDlls</TargetObject>
+            <TargetObject condition="end with">\InprocServer32\(Default)</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Provider</TargetObject>
+            <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa</TargetObject>
+            <TargetObject name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SecurityProviders</TargetObject>
+            <TargetObject name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="contains">\Control\SecurityProviders\WDigest</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\AntiVirusDisableNotify</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\DisableAntiSpyware</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\DisableAntiVirus</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableOnAccessProtection</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScanOnRealtimeEnable</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet\SpyNetReporting</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\FirewallDisableNotify</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\FirewallOverride</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT</TargetObject>
+            <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Safeboot</TargetObject>
+            <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Winlogon</TargetObject>
+            <TargetObject condition="end with">\FriendlyName</TargetObject>
+            <TargetObject condition="is">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\InProgress\(Default)</TargetObject>
+            <Rule groupRelation="and">
+               <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System</TargetObject>
+               <Image condition="is not">C:\Windows\System32\svchost.exe</Image>
+            </Rule>
+            <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\NetworkProvider\Order</TargetObject>
+            <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles</TargetObject>
+			<Rule groupRelation="and">
+               <TargetObject name="technique_id=T1130,technique_name=Install Root Certificate,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\EnterpriseCertificates\Root\Certificates</TargetObject>
+			   <Image condition="is not">C:\Windows\System32\svchost.exe</Image>
+			</Rule>
+			<Rule groupRelation="and">
+               <TargetObject name="technique_id=T1130,technique_name=Install Root Certificate,phase_name=Persistence" condition="contains">\Microsoft\SystemCertificates\Root\Certificates</TargetObject>
+			   <Image condition="is not">C:\Windows\System32\svchost.exe</Image>
+			</Rule>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\AllAlertsDisabled</TargetObject>
+            <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\DisableMonitoring</TargetObject>
+            <TargetObject condition="contains">\Classes\AllFilesystemObjects</TargetObject>
+            <TargetObject condition="contains">\Classes\Directory</TargetObject>
+            <TargetObject condition="contains">\Classes\Drive</TargetObject>
+            <TargetObject condition="contains">\Classes\Folder</TargetObject>
+            <TargetObject condition="contains">\ContextMenuHandlers</TargetObject>
+            <TargetObject condition="contains">\CurrentVersion\Shell</TargetObject>
+            <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\ShellExecuteHooks</TargetObject>
+            <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\ShellServiceObjectDelayLoad</TargetObject>
+            <TargetObject condition="contains">{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\UacDisableNotify</TargetObject>
+            <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\UpdatesDisableNotify</TargetObject>
+            <TargetObject condition="is">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Setup\ServiceStartup</TargetObject>
+            <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Services\WinSock</TargetObject>
+            <TargetObject condition="end with">\ProxyServer</TargetObject>
+            <TargetObject name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="contains">SYSTEM\CurrentControlSet\Control\CrashControl</TargetObject>
+         </RegistryEvent>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

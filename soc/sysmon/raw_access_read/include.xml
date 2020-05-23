@@ -1,0 +1,7 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup name="" groupRelation="or">
+         <RawAccessRead onmatch="include" />
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

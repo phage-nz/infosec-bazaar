@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup groupRelation="or">
+         <CreateRemoteThread onmatch="exclude">
+            <SourceImage condition="is">C:\Windows\System32\wbem\WmiPrvSE.exe</SourceImage>
+         </CreateRemoteThread>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

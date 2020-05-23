@@ -1,0 +1,85 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+      <RuleGroup name="" groupRelation="or">
+         <FileCreate onmatch="include">
+            <TargetFilename name="technique_id=T1138,technique_name=Application Shimming,phase_name=Persistence" condition="contains">C:\Windows\AppPatch\Custom</TargetFilename>
+            <TargetFilename condition="end with">.bat</TargetFilename>
+            <TargetFilename condition="end with">.cmd</TargetFilename>
+            <TargetFilename name="technique_id=T1064,technique_name=Scripting,phase_name=Defense Evasion" condition="end with">.chm</TargetFilename>
+            <TargetFilename condition="begin with">C:\Users\Default</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="contains">AppData\Local\Microsoft\CLR_v2.0\UsageLogs\</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\cscript.exe.log</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\wscript.exe.log</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\wmic.exe.log</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\mshta.exe.log</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\svchost.exe.log</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\regsvr32.exe.log</TargetFilename>
+            <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\rundll32.exe.log</TargetFilename>
+            <TargetFilename condition="contains">\Downloads\</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\Drivers</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
+            <TargetFilename condition="end with">.exe</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\Machine\Scripts</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\User\Scripts</TargetFilename>
+            <TargetFilename name="technique_id=T1170,technique_name=Mshta,phase_name=Execution" condition="end with">.hta</TargetFilename>
+            <TargetFilename condition="end with">.iso</TargetFilename>
+            <TargetFilename condition="end with">.img</TargetFilename>
+            <TargetFilename name="technique_id=T1187,technique_name=Forced Authentication,phase_name=Credential Access" condition="end with">.lnk</TargetFilename>
+            <TargetFilename name="technique_id=T1187,technique_name=Forced Authentication,phase_name=Credential Access" condition="end with">.scf</TargetFilename>
+            <TargetFilename condition="end with">.application</TargetFilename>
+            <TargetFilename condition="end with">.appref-ms</TargetFilename>
+            <TargetFilename name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Defense Evasion" condition="end with">.*proj</TargetFilename>
+            <TargetFilename name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Defense Evasion" condition="end with">.sln</TargetFilename>
+            <TargetFilename condition="end with">.settingcontent-ms</TargetFilename>
+            <TargetFilename condition="end with">.docm</TargetFilename>
+            <TargetFilename condition="end with">.pptm</TargetFilename>
+            <TargetFilename condition="end with">.xlsm</TargetFilename>
+            <TargetFilename condition="end with">.xlm</TargetFilename>
+            <TargetFilename condition="end with">.dotm</TargetFilename>
+            <TargetFilename condition="end with">.xltm</TargetFilename>
+            <TargetFilename condition="end with">.potm</TargetFilename>
+            <TargetFilename condition="end with">.ppsm</TargetFilename>
+            <TargetFilename condition="end with">.sldm</TargetFilename>
+            <TargetFilename condition="end with">.xlam</TargetFilename>
+            <TargetFilename condition="end with">.xla</TargetFilename>
+            <TargetFilename condition="end with">.iqy</TargetFilename>
+            <TargetFilename condition="end with">.slk</TargetFilename>
+            <TargetFilename condition="contains">\Content.Outlook\</TargetFilename>
+            <TargetFilename condition="end with">.rft</TargetFilename>
+            <TargetFilename condition="end with">.jsp</TargetFilename>
+            <TargetFilename condition="end with">.jspx</TargetFilename>
+            <TargetFilename condition="end with">.asp</TargetFilename>
+            <TargetFilename condition="end with">.aspx</TargetFilename>
+            <TargetFilename condition="end with">.php</TargetFilename>
+            <TargetFilename condition="end with">.war</TargetFilename>
+            <TargetFilename condition="end with">.ace</TargetFilename>
+            <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="begin with">C:\Windows\System32\WindowsPowerShell</TargetFilename>
+            <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+            <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">.ps1</TargetFilename>
+            <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">.ps2</TargetFilename>
+			<TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">.psm</TargetFilename>
+            <TargetFilename condition="end with">.py</TargetFilename>
+            <TargetFilename condition="end with">.pyc</TargetFilename>
+            <TargetFilename condition="end with">.pyw</TargetFilename>
+            <Image condition="image">rundll32.exe</Image>
+            <TargetFilename condition="begin with">C:\Windows\System32\Tasks</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\Tasks\</TargetFilename>
+            <TargetFilename condition="contains">\Start Menu</TargetFilename>
+            <TargetFilename condition="contains">\Startup</TargetFilename>
+            <TargetFilename condition="end with">.sys</TargetFilename>
+            <TargetFilename condition="end with">.url</TargetFilename>
+            <TargetFilename condition="end with">.vb</TargetFilename>
+            <TargetFilename condition="end with">.vbe</TargetFilename>
+            <TargetFilename condition="end with">.vbs</TargetFilename>
+            <TargetFilename name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="begin with">C:\Windows\System32\Wbem</TargetFilename>
+            <TargetFilename name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
+            <Image name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="begin with">C:\WINDOWS\system32\wbem\scrcons.exe</Image>
+            <TargetFilename name="technique_id=T1044,technique_name=File System Permissions Weakness,phase_name=Privilege Escalation" condition="begin with">C:\Windows\Temp\</TargetFilename>
+            <TargetFilename name="technique_id=T1044,technique_name=File System Permissions Weakness,phase_name=Privilege Escalation" condition="begin with">C:\Temp\</TargetFilename>
+            <TargetFilename name="technique_id=T1044,technique_name=File System Permissions Weakness,phase_name=Privilege Escalation" condition="begin with">C:\PerfLogs\</TargetFilename>
+            <TargetFilename name="technique_id=T1044,technique_name=File System Permissions Weakness,phase_name=Privilege Escalation" condition="begin with">C:\Users\Public\</TargetFilename>
+            <TargetFilename name="technique_id=T1044,technique_name=File System Permissions Weakness,phase_name=Privilege Escalation" condition="contains">\AppData\Temp\</TargetFilename>
+         </FileCreate>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

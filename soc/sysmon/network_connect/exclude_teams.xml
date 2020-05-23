@@ -1,0 +1,9 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <NetworkConnect onmatch="exclude">
+		    <Image condition="end with">AppData\Local\Microsoft\Teams\current\Teams.exe</Image>
+         </NetworkConnect>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>

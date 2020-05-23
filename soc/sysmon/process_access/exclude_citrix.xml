@@ -1,0 +1,10 @@
+<Sysmon schemaversion="4.22">
+   <EventFiltering>
+	  <RuleGroup groupRelation="or">
+         <ProcessAccess onmatch="exclude">
+            <SourceImage condition="end with">\Citrix\System32\wfshell.exe</SourceImage>
+			<SourceImage condition="is">C:\Program Files (x86)\Citrix\ICA Client\SelfServicePlugin\SelfServicePlugin.exe</SourceImage>
+         </ProcessAccess>
+      </RuleGroup>
+   </EventFiltering>
+</Sysmon>
