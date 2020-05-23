@@ -56,7 +56,7 @@ A collection of infosec-related scripts and information.
 - \Cortex-Analyzers - Custom analyzers for Hive Project's Cortex.  
 - \Graylog - Custom content packs for Graylog.  
 - \MISP - Install documentation and custom feed management.  
-- \sysmon - Modular sysmon configuration.  
+- \sysmon - Modular Sysmon configuration.  
 
 **\spamtrap**
 - readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
