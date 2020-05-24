@@ -60,7 +60,7 @@ It is recommended to run a cleanup in between runs as some tests can hang if cer
 - Permit disabling of specific tests.  
 
 ## Tools
-The tooling employed by bad actors isn't solely closed source. There is no shortage of open source options that can be quickly adopted and fulfil requirements at no cost. The goal of emulation is to match or closely imitate the actions of your adversaries, so being able to use the same or similar tooling to them is more preferable than confining your testing to a suite of controlled, autonomous executions.
+The tooling employed by bad actors isn't solely closed source. There is no shortage of open source or freely available options that can be quickly adopted and fulfil requirements at no cost. The goal of emulation is to match or closely imitate the actions of your adversaries, so being able to use the same or similar tooling to them is more preferable than confining your testing to a suite of controlled, autonomous executions.
 - **Covenant:** https://github.com/cobbr/Covenant  
 - **Empire:** https://github.com/BC-SECURITY/Empire (https://attack.mitre.org/software/S0363/)  
 - **Koadic:** https://github.com/zerosum0x0/koadic (https://attack.mitre.org/software/S0250/)  
