@@ -1,9 +1,9 @@
 ## Windows Honeypot
 
-These notes describe what is really just a flexible, cloud hosted VM. It could be used:
-- For dynamic malware analysis.  
-- As a high-interaction honeypot.  
-- For EDR and SIEM research and training.  
+These notes describe what is really just a flexible, cloud hosted VM. Use cases include:
+- Dynamic malware analysis.  
+- A high-interaction honeypot.  
+- EDR and SIEM research and training.  
 
 While your specific use case will determine aspects such as it's firewalling and profile, these details can easily be changed at any time.
 
@@ -12,7 +12,7 @@ While your specific use case will determine aspects such as it's firewalling and
 - Server 2012 R2+  
 
 ## Considerations
-There are a couple of considerations you need to make:
+There are a few considerations you need to make:
 - OPSEC.  
 - Profile.  
 - How are you going to collect endpoint events? Sysmon, EDR or both?  
@@ -47,11 +47,11 @@ sc sdset Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)
   - TCP 3389 (RDP) from your public IP.  
 - RDP to the host.  
 - If you wish, apply all outstanding patches.  
-- Decide on a profile you wish the server to emulate, e.g. a web server, file server. Based on this, install any additional roles and features required by the profile. One addition I'd recommend including is .NET 3.5, as there are quite a few RAT's that still require this. You can defer the reboot as that'll be done shortly anyway.  
+- Install any additional roles and features required by the profile you've decided upon. One addition I'd recommend including is .NET 3.5, as there are quite a few RAT's that still require this. You can defer the reboot as that'll be done shortly anyway.  
 - Open Group Policy Editor (gpedit.msc) and apply the following changes:  
   - **Computer Configuration > Administrative Templates > Windows Components > Remote Desktop Services > Remote Desktop Session Host > Device and Resource Redirection:** Enable all Settings that begin with "do not allow" (e.g. "Do not allow clipboard redirection").  
   - **Computer Configuration > Windows Settings > Security Settings > Local Policies > Security Options:** Set "Accounts: Rename administrator account" to something of your choosing.  
-- Under **Control Panel > System and Security > Allow remote access**, uncheck "Allow connections only from computers running Remote Desktop with Network Level Authentication".  
+- Under **Control Panel > System and Security > Allow remote access:** uncheck "Allow connections only from computers running Remote Desktop with Network Level Authentication".  
 - Reboot the server, allow patches to complete installation and sign on with your new local administrator account.  
 - Open the Local Users and Groups snap-in (lusrmgr.msc). Remove the description of your account and create a new account named Administrator:  
   - Provide it the description: "Built-in account for administering the computer/domain".  
@@ -81,6 +81,7 @@ sc start sshd
   - Python 3.8  
   - Sysinternals Suite  
   - Wireshark  
+- If deploying the host as a honeypot, try to keep it as free from analysis tools as possible. However, if you're using the host for malware analysis, [FLARE VM](https://github.com/fireeye/flare-vm) will save you a great deal of time.  
 - Use Google to download as many documents and images as possible that will help build up your chosen profile. Google dorks such as "site:orgname.com filetype:pdf" will help.  
 - Using WinSCP, copy out the software and profile artifacts over SFTP. Install the software, set up any agents and clean up any installation files.  
 - While SFTP provides a secure method of transferring files to the host, if you need to paste text into it it consider: https://github.com/jlaundry/TypeClipboard  

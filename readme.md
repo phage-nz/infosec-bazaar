@@ -28,9 +28,6 @@ A collection of infosec-related scripts and information.
 **\powershell**  
 - iis-fortify.ps1 - Schannel hardening script.  
 
-**\sandbox**  
-- readme.md - A set of instructions to build hardened malware analysis VM's using VMCloak and FLARE VM.  
-
 **\soc**  
 - \Cortex-Analyzers - Custom analyzers for Hive Project's Cortex.  
 - \Graylog - Custom content packs for Graylog.  
