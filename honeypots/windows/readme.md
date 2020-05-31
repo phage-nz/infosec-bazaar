@@ -39,6 +39,10 @@ There's not much to say here. It entirely depends on what you've got available t
 ```
 sc sdset Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
 ```
+To restore it:
+```
+sc sdset Sysmon D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
+```
 
 ## Setup
 - Deploy the VM with your hosting provider of choice. AWS, Azure, Vultr - take your pick. Assign it a firewall that permits inbound:
@@ -111,7 +115,7 @@ echo.
   - **Optional:** TCP 80 (HTTP) from all IP's.  
   - **Optional:** TCP 445 (SMB) from all IP's.  
   - TCP 3389 (RDP) from all IP's.  
-- Setup is complete. Keep an eye out for indicators of compromise.  
+- Setup is complete. Keep an eye out for signs of anomalous activity or compromise.  
 
 ## FAQ
 **How long will it take to be compromised?**  
