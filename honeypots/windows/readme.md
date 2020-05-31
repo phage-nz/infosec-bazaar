@@ -42,7 +42,7 @@ sc sdset Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)
 
 ## Setup
 - Deploy the VM with your hosting provider of choice. AWS, Azure, Vultr - take your pick. Assign it a firewall that permits inbound:
-  - TCP 22 (RDP) from your public IP.  
+  - TCP 22 (SFTP/SSH) from your public IP.  
   - **Optional:** TCP 80 (HTTP) from all IP's.  
   - TCP 3389 (RDP) from your public IP.  
 - RDP to the host.  
@@ -106,7 +106,7 @@ echo.
 ```
 - Take a snapshot of the host. This will be your rollback point.  
 - Once the snapshot has completed, adjust the firewall:
-  - TCP 22 (RDP) from your public IP.  
+  - TCP 22 (SFTP/SSH) from your public IP.  
   - **Optional:** TCP 80 (HTTP) from all IP's.  
   - **Optional:** TCP 445 (SMB) from all IP's.  
   - TCP 3389 (RDP) from all IP's.  
