@@ -35,14 +35,22 @@ To give your host some degree of legitimacy, consider:
 Try not to make it too obvious that it's a honeypot. Be mindful of things like what security features you disable, services you install and ports you open.
 
 ### Event Collection
-There's not much to say here. It entirely depends on what you've got available to you. At a minimum I'd recommend Sysmon and Azure Sentinel. Consider hiding the Sysmon service:
+This entirely depends on what you've got available to you. The combination of Sysmon and Azure Sentinel is well proven and I'd certainly recommmend it. Included in this folder is a Sentinel workbook that covers:
+- Authentication failure and interactive logon events.  
+- MITRE ATT&CK techniques for a given user over time.  
+- Sysmon events for the user and system.  
+
+The workbook relies on Sysmon and Sentinel both being configured according to the [Sentinel ATT&CK project](https://github.com/BlueTeamLabs/sentinel-attack) (you can also find my modular config [here](https://github.com/phage-nz/infosec-bazaar/tree/master/soc/sysmon)).
+
+Remember to hide the Sysmon service:
 ```
 sc sdset Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
 ```
-To restore it:
+And to restore it:
 ```
 sc sdset Sysmon64 D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
 ```
+If deploying an EDR agent to the host, consider your end goal. If you want to see a compromise play out, you'll want to ensure that the agent operates passively, is hidden from the end user and doesn't impact Sysmon (if also in use).
 
 ## Setup
 - Deploy the VM with your hosting provider of choice. AWS, Azure, Vultr - take your pick. Assign it a firewall that permits inbound:
