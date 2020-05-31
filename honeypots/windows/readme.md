@@ -50,7 +50,7 @@ And to restore it:
 ```
 sc sdset Sysmon64 D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
 ```
-If deploying an EDR agent to the host, consider your end goal. If you want to see a compromise play out, you'll want to ensure that the agent operates passively, is hidden from the end user and doesn't impact Sysmon (if also in use).
+If deploying an EDR agent to the host, consider your end goal. If you want to see a compromise play out, you'll want to ensure that the agent operates passively, is hidden from the end user and doesn't impact Sysmon (if also in use, and vice versa in that case).
 
 ## Setup
 - Deploy the VM with your hosting provider of choice. AWS, Azure, Vultr - take your pick. Assign it a firewall that permits inbound:
