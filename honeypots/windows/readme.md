@@ -1,14 +1,15 @@
 ## Windows Honeypot
 
 These notes describe what is really just a flexible, cloud hosted VM. It could be used:
-- For malware analysis.  
+- For dynamic malware analysis.  
 - As a high-interaction honeypot.  
 - For EDR and SIEM research and training.  
+
 While your specific use case will determine aspects such as it's firewalling and profile, these details can easily be changed at any time.
 
 ## Requirements
 - At least 1vCPU and 2GB memory  
-- Server 2012 R2+
+- Server 2012 R2+  
 
 ## Considerations
 There are a couple of considerations you need to make:
@@ -82,6 +83,7 @@ sc start sshd
   - Wireshark  
 - Use Google to download as many documents and images as possible that will help build up your chosen profile. Google dorks such as "site:orgname.com filetype:pdf" will help.  
 - Using WinSCP, copy out the software and profile artifacts over SFTP. Install the software, set up any agents and clean up any installation files.  
+- While SFTP provides a secure method of transferring files to the host, if you need to paste text into it it consider: https://github.com/jlaundry/TypeClipboard  
 - Log in with each of the users you created to ensure their profiles are created. Distribute the profile artifacts between the profiles.  
 - Check that endpoint telemetry and Windows events are being successfully sent to their target.  
 - Clear all event logs:  
@@ -108,3 +110,14 @@ echo.
   - **Optional:** TCP 80 (HTTP) from all IP's.  
   - **Optional:** TCP 445 (SMB) from all IP's.  
   - TCP 3389 (RDP) from all IP's.  
+- Setup is complete. Keep an eye out for indicators of compromise.  
+
+## FAQ
+**How long will it take to be compromised?**  
+This depends entirely on where you've deployed it and how easily it can be discovered. I've seen it happen in hours and also months.
+
+**Who will it be compromised by?**  
+Again, this depends on factors like the context of it's deployment.
+
+**I accidentally connected directly to it. What do I do?**  
+If during setup, begin by enabling your method of connection masking and restrict host access to your new public IP. Reboot the host, clear the event logs and determine other locations your IP could have been logged (e.g. web server and application logs). At any other point in time, determine if there were any sessions held by "others" at the time (and respond accordingly), then roll back to the snapshot.
