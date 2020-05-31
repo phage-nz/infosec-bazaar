@@ -18,9 +18,14 @@ A collection of infosec-related scripts and information.
 **\emulation**  
 - cradle.ps1 - PowerShell cradle script to download an execute malware samples.  
 - emulate.py - MITRE ATT&CK wrapper for Atomic Red Team tests.  
+- readme.md - Instructions for the above, plus a collection of Adversary Emulation resources.  
 
 **\honeypots**  
-- readme.md - Notes and scripts for Linux and Windows honeypots.  
+- \linux - Notes for the installation of Dionaea, p0f and Cowrie.  
+- \mhn - Notes on extending and troubleshooting MHN.  
+- \spamtrap - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
+- \t-pot - Instructions on deploying T-Pot honeypot platform.  
+- \windows - Information on setting up a Windows honeypot.  
 
 **\modules**  
 - readme.md - A collection of modules from retired projects of mine.  
@@ -33,15 +38,4 @@ A collection of infosec-related scripts and information.
 - \Graylog - Custom content packs for Graylog.  
 - \MISP - Install documentation and custom feed management.  
 - \sysmon - Modular Sysmon configuration.  
-
-**\spamtrap**
-- readme.md - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
-
-**\t-pot**  
-- readme.md - Instructions on deploying T-Pot honeypot platform.  
-
-**\volatility**
-- autoinstall.sh - A script to automatically install Volatility, bulk_extractor and vshot by CrowdStrike.  
-
-**\yeti**
-- autoinstall.sh - A script to automatically install Yeti and custom plugins stored under \res.  
+- \volatility - - A script to automatically install Volatility, bulk_extractor and vshot by CrowdStrike.  
