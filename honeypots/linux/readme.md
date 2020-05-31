@@ -1,9 +1,4 @@
-## Honeypot AutoInstall Script v0.5.0 ##
-#### by Chris Campbell ####
-
-**Twitter:** @phage_nz  
-**GitHub:** phage-nz  
-**Blog:** https://phage.nz  
+## Linux Honeypot AutoInstall Script
 
 **Installs:**
 
@@ -13,7 +8,7 @@
 
 Tested on Ubuntu 14.04.5 (EC2 t2.micro instance and DigitalOcean 1GB+1CPU droplet)  
 
-### Default Install Notes ###
+### Default Install Notes
 
 - Fetch the latest release of the autoinstall script:
 
@@ -32,8 +27,8 @@ chmod +x autoinstall.sh*
 - Refer to the notes below for information on where customisations can be made.
 - Files required for automated Vagrant deployment are also available in ../honeypot-vagrant.  
 
-### Post-Install Notes ###
-#### Networking ####
+### Post-Install Notes
+#### Networking
 Create and apply a security group or firewall with the following ports opened:
 
 - Management SSH (22/TCP) - restricted to your public IP. Do not restrict if Cowrie is installed.  
@@ -55,7 +50,7 @@ Create and apply a security group or firewall with the following ports opened:
 - SIP/SIP-TLS (5060/TCP+UDP and 5061/TCP)  
 - Memcache (11211/TCP)  
 
-#### Dionaea ####
+#### Dionaea
 Essential:
 
 - Ensure Dionaea is listening:
@@ -89,7 +84,7 @@ TO> r.VersionToken.TokenType = 0xAA
 
 self.make_comment(sf\[0\], sf\[1\], sf\[2\], 'comment')  
 
-#### DionaeaFR ####
+#### DionaeaFR
 Optional:  
 - If you wish DionaeaFR to listen on a port other than 8000:
   - Update the port definition in /etc/init.d/dionaeafr
@@ -99,7 +94,7 @@ Optional:
   - Restart the DionaeaFR service:  
 */etc/init.d/dionaeafr restart*  
 
-#### Cowrie ####
+#### Cowrie
 Essential:
 
 - Ensure Cowrie is listening:
@@ -131,5 +126,5 @@ TO>*whatever you want*
 \<user\>:0:!\<password\>  
 *e.g. root:0:!toor*  
 
-### To-Do ###
+### To-Do
 - Lower privileges DionaeaFR runs under.

@@ -4,6 +4,7 @@
          <ImageLoad onmatch="exclude">
 			<Image condition="end with">\AppData\Local\NVIDIA\NvBackend\ApplicationOntology\NvOAWrapperCache.exe</Image>
 			<Image condition="end with">\AppData\Local\NVIDIA\NvBackend\ApplicationOntology\OAWrapper.exe</Image>
+			<Image condition="is">C:\Program Files\NVIDIA Corporation\NvContainer\nvcontainer.exe</Image>
 		 </ImageLoad>
       </RuleGroup>
    </EventFiltering>

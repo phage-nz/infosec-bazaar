@@ -1,4 +1,4 @@
-## Vagrant Install Notes ##
+## Vagrant Install Notes
 
 - Install Vagrant and required libraries:
 

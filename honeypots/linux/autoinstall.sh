@@ -66,8 +66,8 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   apt install dionaea p0f -y
   echo "Making Dionaea honeypot database..."
   mkdir -p /opt/dionaea/var/dionaea/scripts
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/wordlist.txt -P /opt/dionaea/var/dionaea/scripts
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/generate_user_db.py -P /opt/dionaea/var/dionaea/scripts
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/wordlist.txt -P /opt/dionaea/var/dionaea/scripts
   chown -R dionaea:dionaea /opt/dionaea/var/dionaea
   chmod +x /opt/dionaea/var/dionaea/scripts/generate_user_db.py
   touch /opt/dionaea/var/dionaea/target_db.sqlite
@@ -101,13 +101,13 @@ if [ "$INSTALL_DIONAEA" == "yes" ]; then
   echo "Making a folder for SIP pcap's..."
   mkdir -p /opt/dionaea/var/dionaea/rtp/default
   echo "Making logrotate script..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.logrotate -O /etc/logrotate.d/dionaea
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/dionaea.logrotate -O /etc/logrotate.d/dionaea
   echo "Making housekeeper script..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea-housekeeper.sh -O /etc/cron.daily/dionaea-housekeeper
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/dionaea-housekeeper.sh -O /etc/cron.daily/dionaea-housekeeper
   chmod +x /etc/cron.daily/dionaea-housekeeper
   echo "Setting all services to autostart..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaea.init -O /etc/init.d/dionaea
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/p0f.init -O /etc/init.d/p0f
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/dionaea.init -O /etc/init.d/dionaea
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/p0f.init -O /etc/init.d/p0f
   chmod +x /etc/init.d/dionaea
   chmod +x /etc/init.d/p0f
   update-rc.d dionaea defaults
@@ -161,9 +161,9 @@ if [ "$INSTALL_DIONAEAFR" == "yes" ]; then
   echo "Performing outstanding DB migrations..."
   python manage.py migrate --noinput
   echo "Making logrotate script..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.logrotate -O /etc/logrotate.d/dionaeafr
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/dionaeafr.logrotate -O /etc/logrotate.d/dionaeafr
   echo "Setting service to autostart..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/dionaeafr.init -O /etc/init.d/dionaeafr
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/dionaeafr.init -O /etc/init.d/dionaeafr
   chmod +x /etc/init.d/dionaeafr
   update-rc.d dionaeafr defaults
   echo "DionaeaFR install complete!"
@@ -201,10 +201,10 @@ if [ "$INSTALL_COWRIE" == "yes" ]; then
   echo "Making the Cowrie filesystem..."
   /opt/cowrie/bin/createfs
   echo "Making logrotate script..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.logrotate -O /etc/logrotate.d/cowrie
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/cowrie.logrotate -O /etc/logrotate.d/cowrie
   echo "Setting service to autostart..."
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.service -O /etc/systemd/system/cowrie.service
-  wget https://raw.githubusercontent.com/phage-nz/malware-hunting/master/honeypot/cowrie.socket -O /etc/systemd/system/cowrie.socket
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/cowrie.service -O /etc/systemd/system/cowrie.service
+  wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/honeypot/linux/cowrie.socket -O /etc/systemd/system/cowrie.socket
   sed -i 's/tcp:2222:interface=0.0.0.0/systemd:domain=INET:index=0/g' /opt/cowrie/cowrie.cfg
   sed -i 's/tcp:2223:interface=0.0.0.0/systemd:domain=INET:index=1/g' /opt/cowrie/cowrie.cfg
   systemctl daemon-reload
