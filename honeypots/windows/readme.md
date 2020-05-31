@@ -2,7 +2,7 @@
 
 These notes describe what is really just a flexible, cloud hosted VM. It could be used:
 - For malware analysis.  
-- As a honeypot.  
+- As a high-interaction honeypot.  
 - For EDR and SIEM research and training.  
 While your specific use case will determine aspects such as it's firewalling and profile, these details can easily be changed at any time.
 
