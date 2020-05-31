@@ -54,9 +54,9 @@ sc sdset Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)
 - Under **Control Panel > System and Security > Allow remote access**, uncheck "Allow connections only from computers running Remote Desktop with Network Level Authentication".  
 - Reboot the server, allow patches to complete installation and sign on with your new local administrator account.  
 - Open the Local Users and Groups snap-in (lusrmgr.msc). Remove the description of your account and create a new account named Administrator:  
-- Provide it the description: "Built-in account for administering the computer/domain".  
-- Set a password. Choose something that you're sure will be in a list of compromised passwords (maybe 200-500 hits on the [Have I Been Pwned Password Test](https://haveibeenpwned.com/Passwords)) but also won't make it obvious the host is a honeypot.  
-- Add it to whatever groups you deem necessary, depending how much of a headache you want to cause those signing on with it (e.g. Administrators, Remote Desktop Users).  
+  - Provide it the description: "Built-in account for administering the computer/domain".  
+  - Set a password. Choose something that you're sure will be in a list of compromised passwords (maybe 200-500 hits on the [Have I Been Pwned Password Test](https://haveibeenpwned.com/Passwords)) but also won't make it obvious the host is a honeypot.  
+  - Add it to whatever groups you deem necessary, depending how much of a headache you want to cause those signing on with it (e.g. Administrators, Remote Desktop Users).  
 - If you wish, set up a handful of other users too.  
 - Install your browser of choice and configure it not to retain history.  
 - Download the latest release of OpenSSH for Windows from https://github.com/PowerShell/Win32-OpenSSH/releases and extract it to C:\Program Files\OpenSSH. Add this path to the system PATH environment variable.  
