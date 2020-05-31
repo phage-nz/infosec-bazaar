@@ -19,7 +19,7 @@ A collection of infosec-related scripts and information.
 - cradle.ps1 - PowerShell cradle script to download an execute malware samples.  
 - emulate.py - MITRE ATT&CK wrapper for Atomic Red Team tests.  
 
-**\honeypot**  
+**\honeypots**  
 - readme.md - Notes and scripts for Linux and Windows honeypots.  
 
 **\modules**  

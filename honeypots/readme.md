@@ -22,7 +22,7 @@
 - vagrant-plugin.patch - a patch to fix a bug that prevents the installing of the vagrant-aws plugin.  
 
 **\mhn**  
-- readme.md - A collection of notes on extending and troubleshooting MHN.  
+- readme.md - a collection of notes on extending and troubleshooting MHN.  
 
 **\windows**
 - readme.md - information on setting up a Windows honeypot.  
