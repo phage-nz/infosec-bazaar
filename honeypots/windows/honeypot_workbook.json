@@ -1111,7 +1111,45 @@
         "queryType": 0,
         "resourceType": "microsoft.operationalinsights/workspaces",
         "gridSettings": {
-          "filter": true
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "TimeGenerated",
+              "label": "Time generated"
+            },
+            {
+              "columnId": "technique_id",
+              "label": "ID"
+            },
+            {
+              "columnId": "technique_name",
+              "label": "Technique"
+            },
+            {
+              "columnId": "phase_name",
+              "label": "Category"
+            },
+            {
+              "columnId": "Computer",
+              "label": "Host"
+            },
+            {
+              "columnId": "pipe_name",
+              "label": "Pipe name"
+            },
+            {
+              "columnId": "process_path",
+              "label": "Process path"
+            },
+            {
+              "columnId": "process_guid",
+              "label": "Process GUID"
+            },
+            {
+              "columnId": "process_id",
+              "label": "Process ID"
+            }
+          ]
         }
       },
       "name": "pipes-query",
