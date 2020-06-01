@@ -37,6 +37,7 @@ Try not to make it too obvious that it's a honeypot. Be mindful of things like w
 ### Event Collection
 This entirely depends on what you've got available to you. The combination of Sysmon and Azure Sentinel is well proven and I'd certainly recommmend it. Included in this folder is a Sentinel workbook that covers:
 - Authentication failure and interactive logon events.  
+- Web request statistics and client events.  
 - MITRE ATT&CK techniques for a given user over time.  
 - Sysmon events for the user and system.  
 
