@@ -776,6 +776,103 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
+        "query": "Sysmon\r\n| where EventID == 1 and Computer == @\"{computer_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Process Create",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "process_parent_guid",
+              "formatter": 1,
+              "formatOptions": {}
+            }
+          ],
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "TimeGenerated",
+              "label": "Time generated"
+            },
+            {
+              "columnId": "technique_id",
+              "label": "ID"
+            },
+            {
+              "columnId": "technique_name",
+              "label": "Technique"
+            },
+            {
+              "columnId": "phase_name",
+              "label": "Category"
+            },
+            {
+              "columnId": "Computer",
+              "label": "Host"
+            },
+            {
+              "columnId": "user_name",
+              "label": "User"
+            },
+            {
+              "columnId": "process_parent_path",
+              "label": "Process parent path"
+            },
+            {
+              "columnId": "process_path",
+              "label": "Process path"
+            },
+            {
+              "columnId": "file_name",
+              "label": "File name"
+            },
+            {
+              "columnId": "process_parent_command_line",
+              "label": "Process parent command line"
+            },
+            {
+              "columnId": "process_command_line",
+              "label": "Process command line"
+            },
+            {
+              "columnId": "process_parent_guid",
+              "label": "Process parent GUID"
+            },
+            {
+              "columnId": "process_guid",
+              "label": "Process GUID"
+            },
+            {
+              "columnId": "hash_sha256",
+              "label": "Hash SHA256"
+            },
+            {
+              "columnId": "process_id",
+              "label": "Process ID"
+            },
+            {
+              "columnId": "process_parent_id",
+              "label": "Process parent ID"
+            }
+          ]
+        }
+      },
+      "name": "process-create-query - Copy",
+      "styleSettings": {
+        "progressStyle": "loader"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
         "query": "Sysmon\r\n| where EventID == 10 and Computer == @\"{computer_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
         "size": 0,
         "showAnalytics": true,
@@ -1153,6 +1250,96 @@
         }
       },
       "name": "pipes-query",
+      "styleSettings": {
+        "progressStyle": "loader"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Sysmon\r\n| where EventID == 3 and Computer == @\"{computer_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Network Connection",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "process_guid",
+              "formatter": 1,
+              "formatOptions": {
+                "showIcon": true
+              }
+            }
+          ],
+          "labelSettings": [
+            {
+              "columnId": "TimeGenerated",
+              "label": "Time generated"
+            },
+            {
+              "columnId": "technique_id",
+              "label": "ID"
+            },
+            {
+              "columnId": "technique_name",
+              "label": "Technique"
+            },
+            {
+              "columnId": "phase_name",
+              "label": "Category"
+            },
+            {
+              "columnId": "Computer",
+              "label": "Host"
+            },
+            {
+              "columnId": "user_name",
+              "label": "User"
+            },
+            {
+              "columnId": "process_path",
+              "label": "Process path"
+            },
+            {
+              "columnId": "process_id",
+              "label": "Process ID"
+            },
+            {
+              "columnId": "process_guid",
+              "label": "Process GUID"
+            },
+            {
+              "columnId": "src_ip",
+              "label": "Source IP"
+            },
+            {
+              "columnId": "dst_ip",
+              "label": "Destination IP"
+            },
+            {
+              "columnId": "dst_port",
+              "label": "Destination port"
+            },
+            {
+              "columnId": "src_host_name",
+              "label": "Source hostname"
+            },
+            {
+              "columnId": "dst_host_name",
+              "label": "Destination hostname"
+            }
+          ]
+        }
+      },
+      "name": "network-connection-query - Copy",
       "styleSettings": {
         "progressStyle": "loader"
       }
