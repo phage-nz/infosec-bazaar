@@ -98,14 +98,14 @@
     {
       "type": 1,
       "content": {
-        "json": "## Authentication Activity\r\n---"
+        "json": "# Authentication Activity\r\n---"
       },
       "name": "text - 13"
     },
     {
       "type": 1,
       "content": {
-        "json": "### Logon Failures"
+        "json": "## Logon Failures"
       },
       "name": "text - 16"
     },
@@ -189,9 +189,59 @@
       "name": "query - 12"
     },
     {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "1cc5bfcc-07d3-4a17-bce9-3a58b636ea16",
+            "version": "KqlParameterItem/1.0",
+            "name": "fail_source_value",
+            "label": "Source IP",
+            "type": 2,
+            "description": "Selects the source IP to target during drilldown",
+            "isRequired": true,
+            "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\"\r\n| where EventID == 4625\r\n| summarize by IpAddress",
+            "value": null,
+            "typeSettings": {
+              "additionalResourceOptions": []
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "time_span",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 27"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\" and IpAddress == @\"{fail_source_value}\"\r\n| where EventID == 4625\r\n| summarize count() by bin(TimeGenerated, 15m)",
+        "size": 1,
+        "showAnalytics": true,
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "scatterchart"
+      },
+      "name": "query - 26"
+    },
+    {
       "type": 1,
       "content": {
-        "json": "### Interactive Logons"
+        "json": "## Interactive Logons"
       },
       "name": "text - 17"
     },
@@ -236,9 +286,59 @@
       "name": "query - 15"
     },
     {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "7add83f3-b7c8-4808-b137-0f405d6a9cb1",
+            "version": "KqlParameterItem/1.0",
+            "name": "success_source_value",
+            "label": "Source IP",
+            "type": 2,
+            "description": "Selects the source IP to target during drilldown",
+            "isRequired": true,
+            "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\"\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize by IpAddress",
+            "value": null,
+            "typeSettings": {
+              "additionalResourceOptions": []
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "time_span",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 28"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\" and IpAddress == @\"{success_source_value}\"\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by bin(TimeGenerated, 15m)",
+        "size": 1,
+        "showAnalytics": true,
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "scatterchart"
+      },
+      "name": "query - 29"
+    },
+    {
       "type": 1,
       "content": {
-        "json": "## User Activity\r\n---"
+        "json": "# User Activity\r\n---"
       },
       "name": "text - 18"
     },
@@ -486,7 +586,7 @@
     {
       "type": 1,
       "content": {
-        "json": "## Web Activity\r\n---"
+        "json": "# Web Activity\r\n---"
       },
       "name": "text - 21"
     },
@@ -562,7 +662,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer == @\"{computer_value}\" and cIP == @\"{client_value}\"\r\n| project TimeGenerated, cIP, sIP, sPort, sSiteName, csMethod, csUriStem, csUriQuery, scStatus, scSubStatus, csUserAgent, csCookie, csReferer, IndicatorThreatType, Confidence, FirstReportedDateTime, LastReportedDateTime, ReportReferenceLink",
+        "query": "W3CIISLog\r\n| where cIP == @\"{client_value}\" and Computer == @\"{computer_value}\"\r\n| project TimeGenerated, cIP, sIP, sPort, sSiteName, csMethod, csUriStem, csUriQuery, scStatus, scSubStatus, csUserAgent, csCookie, csReferer, IndicatorThreatType, Confidence, FirstReportedDateTime, LastReportedDateTime, ReportReferenceLink",
         "size": 0,
         "showAnalytics": true,
         "title": "Client Requests",
@@ -668,7 +768,7 @@
     {
       "type": 1,
       "content": {
-        "json": "## System Activity\r\n---"
+        "json": "# System Activity\r\n---"
       },
       "name": "text - 20"
     },
