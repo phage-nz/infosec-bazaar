@@ -574,6 +574,7 @@
         "queryType": 0,
         "resourceType": "microsoft.operationalinsights/workspaces",
         "gridSettings": {
+          "filter": true,
           "sortBy": [
             {
               "itemKey": "Confidence",
@@ -910,7 +911,6 @@
         "size": 0,
         "showAnalytics": true,
         "title": "Create Remote Thread",
-        "noDataMessage": "No create remote thread events for selected time generated",
         "timeContext": {
           "durationMs": 0
         },
@@ -1009,7 +1009,10 @@
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
         "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "filter": true
+        }
       },
       "name": "pipes-query",
       "styleSettings": {
@@ -1030,7 +1033,10 @@
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
         "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "filter": true
+        }
       },
       "name": "query - 19"
     }
