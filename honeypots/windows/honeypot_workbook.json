@@ -1023,7 +1023,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 22 and Computer == @\"{computer_value}\"\r\n| project TimeGenerated, Computer, dns_query_name, dns_query_status, dns_query_results, process_path, process_guid, process_id",
+        "query": "Sysmon\r\n| where EventID == 22 and Computer == @\"{computer_value}\"\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, process_guid, process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "DNS Request",
@@ -1035,7 +1035,37 @@
         "queryType": 0,
         "resourceType": "microsoft.operationalinsights/workspaces",
         "gridSettings": {
-          "filter": true
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "TimeGenerated",
+              "label": "Time generated"
+            },
+            {
+              "columnId": "dns_query_name",
+              "label": "Query name"
+            },
+            {
+              "columnId": "dns_query_status",
+              "label": "Query status"
+            },
+            {
+              "columnId": "dns_query_results",
+              "label": "Query result"
+            },
+            {
+              "columnId": "process_path",
+              "label": "Process path"
+            },
+            {
+              "columnId": "process_guid",
+              "label": "Process GUID"
+            },
+            {
+              "columnId": "process_id",
+              "label": "Process ID"
+            }
+          ]
         }
       },
       "name": "query - 19"
