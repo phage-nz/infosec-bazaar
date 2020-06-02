@@ -59,7 +59,9 @@ If deploying an EDR agent to the host, consider your end goal. If you want to se
   - **Optional:** TCP 80 (HTTP) from all IP's.  
   - TCP 3389 (RDP) from your public IP.  
 - RDP to the host.  
-- If you wish, apply all outstanding patches.  
+- **Optional:**  
+  - Apply all outstanding patches.  
+  - Rename the host.  
 - Install any additional roles and features required by the profile you've decided upon. One addition I'd recommend including is .NET 3.5, as there are quite a few RAT's that still require this. You can defer the reboot as that'll be done shortly anyway.  
 - Open Group Policy Editor (gpedit.msc) and apply the following changes:  
   - Computer Configuration > Administrative Templates > Windows Components > Remote Desktop Services > Remote Desktop Session Host > Device and Resource Redirection: Enable all Settings that begin with "do not allow" (e.g. "Do not allow clipboard redirection").  
