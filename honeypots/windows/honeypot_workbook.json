@@ -95,6 +95,67 @@
       },
       "name": "parameters - 2"
     },
+	    {
+      "type": 1,
+      "content": {
+        "json": "# Summary\r\n---"
+      },
+      "name": "text - 30"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\"\r\n| where EventID == 4625\r\n| summarize count() by Computer",
+        "size": 1,
+        "title": "Failed Logons",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "piechart"
+      },
+      "customWidth": "33",
+      "name": "query - 31"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\"\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Computer",
+        "size": 1,
+        "title": "Interactive Logons",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "piechart"
+      },
+      "customWidth": "33",
+      "name": "query - 32"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "W3CIISLog\r\n| where Computer == @\"{computer_value}\"\r\n| summarize count() by Computer",
+        "size": 1,
+        "title": "Web Requests",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "piechart"
+      },
+      "customWidth": "33",
+      "name": "query - 33"
+    },
     {
       "type": 1,
       "content": {
