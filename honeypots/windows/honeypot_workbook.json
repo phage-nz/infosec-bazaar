@@ -71,16 +71,16 @@
           {
             "id": "02df1a75-51f3-45be-8dd3-516727f68631",
             "version": "KqlParameterItem/1.0",
-            "name": "computer_value",
-            "label": "Host",
+            "name": "computer_values",
+            "label": "Hosts",
             "type": 2,
-            "description": "Selects the computer to target during drilldown",
+            "description": "Selects the hosts to target during drilldown",
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
             "query": "Sysmon\r\n| where isnotempty(technique_name)\r\n| summarize by Computer",
-            "value": null,
+            "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -109,7 +109,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4625\r\n| summarize count() by Computer",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by Computer",
         "size": 1,
         "title": "Failed Logons",
         "timeContext": {
@@ -127,7 +127,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Computer",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Computer",
         "size": 1,
         "title": "Interactive Logons",
         "timeContext": {
@@ -145,7 +145,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer in ({computer_value})\r\n| summarize count() by Computer",
+        "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by Computer",
         "size": 1,
         "title": "Web Requests",
         "timeContext": {
@@ -177,7 +177,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4625\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "showAnalytics": true,
         "title": "Top Usernames",
@@ -236,7 +236,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "showAnalytics": true,
         "title": "Top Sources",
@@ -260,16 +260,16 @@
           {
             "id": "1cc5bfcc-07d3-4a17-bce9-3a58b636ea16",
             "version": "KqlParameterItem/1.0",
-            "name": "fail_source_value",
-            "label": "Source IP",
+            "name": "fail_source_values",
+            "label": "Source IPs",
             "type": 2,
-            "description": "Selects the source IP to target during drilldown",
+            "description": "Selects the source IPs to target during drilldown",
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4625\r\n| summarize by IpAddress",
-            "value": null,
+            "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize by IpAddress",
+            "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -291,7 +291,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value}) and IpAddress in ({fail_source_value})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values}) and IpAddress in ({fail_source_values})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
         "size": 1,
         "showAnalytics": true,
         "timeContext": {
@@ -316,7 +316,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "showAnalytics": true,
         "title": "Top Usernames",
@@ -336,7 +336,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "showAnalytics": true,
         "title": "Top Sources",
@@ -360,15 +360,16 @@
           {
             "id": "7add83f3-b7c8-4808-b137-0f405d6a9cb1",
             "version": "KqlParameterItem/1.0",
-            "name": "success_source_value",
-            "label": "Source IP",
+            "name": "success_source_values",
+            "label": "Source IPs",
             "type": 2,
-            "description": "Selects the source IP to target during drilldown",
+            "description": "Selects the source IPs to target during drilldown",
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "query": "SecurityEvent\r\n| where Computer == @\"{computer_value}\"\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize by IpAddress",
+            "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize by IpAddress",
+            "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -390,7 +391,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_value}) and IpAddress in ({success_source_value})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
+        "query": "SecurityEvent\r\n| where Computer in ({computer_values}) and IpAddress in ({success_source_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
         "size": 1,
         "showAnalytics": true,
         "timeContext": {
@@ -419,16 +420,16 @@
           {
             "id": "e96a6769-0150-46f2-850d-17e41a2a6b0b",
             "version": "KqlParameterItem/1.0",
-            "name": "user_name_value",
-            "label": "Username",
+            "name": "username_values",
+            "label": "Usernames",
             "type": 2,
-            "description": "Selects the username to target during drilldown",
+            "description": "Selects the usernames to target during drilldown",
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "query": "Sysmon\r\n| where Computer in ({computer_value})\r\n| where isnotempty(technique_name) and isnotempty(user_name)\r\n| summarize by tostring(user_name)",
-            "value": null,
+            "query": "Sysmon\r\n| where Computer in ({computer_values})\r\n| where isnotempty(technique_name) and isnotempty(user_name)\r\n| summarize by tostring(user_name)",
+            "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -450,7 +451,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\n| where user_name in (@{user_name_value}) and Computer in ({computer_value})\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+        "query": "Sysmon\n| where user_name in (@{username_values}) and Computer in ({computer_values})\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
         "size": 1,
         "showAnalytics": true,
         "title": "ATT&CK Techniques",
@@ -472,7 +473,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 1 and user_name in (@{user_name_value}) and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+        "query": "Sysmon\r\n| where EventID == 1 and user_name in (@{username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process Create",
@@ -569,7 +570,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 3 and user_name in (@{user_name_value}) and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+        "query": "Sysmon\r\n| where EventID == 3 and user_name in (@{username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
         "size": 0,
         "showAnalytics": true,
         "title": "Network Connection",
@@ -666,7 +667,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer in ({computer_value})\r\n| summarize count() by csUriStem\r\n| sort by count_ desc\r\n| limit 10",
+        "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by csUriStem\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "title": "Top Request Paths",
         "timeContext": {
@@ -684,7 +685,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer in ({computer_value})\r\n| summarize count() by cIP\r\n| sort by count_ desc\r\n| limit 10",
+        "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by cIP\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "title": "Top Sources",
         "timeContext": {
@@ -706,16 +707,16 @@
           {
             "id": "1e2acd94-a112-40db-aa3e-ce501a465c82",
             "version": "KqlParameterItem/1.0",
-            "name": "client_value",
-            "label": "Client IP",
+            "name": "client_values",
+            "label": "Client IPs",
             "type": 2,
-            "description": "Selects the client IP to target during drilldown",
+            "description": "Selects the client IPs to target during drilldown",
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "query": "W3CIISLog\r\n| where Computer in ({computer_value})\r\n| summarize by cIP",
-            "value": null,
+            "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize by cIP",
+            "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -737,7 +738,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where cIP in ({client_value}) and Computer in ({computer_value})\r\n| project TimeGenerated, cIP, sIP, sPort, sSiteName, csMethod, csUriStem, csUriQuery, scStatus, scSubStatus, csUserAgent, csCookie, csReferer, IndicatorThreatType, Confidence, FirstReportedDateTime, LastReportedDateTime, ReportReferenceLink",
+        "query": "W3CIISLog\r\n| where cIP in ({client_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, cIP, sIP, sPort, sSiteName, csMethod, csUriStem, csUriQuery, scStatus, scSubStatus, csUserAgent, csCookie, csReferer, IndicatorThreatType, Confidence, FirstReportedDateTime, LastReportedDateTime, ReportReferenceLink",
         "size": 0,
         "showAnalytics": true,
         "title": "Client Requests",
@@ -851,7 +852,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 1 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+        "query": "Sysmon\r\n| where EventID == 1 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process Create",
@@ -948,7 +949,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 10 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
+        "query": "Sysmon\r\n| where EventID == 10 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process Access",
@@ -1025,7 +1026,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 11 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
+        "query": "Sysmon\r\n| where EventID == 11 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "File Created",
@@ -1096,7 +1097,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 7 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
+        "query": "Sysmon\r\n| where EventID == 7 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
         "size": 0,
         "showAnalytics": true,
         "title": "Image Loaded",
@@ -1179,7 +1180,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 8 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, target_process_path, thread_new_id, process_guid, process_parent_guid",
+        "query": "Sysmon\r\n| where EventID == 8 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, target_process_path, thread_new_id, process_guid, process_parent_guid",
         "size": 0,
         "showAnalytics": true,
         "title": "Create Remote Thread",
@@ -1200,7 +1201,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 12 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, process_id, process_guid, registry_key_path",
+        "query": "Sysmon\r\n| where EventID == 12 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, process_id, process_guid, registry_key_path",
         "size": 0,
         "showAnalytics": true,
         "title": "Registry Access",
@@ -1271,7 +1272,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where (EventID == 17 or EventID==18) and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, pipe_name, process_path, process_guid, process_id",
+        "query": "Sysmon\r\n| where (EventID == 17 or EventID==18) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, pipe_name, process_path, process_guid, process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Pipes",
@@ -1333,7 +1334,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 3 and Computer in ({computer_value})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+        "query": "Sysmon\r\n| where EventID == 3 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
         "size": 0,
         "showAnalytics": true,
         "title": "Network Connection",
@@ -1423,7 +1424,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 22 and Computer in ({computer_value})\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, process_guid, process_id",
+        "query": "Sysmon\r\n| where EventID == 22 and Computer in ({computer_values})\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, process_guid, process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "DNS Request",
