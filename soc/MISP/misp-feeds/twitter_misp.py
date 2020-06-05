@@ -38,10 +38,11 @@ ACCESS_TOKEN_SECRET = 'YOUR SECRET'
 HOURS_BACK = 7
 MAX_SEARCH_ITEMS = 40
 MAX_USER_ITEMS = 20
-THROTTLE_REQUESTS = False
+WAIT_SECONDS = 10
+THROTTLE_REQUESTS = True
 INCLUDE_DOMAINS = False
 
-USERNAME_LIST = ['avman1995','bad_packets','Cryptolaemus1','CNMF_VirusAlert','executemalware','FewAtoms','James_inthe_box','JAMESWT_MHT','Jan0fficial','JayTHL','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
+USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','CNMF_VirusAlert','executemalware','FewAtoms','James_inthe_box','JAMESWT_MHT','Jan0fficial','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
 SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
 
 URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'otx.alienvault.com', 'proofpoint.com', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
@@ -321,12 +322,16 @@ def process_tweets(api):
                 if len(tweet_indicators) > 0:
                     indicator_list.extend(tweet_indicators)
 
+            if THROTTLE_REQUESTS:
+                LOGGER.info('Waiting a moment...')
+                time.sleep(WAIT_SECONDS)
+
         except tweepy.error.TweepError as ex:
             LOGGER.error('Failed to query Twitter: {0}'.format(str(ex)))
 
             if ex.api_code == 429:
                 LOGGER.info('Waiting a moment...')
-                time.sleep(30)
+                time.sleep(WAIT_SECONDS)
 
             else:
                 return []
@@ -347,12 +352,16 @@ def process_tweets(api):
                 if len(tweet_indicators) > 0:
                     indicator_list.extend(tweet_indicators)
 
+            if THROTTLE_REQUESTS:
+                LOGGER.info('Waiting a moment...')
+                time.sleep(WAIT_SECONDS)
+
         except tweepy.error.TweepError as ex:
             LOGGER.error('Failed to query Twitter: {0}'.format(str(ex)))
 
             if ex.api_code == 429:
                 LOGGER.info('Waiting a moment...')
-                time.sleep(30)
+                time.sleep(WAIT_SECONDS)
 
             else:
                 return []
