@@ -420,16 +420,12 @@
           {
             "id": "e96a6769-0150-46f2-850d-17e41a2a6b0b",
             "version": "KqlParameterItem/1.0",
-            "name": "username_values",
-            "label": "Usernames",
+            "name": "username_value",
+            "label": "Username",
             "type": 2,
-            "description": "Selects the usernames to target during drilldown",
+            "description": "Selects the username to target during drilldown",
             "isRequired": true,
-            "multiSelect": true,
-            "quote": "'",
-            "delimiter": ",",
             "query": "Sysmon\r\n| where Computer in ({computer_values})\r\n| where isnotempty(technique_name) and isnotempty(user_name)\r\n| summarize by tostring(user_name)",
-            "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -451,7 +447,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\n| where user_name in (@{username_values}) and Computer in ({computer_values})\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+        "query": "Sysmon\n| where user_name == @\"{username_value}\" and Computer in ({computer_values})\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
         "size": 1,
         "showAnalytics": true,
         "title": "ATT&CK Techniques",
@@ -473,7 +469,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 1 and user_name in (@{username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+        "query": "Sysmon\r\n| where EventID == 1 and user_name == @\"{username_value}\" and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process Create",
@@ -570,7 +566,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 3 and user_name in (@{username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+        "query": "Sysmon\r\n| where EventID == 3 and user_name == @\"{username_value}\" and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
         "size": 0,
         "showAnalytics": true,
         "title": "Network Connection",
