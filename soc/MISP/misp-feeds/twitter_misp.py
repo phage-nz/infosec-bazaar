@@ -36,6 +36,7 @@ ACCESS_TOKEN = 'YOUR TOKEN'
 ACCESS_TOKEN_SECRET = 'YOUR SECRET'
 
 HOURS_BACK = 7
+ATTRIBUTE_PROGRESS = True
 MAX_SEARCH_ITEMS = 40
 MAX_USER_ITEMS = 20
 WAIT_SECONDS = 10
@@ -145,7 +146,14 @@ def make_new_event(misp):
 
     LOGGER.info('Saving event...')
     time.sleep(1)
-    return misp.add_event(event, pythonify=True)
+
+    try:
+        new_event = misp.add_event(event, pythonify=True)
+        return new_event
+
+    except Exception as ex:
+        LOGGER.error('Failed to make MISP event: {0}'.format(str(ex)))
+        return False
 
 def get_api():
     auth = tweepy.auth.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -373,10 +381,14 @@ def process_tweets(api):
     return indicator_list
 
 def process_indicators(misp, indicator_list):
-    LOGGER.info('Processing collected indicators...')
-
     event = False
-    event_search = misp.search_index(eventinfo=MISP_EVENT_TITLE)
+
+    try:
+        event_search = misp.search_index(eventinfo=MISP_EVENT_TITLE)
+
+    except Exception as ex:
+        LOGGER.error('Failed to search for MISP event: {0}'.format(str(ex)))
+        return
 
     if not event_search == []:
         for result in event_search:
@@ -393,7 +405,14 @@ def process_indicators(misp, indicator_list):
         LOGGER.warning('Failed to make or retrieve event.')
         return
 
-    for indicator in indicator_list:
+    indicator_count = len(indicator_list)
+    LOGGER.info('Processing {0} indicators...'.format(indicator_count))
+
+    for i, indicator in enumerate(indicator_list):
+        if ATTRIBUTE_PROGRESS and i % 100 == 0:
+            progress_value = int(round(100 * (i / float(indicator_count))))
+            LOGGER.info('Event completion: {0}%'.format(progress_value))
+
         LOGGER.info('Found {0} "{1}" in: {2}'.format(indicator.o_type, indicator.o_value, indicator.ref_url))
 
         indicator_type = indicator.o_type
@@ -401,7 +420,13 @@ def process_indicators(misp, indicator_list):
         indicator_comment = indicator.ref_url
 
         attribute_exists = False
-        attribute_search = misp.search(controller='attributes', value=indicator_value)
+
+        try:
+            attribute_search = misp.search(controller='attributes', value=indicator_value)
+
+        except Exception as ex:
+            LOGGER.error('Failed to search for MISP attribute: {0}'.format(str(ex)))
+            continue
 
         if not attribute_search['Attribute'] == []:
             for attribute_result in attribute_search['Attribute']:
@@ -444,11 +469,21 @@ def process_indicators(misp, indicator_list):
 
         attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': indicator_value, 'comment': indicator_comment, 'to_ids': MISP_TO_IDS}
 
-        new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
+        try:
+            new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
+
+        except Exception as ex:
+            LOGGER.error('Failed to add MISP attribute: {0}'.format(str(ex)))
+            continue
 
     if MISP_PUBLISH_EVENTS:
         LOGGER.info('Publishing event...')
-        misp.publish(event)
+
+        try:
+            misp.publish(event)
+
+        except Exception as ex:
+            LOGGER.error('Failed to publish MISP event: {0}'.format(str(ex)))
 
 def twitter_run(misp):
     LOGGER.info('Setting up Twitter connector...')

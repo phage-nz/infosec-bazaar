@@ -37,6 +37,7 @@ MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
 HOURS_TO_CHECK = 9
+ATTRIBUTE_PROGRESS = True
 
 def disable_ssl_warnings():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -182,7 +183,14 @@ def make_new_event(misp, stix_package):
 
     LOGGER.info('Saving event...')
     time.sleep(1)
-    return misp.add_event(event, pythonify=True)
+
+    try:
+        new_event = misp.add_event(event, pythonify=True)
+        return new_event
+
+    except Exception as ex:
+        LOGGER.error('Failed to make MISP event: {0}'.format(str(ex)))
+        return False
 
 def process_cases(misp, case_list):
     for case_id in case_list:
@@ -211,7 +219,13 @@ def process_cases(misp, case_list):
             continue
 
         event = False
-        event_search = misp.search_index(eventinfo=title)
+
+        try:
+            event_search = misp.search_index(eventinfo=title)
+
+        except Exception as ex:
+            LOGGER.error('Failed to search for MISP event: {0}'.format(str(ex)))
+            continue
 
         if not event_search == []:
             for result in event_search:
@@ -229,9 +243,14 @@ def process_cases(misp, case_list):
             continue
 
         observables = stix_package.observables.observables
-        LOGGER.info('Processing {0} observables...'.format(len(observables)))
+        observable_count = len(observables)
+        LOGGER.info('Processing {0} observables...'.format(observable_count))
 
-        for observable in observables:
+        for i, observable in enumerate(observables):
+            if ATTRIBUTE_PROGRESS and i % 100 == 0:
+                progress_value = int(round(100 * (i / float(observable_count))))
+                LOGGER.info('Event completion: {0}%'.format(progress_value))
+
             attribute_value = None
 
             if hasattr(observable.object_.properties, 'hashes'):
@@ -289,7 +308,13 @@ def process_cases(misp, case_list):
                 continue
 
             attribute_exists = False
-            attribute_search = misp.search(controller='attributes', value=attribute_value)
+
+            try:
+                attribute_search = misp.search(controller='attributes', value=attribute_value)
+
+            except Exception as ex:
+                LOGGER.error('Failed to search for MISP attribute: {0}'.format(str(ex)))
+                continue
 
             if not attribute_search['Attribute'] == []:
                 for attribute_result in attribute_search['Attribute']:
@@ -300,11 +325,23 @@ def process_cases(misp, case_list):
                 continue
 
             attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': attribute_value, 'to_ids': MISP_TO_IDS}
-            new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
+
+            try:
+                new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
+
+            except Exception as ex:
+                LOGGER.error('Failed to add MISP attribute: {0}'.format(str(ex)))
+                continue
 
         if MISP_PUBLISH_EVENTS:
             LOGGER.info('Publishing event...')
-            misp.publish(event)
+
+            try:
+                misp.publish(event)
+
+            except Exception as ex:
+                LOGGER.error('Failed to publish MISP event: {0}'.format(str(ex)))
+                continue
 
         LOGGER.info('Case complete!')
 

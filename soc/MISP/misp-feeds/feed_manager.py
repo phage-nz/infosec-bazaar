@@ -44,11 +44,22 @@ def disable_ssl_warnings():
 
 def cache_feed(misp, feed):
     LOGGER.info('Caching feed: {0}'.format(feed.name))
-    misp.cache_feed(feed.id)
+    
+    try:
+        misp.cache_feed(feed.id)
+        
+    except Exception as ex:
+        LOGGER.error('Failed to cache MISP feed: {0}'.format(str(ex)))
 
 def fetch_feed(misp, feed):
     LOGGER.info('Fetching feed: {0}'.format(feed.name))
-    fetch = misp.fetch_feed(feed.id)
+    
+    try:
+        fetch = misp.fetch_feed(feed.id)
+        
+    except Exception as ex:
+        LOGGER.error('Failed to fetch MISP feed: {0}'.format(str(ex)))
+        return
 
     if 'result' in fetch:
         if 'Pull queued' in fetch['result']:
