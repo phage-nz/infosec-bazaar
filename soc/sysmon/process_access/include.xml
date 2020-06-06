@@ -37,6 +37,10 @@
                <TargetImage name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">C:\Windows\system32\lsass.exe</TargetImage>
                <GrantedAccess>0x143A</GrantedAccess>
             </Rule>
+            <Rule groupRelation="and" name="technique_id=1055,technique_name=Process Injection,phase_name=Defense Evasion">
+               <SourceImage condition="contains all">C:\Program Files;\Microsoft Office\Root\Office</SourceImage>
+               <CallTrace condition="contains">\Microsoft Shared\VBA</CallTrace>
+            </Rule>
             <GrantedAccess name="technique_id=T1093,technique_name=Process Hollowing,phase_name=Defense Evasion">0x0800</GrantedAccess>
             <GrantedAccess name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access">0x0810</GrantedAccess>
             <GrantedAccess name="technique_id=T1055,technique_name=Process Injection,phase_name=Privilege Escalation">0x0820</GrantedAccess>

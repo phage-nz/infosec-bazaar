@@ -1,3 +1,5 @@
+# https://github.com/olafhartong/sysmon-modular/blob/master/Merge-SysmonXml.ps1
+
 function Merge-AllSysmonXml
 {
     param(

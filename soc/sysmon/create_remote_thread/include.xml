@@ -10,6 +10,10 @@
                <StartAddress name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">0x001A0000</StartAddress>
                <TargetImage condition="is">c:\windows\system32\lsass.exe</TargetImage>
             </Rule>
+            <Rule groupRelation="and"> 
+               <SourceImage condition="is">c:\windows\system32\csrss.exe</SourceImage>
+               <StartFunction condition="is">CrtlRoutine</StartFunction>
+            </Rule> 
             <StartAddress name="technique_id=T1055,technique_name=Process Injection,phase_name=Privilege Escalation" condition="is">0x00590000</StartAddress>
          </CreateRemoteThread>
       </RuleGroup>

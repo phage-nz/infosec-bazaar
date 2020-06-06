@@ -11,8 +11,8 @@ Merge-AllSysmonXml -Path (Get-ChildItem '*\*.xml') -AsString | Out-File sysmonco
 ```
 
 ### Credit
-Many thanks to Olaf Hartong for the concept of a modular configuration and the PowerShell script:  
-https://github.com/olafhartong/sysmon-modular
+This configuration is mostly derived from the following projects:  
+- https://github.com/olafhartong/sysmon-modular  
+- https://github.com/BlueTeamLabs/sentinel-attack  
 
-This configuration was built upon the one distributed with:  
-https://github.com/BlueTeamLabs/sentinel-attack
+It's just pieced together in a way that better suits my needs.

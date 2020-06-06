@@ -53,6 +53,7 @@
             <TargetFilename condition="end with">.php</TargetFilename>
             <TargetFilename condition="end with">.war</TargetFilename>
             <TargetFilename condition="end with">.ace</TargetFilename>
+			<TargetFilename condition="end with">.kirbi</TargetFilename>
             <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="begin with">C:\Windows\System32\WindowsPowerShell</TargetFilename>
             <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
             <TargetFilename name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">.ps1</TargetFilename>

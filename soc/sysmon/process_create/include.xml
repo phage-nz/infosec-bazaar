@@ -110,6 +110,36 @@
                <OriginalFileName name="technique_id=T1482,technique_name=Domain Trust Discovery,phase_name=Discovery" condition="is">nltestrk.exe</OriginalFileName>
                <CommandLine name="technique_id=T1482,technique_name=Domain Trust Discovery,phase_name=Discovery" condition="contains all">"C:\WINDOWS\system32\nltest.exe" /domain_trusts</CommandLine>
             </Rule>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">ATBroker.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">csc.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">dfsvc.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="is">dnscmd.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1096,technique_name=NTFS File Attributes,phase_name=Defense Evasion" condition="is">esentutl.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">expand</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">extexport.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1096,technique_name=NTFS File Attributes,phase_name=Defense Evasion" condition="is">extrac32.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">IEExec.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">ilasm.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">InfDefaultInstall.EXE</OriginalFileName>
+            <OriginalFileName name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">jsc.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">vbc.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">Microsoft.Workflow.Compiler.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">msconfig.EXE</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">Msdt.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">msiexec.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">odbcconf.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">PresentationHost.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">Print.Exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">rasdlui.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">RegisterCimProvider2.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">RegisterCimProvider.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">RpcPing.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">ScriptRunner.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">TTTracer.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">verclsid.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">wab.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="is">WSReset.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="is">xwizard.exe</OriginalFileName>
             <Rule name="Mavinject" groupRelation="and">
                <OriginalFileName name="technique_id=T1191,technique_name=CMSTP,phase_name=Execution" condition="is">CMSTP.exe</OriginalFileName>
                <CommandLine name="technique_id=T1191,technique_name=CMSTP,phase_name=Execution" condition="contains all">/ni;/s</CommandLine>

@@ -12,11 +12,51 @@
             </Rule>
             <ImageLoaded name="technique_id=T1137,technique_name=Office Application Startup,phase_name=Persistence" condition="end with">.wll</ImageLoaded>
             <ImageLoaded name="technique_id=T1137,technique_name=Office Application Startup,phase_name=Persistence" condition="end with">.xll</ImageLoaded>
+            <Rule groupRelation="and">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded name="technique_id=T1175,technique_name=Component Object Model and Distributed COM,phase_name=Execution" condition="is">C:\Windows\SysWOW64\combase.dll</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded name="technique_id=T1175,technique_name=Component Object Model and Distributed COM,phase_name=Execution" condition="is">C:\Windows\SysWOW64\coml2.dll</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded name="technique_id=T1175,technique_name=Component Object Model and Distributed COM,phase_name=Execution" condition="is">C:\Windows\SysWOW64\comsvcs.dll</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and" name="technique_id=1055,technique_name=Process Injection,phase_name=Defense Evasion">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="begin with">C:\Windows\assembly\</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and" name="technique_id=T1055,technique_name=Process Injection,phase_name=Defense Evasion">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="begin with">C:\Windows\Microsoft.NET\assembly\GAC_MSIL</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and" name="technique_id=T1055,technique_name=Process Injection,phase_name=Defense Evasion">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="end with">clr.dll</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and" name="technique_id=T1059.005,technique_name=Command and Scripting Interpreter VBScript,phase_name=Execution">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="end with">VBE7INTL.DLL</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and" name="technique_id=T1059.005,technique_name=Command and Scripting Interpreter VBScript,phase_name=Execution">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="end with">VBE7.DLL</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and" name="technique_id=T1059.005,technique_name=Command and Scripting Interpreter VBScript,phase_name=Execution">
+               <Image condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="end with">VBEUI.DLL</ImageLoaded>
+            </Rule>
+            <Rule groupRelation="and">
+               <Image name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="contains all">C:\Program Files;\Microsoft Office\root\Office</Image>
+               <ImageLoaded condition="is">C:\Windows\SysWOW64\wbem\wbemdisp.dll</ImageLoaded>
+            </Rule>
             <ImageLoaded name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">system.management.automation.ni.dll</ImageLoaded>
             <ImageLoaded name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">system.management.automation.dll</ImageLoaded>
             <ImageLoaded name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="end with">taskschd.dll</ImageLoaded>
-			<ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains any">admin$;c$;\\;\appdata\;\temp\</ImageLoaded>
-			<ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Temp\</ImageLoaded>
+            <ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains any">admin$;c$;\\;\appdata\;\temp\</ImageLoaded>
+            <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Temp\</ImageLoaded>
             <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Media\</ImageLoaded>
             <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\addins\</ImageLoaded>
             <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\system32\config\systemprofile\</ImageLoaded>
@@ -32,16 +72,17 @@
             <ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains">$Recycle.bin\</ImageLoaded>
             <ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains">\Windows\IME\</ImageLoaded>
             <ImageLoaded name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="end with">wmiutils.dll</ImageLoaded>
-			<!-- Temporary while grouped exclusions for this event type don't seem to work: -->
-			<Rule groupRelation="and">
+            <!-- Temporary while grouped exclusions for this event type don't seem to work: -->
+            <Rule groupRelation="and">
                <ImageLoaded name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution,phase_name=Execution" condition="end with">scrobj.dll</ImageLoaded>
                <Image condition="is not">C:\Windows\System32\cscript.exe</Image>
-			</Rule>
-			<Rule groupRelation="and">
+            </Rule>
+            <Rule groupRelation="and">
                <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">c:\programdata\</ImageLoaded>
                <Image condition="is not">C:\Windows\System32\cscript.exe</Image>
-			</Rule>			
+            </Rule>
          </ImageLoad>
       </RuleGroup>
    </EventFiltering>
 </Sysmon>
+

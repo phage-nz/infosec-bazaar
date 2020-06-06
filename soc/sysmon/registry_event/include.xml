@@ -49,6 +49,7 @@
             <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\OID</TargetObject>
             <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust</TargetObject>
             <TargetObject name="technique_id=T1198,technique_name=SIP and Trust Provider Hijacking,phase_name=Persistence" condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\Providers\Trust</TargetObject>
+			<TargetObject name="technique_id=T1054,technique_name=Indicator Blocking,phase_name=Defense Evasion" condition="end with">SOFTWARE\Microsoft\.NETFramework\ETWEnabled</TargetObject>
             <TargetObject name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="end with">\PsExec\EulaAccepted</TargetObject>
             <TargetObject name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command And Control, Lateral Movement" condition="end with">\PsFile\EulaAccepted</TargetObject>
             <TargetObject name="technique_id=T1033,technique_name=System Owner/User Discovery,phase_name=Discovery" condition="end with">\PsGetSID\EulaAccepted</TargetObject>
@@ -65,9 +66,11 @@
             <TargetObject name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="contains">SYSTEM\CurrentControlSet\services\Sysmon</TargetObject>
             <TargetObject name="technique_id=T1060,technique_name=Registry Run Keys / Start Folder,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\InitialProgram</TargetObject>
             <TargetObject name="technique_id=T1209,technique_name=Time Providers,phase_name=Persistence" condition="contains">HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\W32Time\TimeProviders</TargetObject>
+			<TargetObject name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Defense Evasion" condition="begin with">HKLM\Software\Microsoft\WAB\DLLPath</TargetObject>
             <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths</TargetObject>
             <TargetObject name="technique_id=T1182,technique_name=AppCert DLLs,phase_name=Persistence" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCertDlls</TargetObject>
-            <TargetObject condition="end with">\InprocServer32\(Default)</TargetObject>
+            <TargetObject name="technique_id=T1122,technique_name=Component Object Model Hijacking,phase_name=Persistence" condition="end with">\InprocServer32\(Default)</TargetObject>
+            <TargetObject name="technique_id=T1122,technique_name=Component Object Model Hijacking,phase_name=Defense Evasion" condition="contains all">Classes\CLSID\;TreatAs</TargetObject>
             <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Provider</TargetObject>
             <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa</TargetObject>
             <TargetObject name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SecurityProviders</TargetObject>
@@ -113,6 +116,7 @@
             <TargetObject condition="contains">\CurrentVersion\Shell</TargetObject>
             <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\ShellExecuteHooks</TargetObject>
             <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\ShellServiceObjectDelayLoad</TargetObject>
+			<TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKCU\Software\Classes\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\Shell\open\command</TargetObject>
             <TargetObject condition="contains">{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}</TargetObject>
             <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA</TargetObject>
             <TargetObject name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy</TargetObject>
