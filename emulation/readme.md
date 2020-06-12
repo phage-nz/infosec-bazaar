@@ -74,10 +74,12 @@ The tooling employed by bad actors isn't solely closed source. There is no short
 - **PsExec:** https://docs.microsoft.com/en-us/sysinternals/downloads/psexec ([S0029](https://attack.mitre.org/software/S0029/))  
 - **Pupy:** https://github.com/n1nj4sec/pupy ([S0192](https://attack.mitre.org/software/S0192/))  
 - **QuasarRAT:** https://github.com/quasar/QuasarRAT ([S0262](https://attack.mitre.org/software/S0262/))  
-- **Responder:** https://github.com/SpiderLabs/Responder ([S0174](https://attack.mitre.org/software/S0174/))  
+- **Responder:** https://github.com/lgandx/Responder ([S0174](https://attack.mitre.org/software/S0174/))  
 - **SILENTTRINITY:** https://github.com/byt3bl33d3r/SILENTTRINITY  
 - **Sliver:** https://github.com/BishopFox/sliver  
 - **Windows Credential Editor:** https://www.ampliasecurity.com/research/windows-credentials-editor/ ([S0005](https://attack.mitre.org/software/S0005/))  
+
+Included in this repo is the script "prepare-server.sh" which can help get you up and running with many of these. The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
 
 ## Information Sources
 Beyond industry reports and whitepapers, the following publicly available sources will help you in building accurate profiles:
