@@ -77,9 +77,11 @@ The tooling employed by bad actors isn't solely closed source. There is no short
 - **Responder:** https://github.com/lgandx/Responder ([S0174](https://attack.mitre.org/software/S0174/))  
 - **SILENTTRINITY:** https://github.com/byt3bl33d3r/SILENTTRINITY  
 - **Sliver:** https://github.com/BishopFox/sliver  
+- **SpiderFoot:** https://github.com/smicallef/spiderfoot  
 - **Windows Credential Editor:** https://www.ampliasecurity.com/research/windows-credentials-editor/ ([S0005](https://attack.mitre.org/software/S0005/))  
 
-Included in this repo is the script "prepare-server.sh" which can help get you up and running with many of these. The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
+## Server Preparation
+Included in this folder is "prepare-server.sh" which can help get you up and running with most of the above tools. Instructions on how to start and use them can be found at the bottom of the script.  The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
 
 ## Information Sources
 Beyond industry reports and whitepapers, the following publicly available sources will help you in building accurate profiles:
