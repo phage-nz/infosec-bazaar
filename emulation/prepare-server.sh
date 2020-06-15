@@ -83,8 +83,8 @@ wget https://raw.githubusercontent.com/nettitude/PoshC2/master/Install.sh -O pos
 chmod +x poshinstall && ./poshinstall && rm poshinstall
 echo "---------------------------------------------------"
 echo "[*] Installing Pupy..."
-git clone https://github.com/n1nj4sec/pupy /opt/pupy
-cd /opt/pupy
+git clone https://github.com/n1nj4sec/pupy /opt/Pupy
+cd /opt/Pupy
 echo "[*] Making Pupy workspace. This will take a while..."
 sleep 5
 ./create-workspace.py pupyws
@@ -182,7 +182,7 @@ echo "[-] Start server: posh-server"
 echo "[-] Start client: posh"
 echo "[-] Reference: https://github.com/nettitude/PoshC2"
 echo "[*] Pupy"
-echo "[-] Start: cd /opt/pupy && pupyws/bin/pupysh"
+echo "[-] Start: cd /opt/Pupy && pupyws/bin/pupysh"
 echo "[-] Reference: https://github.com/n1nj4sec/pupy"
 echo "[*] SILENTTRINITY"
 echo "[-] Start server: cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>"
