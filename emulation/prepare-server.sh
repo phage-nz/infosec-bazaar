@@ -118,6 +118,7 @@ echo "---------------------------------------------------"
 echo "[*] Fetching privilege escalation tools..."
 mkdir privesc
 wget https://github.com/AlessandroZ/BeRoot/archive/master.zip -O privesc/BeRoot.zip
+wget https://github.com/l0ss/Grouper2/releases/download/0.9.62/Grouper2.exe -O privesc/Grouper2.exe
 wget https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1 -O privesc/jaws.ps1
 wget https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe -O privesc/lazagne.exe
 wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200519/mimikatz_trunk.zip -O privesc/mimikatz.zip
