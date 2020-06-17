@@ -17,6 +17,10 @@ add-apt-repository -y ppa:certbot/certbot
 apt install -y apache2 autoconf build-essential certbot containerd.io default-jdk docker-ce docker-ce-cli g++ git libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common nmap p7zip-full python-dev python-pip python-setuptools python-virtualenv python3-certbot-apache python3-dev python3-pip python3-setuptools python3.7-dev ruby software-properties-common swig unzip zlib1g-dev
 gem install bundle
 echo "---------------------------------------------------"
+echo "[*] Preparing Apache..."
+a2enmod rewrite
+systemctl restart apache2
+echo "---------------------------------------------------"
 echo "[*] Installing BeEF"
 git clone https://github.com/beefproject/beef /opt/BeEF
 cd /opt/BeEF
