@@ -2,6 +2,7 @@
 echo "---------------------------------------------------"
 echo "[*] EMULATION SERVER PREPARATION SCRIPT - 13/6/20"
 echo '[*] "Train like you fight..."'
+echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo "---------------------------------------------------"
 echo "[!] Note: this isn't completely unattended."
 echo "[-] Some installers require interaction."
@@ -31,6 +32,9 @@ git clone https://github.com/BC-SECURITY/Empire /opt/Empire
 cd /opt/Empire
 pip3 install -r setup/requirements.txt
 ./setup/install.sh
+mkdir beacon2empire && cd beacon2empire
+wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/beacon2empire/convert.py
+git clone https://github.com/rsmudge/Malleable-C2-Profiles profiles
 echo "---------------------------------------------------"
 echo "[*] Setting up Exploit DB"
 git clone https://github.com/offensive-security/exploit-database /opt/exploit-db
@@ -164,7 +168,10 @@ echo "[-] Start: cd /opt/BeEF && ./beef"
 echo "[-] Reference: https://github.com/beefproject/beef"
 echo "[*] Empire:"
 echo "[-] Start: cd /opt/Empire && ./empire"
-echo "[-] Reference: https://github.com/BC-SECURITY/Empire"
+echo "[-] beacon2empire: cd /opt/Empire/beacon2empire && ./convert.py"
+echo "[*] References:"
+echo "[-] https://github.com/BC-SECURITY/Empire"
+echo "[-] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation/beacon2empire"
 echo "[*] Exploit DB:"
 echo "[-] Search: cd /opt/exploit-db && ./searchsploit"
 echo "[-] Reference: https://github.com/offensive-security/exploitdb"
