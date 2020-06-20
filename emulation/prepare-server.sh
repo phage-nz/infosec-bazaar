@@ -18,7 +18,7 @@ apt install -y apache2 autoconf build-essential certbot containerd.io default-jd
 gem install bundle
 echo "---------------------------------------------------"
 echo "[*] Preparing Apache..."
-a2enmod rewrite
+a2enmod rewrite proxy proxy_http
 systemctl restart apache2
 echo "---------------------------------------------------"
 echo "[*] Installing BeEF"

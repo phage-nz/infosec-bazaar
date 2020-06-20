@@ -83,6 +83,8 @@ The tooling employed by bad actors isn't solely closed source. There is no short
 ## Server Preparation
 Included in this folder is "prepare-server.sh" which can help get you up and running with most of the above tools. Instructions on how to start and use them can be found at the bottom of the script.  The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
 
+Also included is "beacon2empire", which converts Cobalt Strike Malleable C2 profiles to matching Empire listener and Apache mod_rewrite configurations. Refer to the readme in the subfolder for more information.  
+
 ## Information Sources
 Beyond industry reports and whitepapers, the following publicly available sources will help you in building accurate profiles:
 - https://attack.mitre.org/groups/  
