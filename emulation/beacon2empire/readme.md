@@ -26,15 +26,15 @@ The script requires 4 parameters:
 - **-b:** Path containing beacon C2 profiles. Nested folders are OK as the script recurses, searching for files with the extension ".profile".  
 - **-e:** Empire URL, the URL that Apache proxies Empire C2 traffic to. This must be of the format:
 ```
-<url scheme>://<address>:<port> (e.g. http://12.34.56.789:8080)
+<uri scheme>://<address>:<port> (e.g. http://12.34.56.789:8080)
 ```    
 - **-p:** Proxy URL, the URL that Empire stagers connect to. This must be of the format:
 ```
-<url scheme>://<address>:<port> (e.g. http://12.34.56.789:8080)
+<uri scheme>://<address>:<port> (e.g. http://12.34.56.789:8080)
 ```
 - **-r:** Redirect URL, the URL that non-Empire requests are redirected to. This must be of the format:
 ```
-<url scheme>://<address> (e.g. https://www.google.com)
+<uri scheme>://<address> (e.g. https://www.google.com)
 ```
 
 For example:
