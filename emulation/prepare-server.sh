@@ -33,6 +33,7 @@ cd /opt/Empire
 pip3 install -r setup/requirements.txt
 ./setup/install.sh
 mkdir beacon2empire && cd beacon2empire
+pip3 install coloredlogs
 wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/beacon2empire/convert.py
 git clone https://github.com/rsmudge/Malleable-C2-Profiles profiles
 echo "---------------------------------------------------"
