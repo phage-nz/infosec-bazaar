@@ -113,7 +113,7 @@
         "showAnalytics": true,
         "title": "Failed Logons",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -133,7 +133,7 @@
         "showAnalytics": true,
         "title": "Successful Logons",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -153,7 +153,7 @@
         "showAnalytics": true,
         "title": "Commands Executed",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -180,7 +180,7 @@
         "showAnalytics": true,
         "title": "Top Usernames",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -200,7 +200,7 @@
         "showAnalytics": true,
         "title": "Top Passwords",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -227,7 +227,7 @@
         "showAnalytics": true,
         "title": "Top Client Versions",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -247,7 +247,7 @@
         "showAnalytics": true,
         "title": "Top HAASH Fingerprints",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -281,13 +281,13 @@
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "query": "Cowrie\r\n| where Sensor in ({sensor_values})\r\n| where EventID == \"cowrie.command.input\"\r\n| summarize by tostring(SourceIp)",
+            "query": "Cowrie\r\n| where Sensor in ({sensor_values})\r\n| where EventID == \"cowrie.login.success\"\r\n| summarize by tostring(SourceIp)",
             "value": [],
             "typeSettings": {
               "additionalResourceOptions": []
             },
             "timeContext": {
-              "durationMs": 0
+              "durationMs": 14400000
             },
             "timeContextFromParameter": "time_span",
             "queryType": 0,
@@ -309,7 +309,7 @@
         "showAnalytics": true,
         "title": "Authentication Attempts",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -327,7 +327,7 @@
         "size": 0,
         "title": "Commands",
         "timeContext": {
-          "durationMs": 0
+          "durationMs": 14400000
         },
         "timeContextFromParameter": "time_span",
         "queryType": 0,
