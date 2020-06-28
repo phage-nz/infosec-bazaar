@@ -65,6 +65,11 @@ wget https://raw.githubusercontent.com/cowrie/cowrie/master/bin/createfs -O /tmp
 /tmp/.fs/createfs -d 6 -o /tmp/.fs/kali_6.pickle
 ```
 - SCP the pickle files into /opt/cowrie/share/cowrie.  
+- While on the filesystem source, collect some basic information about the host. This will be required at a later step:  
+```
+uname -ra
+ssh -V
+```
 - Drop the configuration files into place:  
 ```
 cp /opt/cowrie/etc/cowrie.cfg.dist etc/cowrie.cfg
@@ -88,6 +93,18 @@ cp /opt/cowrie/etc/userdb.example etc/userdb.txt
   - **Listen endpoints:** as systemd is being used to manage the Cowrie process, each setting of `listen_endpoints` must be changed:  
     - `tcp:2222:interface=0.0.0.0` becomes `systemd:domain=INET:index=0`  
     - `tcp:2223:interface=0.0.0.0` becomes `systemd:domain=INET:index=1`
+  - **Scan hardening:** Using the output of the uname and ssh commands from the "source" host, configure the following settings:
+```
+[shell]
+kernel_version = 5.5.0-kali2-cloud-amd64
+kernel_build_string = #1 SMP Debian 5.5.17-1kali1
+hardware_platform = x86_64
+operating_system = GNU/Linux
+ssh_version = OpenSSH_8.2p1 Debian-4, OpenSSL 1.1.1g  21 Apr 2020
+
+[ssh]
+version = SSH-2.0-OpenSSH_8.2p1 Debian-4
+```
 - Switch to the Cowrie user and configure the virtualenv:  
 ```
 sudo su - cowrie
