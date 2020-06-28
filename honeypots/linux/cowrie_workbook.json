@@ -245,7 +245,7 @@
         "query": "Cowrie\r\n| where Sensor in ({sensor_values})\r\n| where EventID == \"cowrie.client.kex\"\r\n| summarize count() by tostring(HasshFingerprint)\r\n| sort by count_ desc\r\n| limit 10",
         "size": 0,
         "showAnalytics": true,
-        "title": "Top HAASH Fingerprints",
+        "title": "Top HASSH Fingerprints",
         "timeContext": {
           "durationMs": 14400000
         },
