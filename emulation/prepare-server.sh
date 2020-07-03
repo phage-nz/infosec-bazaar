@@ -19,6 +19,7 @@ case ${remote:0:1} in
   y|Y )
     echo "[*] Installing remote desktop packages..."
     apt install -y lubuntu-core xrdp
+    systemctl enable xrdp && systemctl start xrdp
   ;;
   * )
     echo "[!] Skipping remote desktop setup..."
