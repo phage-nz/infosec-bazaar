@@ -15,6 +15,7 @@
             <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\svchost.exe.log</TargetFilename>
             <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\regsvr32.exe.log</TargetFilename>
             <TargetFilename name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="end with">\UsageLogs\rundll32.exe.log</TargetFilename>
+            <TargetFilename condition="contains">\Desktop\</TargetFilename>
             <TargetFilename condition="contains">\Downloads\</TargetFilename>
             <TargetFilename condition="begin with">C:\Windows\System32\Drivers</TargetFilename>
             <TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
