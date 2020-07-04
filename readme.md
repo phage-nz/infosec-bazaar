@@ -16,15 +16,15 @@ A collection of infosec-related scripts and information.
 
 ## Current Inventory ##
 **\emulation**  
+- \beacon2empire - Script to convert Cobalt Strike Beacon configs to Empire + mod_rewrite.  
 - cradle.ps1 - PowerShell cradle script to download an execute malware samples.  
 - emulate.py - MITRE ATT&CK wrapper for Atomic Red Team tests.  
 - readme.md - Instructions for the above, plus a collection of Adversary Emulation resources.  
+- prepare-server.sh - Adversary emulation tooling deployment script.  
 
 **\honeypots**  
-- \linux - Notes for the installation of Dionaea, p0f and Cowrie.  
-- \mhn - Notes on extending and troubleshooting MHN.  
-- \spamtrap - Instructions on setting up spam traps using Mail-in-a-Box and Shiva.  
-- \t-pot - Instructions on deploying T-Pot honeypot platform.  
+- \linux - Cowrie installation documentation and Azure Sentinel integration.  
+- \spamtrap - Spam traps setup using Mail-in-a-Box and Shiva.  
 - \windows - Information on setting up a Windows honeypot.  
 
 **\modules**  
