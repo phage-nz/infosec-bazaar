@@ -58,6 +58,7 @@
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">Mavinject.exe</Image>
             <Image name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="image">at.exe</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">certutil.exe</Image>
+            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">desktopimgdownldr.exe</Image>
             <Image condition="image">cmd.exe</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">cscript.exe</Image>
             <Image condition="image">java.exe</Image>
