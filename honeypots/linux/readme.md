@@ -18,7 +18,6 @@ As compared to the Windows honeypot, there aren't really many considerations to 
 ## Host Setup
 - Deploy the VM with your hosting provider of choice. AWS, Azure, Vultr - take your pick. Assign it a firewall that permits inbound:
   - TCP 22 (SCP/SSH) from your public IP.  
-  - TCP 80 (HTTP) from your public IP.  
   - TCP 2322 (SCP/SSH) from your public IP.  
 - SSH to the host on TCP 22.  
 - Update the host and install all required dependencies:  
