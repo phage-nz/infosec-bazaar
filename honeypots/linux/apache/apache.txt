@@ -1,0 +1,9 @@
+// Apache Access Log Parser
+// By Chris Campbell (@phage_nz)
+// Last Updated Date: July 07,  2020
+let pattern = @'^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+)\s?(\S+)?\s?(\S+)?" (\d{3}|-) (\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?';
+Apache_Access_CL 
+| extend EventData = extract_all(pattern, dynamic([1,2,3,4,5,6,7,8,9,10,11]), RawData)
+| mv-expand todynamic(EventData)
+| extend SourceIp = tostring(EventData[0]), UserId = tostring(EventData[1]), Username = tostring(EventData[2]), RequestTime = replace(@'(\d{4}):(\d{2})', @'\1 \2', tostring(EventData[3])), RequestMethod = tostring(EventData[4]), RequestPath = tostring(EventData[5]), HttpVersion = tostring(EventData[6]), RequestStatus = tostring(EventData[7]), RequestSize = tostring(EventData[8]), Referer = tostring(EventData[9]), UserAgent = tostring(EventData[10])
+| project-away EventData, RawData
