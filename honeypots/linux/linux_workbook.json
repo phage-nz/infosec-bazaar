@@ -15,7 +15,7 @@
             "description": "Selects time range of the drilldown",
             "isRequired": true,
             "value": {
-              "durationMs": 14400000
+              "durationMs": 43200000
             },
             "typeSettings": {
               "selectableValues": [
@@ -113,7 +113,7 @@
         "showAnalytics": true,
         "title": "Failed Logons",
         "timeContext": {
-          "durationMs": 14400000
+          "durationMs": 0
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -121,7 +121,7 @@
         "resourceType": "microsoft.operationalinsights/workspaces",
         "visualization": "piechart"
       },
-      "customWidth": "33",
+      "customWidth": "50",
       "name": "query - 2"
     },
     {
@@ -133,7 +133,7 @@
         "showAnalytics": true,
         "title": "Successful Logons",
         "timeContext": {
-          "durationMs": 14400000
+          "durationMs": 0
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -141,7 +141,7 @@
         "resourceType": "microsoft.operationalinsights/workspaces",
         "visualization": "piechart"
       },
-      "customWidth": "33",
+      "customWidth": "50",
       "name": "query - 2 - Copy"
     },
     {
@@ -153,7 +153,7 @@
         "showAnalytics": true,
         "title": "Commands Executed",
         "timeContext": {
-          "durationMs": 14400000
+          "durationMs": 0
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
@@ -161,8 +161,28 @@
         "resourceType": "microsoft.operationalinsights/workspaces",
         "visualization": "piechart"
       },
-      "customWidth": "33",
+      "customWidth": "50",
       "name": "query - 4"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ApacheAccess\r\n| where Computer in ({sensor_values})\r\n| summarize count() by tostring(SourceIp)",
+        "size": 1,
+        "showAnalytics": true,
+        "title": "Web Requests",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "piechart"
+      },
+      "customWidth": "50",
+      "name": "query - 20"
     },
     {
       "type": 1,
@@ -352,7 +372,7 @@
         "showAnalytics": true,
         "title": "Top Request Paths",
         "timeContext": {
-          "durationMs": 14400000
+          "durationMs": 0
         },
         "timeContextFromParameter": "time_span",
         "showExportToExcel": true,
