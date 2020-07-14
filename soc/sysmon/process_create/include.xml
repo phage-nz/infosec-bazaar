@@ -81,6 +81,7 @@
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">appcmd.exe</Image>
             <OriginalFileName name="technique_id=T1543.003,technique_name=Create or Modify System Process: Windows Service,phase_name=Persistence" condition="is">sc.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="is">certutil.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="is">desktopimgdownldr.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1552.001,technique_name=Unsecured Credentials: Credentials In Files,phase_name=Credential Access" condition="is">findstr.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1552.001,technique_name=Unsecured Credentials: Credentials In Files,phase_name=Credential Access" condition="is">where.exe</OriginalFileName>
             <Image name="technique_id=T1222.001,technique_name=File and Directory Permissions Modification: Windows File and Directory Permissions Modification,phase_name=Defense Evasion" condition="image">forfiles.exe</Image>
@@ -93,6 +94,7 @@
             <OriginalFileName name="technique_id=T1490,technique_name=Inhibit System Recovery,phase_name=Impact" condition="is">vassadmin.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1033,technique_name=System Owner/User Discovery,phase_name=Discovery" condition="contains any">nltest.exe;nltestk.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="is">winrs.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1056.001,technique_name=Input Capture: Keylogging,phase_name=Collection" condition="is">psr.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1548.002,technique_name=Abuse Elevation Control Mechanism: Bypass User Access Control,phase_name=Privilege Escalation" condition="is">computerdefaults.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1548.002,technique_name=Abuse Elevation Control Mechanism: Bypass User Access Control,phase_name=Privilege Escalation" condition="is">dism.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1548.002,technique_name=Abuse Elevation Control Mechanism: Bypass User Access Control,phase_name=Privilege Escalation" condition="is">fodhelper.exe</OriginalFileName>
@@ -128,6 +130,7 @@
             <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">msconfig.EXE</OriginalFileName>
             <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">Msdt.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1218.007,technique_name=Signed Binary Proxy Execution: Msiexec,phase_name=Execution" condition="is">msiexec.exe</OriginalFileName>
+            <OriginalFileName name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">ntdsutil.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1218.008,technique_name=Signed Binary Proxy Execution: Odbcconf,phase_name=Execution" condition="is">odbcconf.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">PresentationHost.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1105,technique_name=Ingress Tool Transfer,phase_name=Command and Control" condition="is">Print.Exe</OriginalFileName>
@@ -141,6 +144,10 @@
             <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">wab.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1548.002,technique_name=Abuse Elevation Control Mechanism: Bypass User Access Control,phase_name=Privilege Escalation" condition="is">WSReset.exe</OriginalFileName>
             <OriginalFileName name="technique_id=T1548.002,technique_name=Abuse Elevation Control Mechanism: Bypass User Access Control,phase_name=Privilege Escalation" condition="is">xwizard.exe</OriginalFileName>
+            <Rule name="WSL" groupRelation="and">
+               <OriginalFileName name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="is">wsl.exe</OriginalFileName>
+               <CommandLine name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="contains">-e</CommandLine>
+            </Rule>
             <Rule name="CMSTP" groupRelation="and">
                <OriginalFileName name="technique_id=T1218.003,technique_name=Signed Binary Proxy Execution: CMSTP,phase_name=Defense Evasion" condition="is">CMSTP.exe</OriginalFileName>
                <CommandLine name="technique_id=T1218.003,technique_name=Signed Binary Proxy Execution: CMSTP,phase_name=Defense Evasion" condition="contains all">/ni;/s</CommandLine>
@@ -199,6 +206,8 @@
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="contains">\wwwroot\</Image>
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="contains">\Temp\</Image>
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="contains">\Appdata\Local\</Image>
+            <CommandLine name="technique_id=T1027,technique_name=Obfuscated Files or Information,phase_name=Defense Evasion" condition="contains">ˆ</CommandLine>
+            <CommandLine name="technique_id=T1027,technique_name=Obfuscated Files or Information,phase_name=Defense Evasion" condition="contains">../../</CommandLine>
             <Rule name="Control Panel Items" groupRelation="or">
                <CommandLine name="technique_id=T1218.002,technique_name=Signed Binary Proxy Execution: Control Panel,phase_name=Defense Evasion" condition="contains all">control;/name</CommandLine>
                <CommandLine name="technique_id=T1218.002,technique_name=Signed Binary Proxy Execution: Control Panel,phase_name=Defense Evasion" condition="contains all">rundll32.exe;shell32.dll;Control_RunDLL</CommandLine>
