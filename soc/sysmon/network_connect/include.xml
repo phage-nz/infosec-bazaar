@@ -2,10 +2,10 @@
    <EventFiltering>
       <RuleGroup name="" groupRelation="or">
          <NetworkConnect onmatch="include">
-            <Image name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="image">vnc.exe</Image>
-            <Image name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="image">vncviewer.exe</Image>
-            <Image name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="image">vncservice.exe</Image>
-            <Image name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="image">winexesvc.exe</Image>
+            <Image name="technique_id=T1021.005,technique_name=Remote Services: VNC,phase_name=Lateral Movement" condition="image">vnc.exe</Image>
+            <Image name="technique_id=T1021.005,technique_name=Remote Services: VNC,phase_name=Lateral Movement" condition="image">vncviewer.exe</Image>
+            <Image name="technique_id=T1021.005,technique_name=Remote Services: VNC,phase_name=Lateral Movement" condition="image">vncservice.exe</Image>
+            <Image name="technique_id=T1569.002,technique_name=System Services: Service Execution,phase_name=Execution" condition="image">winexesvc.exe</Image>
             <Image name="technique_id=T1197,technique_name=BITS Jobs,phase_name=Persistence" condition="image">bitsadmin.exe</Image>
             <Image name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="image">omniinet.exe</Image>
             <Image name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="image">hpsmhd.exe</Image>
@@ -19,90 +19,73 @@
             <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">query.exe</Image>
             <Image name="technique_id=T1134,technique_name=Access Token Manipulation,phase_name=Privilege Escalation" condition="image">runas.exe</Image>
             <Image name="technique_id=T1112,technique_name=Modify Registry,phase_name=Defense Evasion" condition="image">reg.exe</Image>
-            <Image name="technique_id=T1063,technique_name=Security Software Discovery,phase_name=Discovery" condition="image">netsh.exe</Image>
-            <Image condition="image">klist.exe</Image>
-            <Image name="technique_id=T1070,technique_name=Indicator Removal on Host,phase_name=Defense Evasion" condition="image">wevtutil.exe</Image>
-            <Image name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="image">taskeng.exe</Image>
-            <Image name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution,phase_name=Execution" condition="image">regsvr32.exe</Image>
-            <Image condition="image">hh.exe</Image>
-            <Image name="technique_id=T1059,technique_name=Command-Line Interface,phase_name=Execution" condition="image">cmd.exe</Image>
-            <Image name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="image">powershell.exe</Image>
-            <Image name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="image">bash.exe</Image>
+            <Image name="technique_id=T1518.001,technique_name=Software Discovery: Security Software Discovery,phase_name=Discovery" condition="image">netsh.exe</Image>
+            <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">klist.exe</Image>
+            <Image name="technique_id=T1070.001,technique_name=Indicator Removal on Host: Clear Windows Event Logs,phase_name=Defense Evasion" condition="image">wevtutil.exe</Image>
+            <Image name="technique_id=T1053.005,technique_name=Scheduled Task/Job: Scheduled Task,phase_name=Execution" condition="image">taskeng.exe</Image>
+            <Image name="technique_id=T1218.010,technique_name=Signed Binary Proxy Execution: Regsvr32,phase_name=Defense Evasion" condition="image">regsvr32.exe</Image>
+            <Image name="technique_id=T1218.001,Signed Binary Proxy Execution: Compiled HTML File,phase_name=Defense Evasion" condition="image">hh.exe</Image>
+            <Image name="technique_id=T1059.003,technique_name=Command and Scripting Interpreter: Windows Command Shell,phase_name=Execution" condition="image">cmd.exe</Image>
+            <Image name="technique_id=T1059.001,technique_name=Command and Scripting Interpreter: PowerShell,phase_name=Execution" condition="image">powershell.exe</Image>
+            <Image name="technique_id=T1059.003,technique_name=Command and Scripting Interpreter: Windows Command Shell,phase_name=Execution" condition="image">bash.exe</Image>
             <Image name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="image">pcalua.exe</Image>
             <Image name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="image">cscript.exe</Image>
             <Image name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="image">wscript.exe</Image>
-            <Image name="technique_id=T1170,technique_name=Mshta,phase_name=Execution" condition="image">mshta.exe</Image>
+            <Image name="technique_id=T1218.005,technique_name=Signed Binary Proxy Execution: Mshta,phase_name=Execution" condition="image">mshta.exe</Image>
             <Image name="technique_id=T1016,technique_name=System Network Configuration Discovery,phase_name=Discovery" condition="image">nbtstat.exe</Image>
             <Image name="technique_id=T1069,technique_name=Permission Groups Discovery,phase_name=Discovery" condition="image">net1.exe</Image>
             <Image name="technique_id=T1018,technique_name=Remote System Discovery,phase_name=Lateral Movement" condition="image">nslookup.exe</Image>
             <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">qwinsta.exe</Image>
             <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">rwinsta.exe</Image>
-            <Image condition="image">schtasks.exe</Image>
-            <Image condition="image">taskkill.exe</Image>
-            <Image name="technique_id=T1031,technique_name=Modify Existing Service,phase_name=Persistence" condition="image">sc.exe</Image>
+            <Image name="technique_id=T1053.005,technique_name=Scheduled Task/Job: Scheduled Task,phase_name=Executions" condition="image">schtasks.exe</Image>
+            <Image name="technique_id=T1562.001,technique_name=Impair Defenses: Disable or Modify Tools,phase_name=Defense Evasion" condition="image">taskkill.exe</Image>
+            <Image name="technique_id=T1543.003,technique_name=Create or Modify System Process: Windows Service,phase_name=Persistence" condition="image">sc.exe</Image>
             <Image name="technique_id=T1033,technique_name=System Owner/User Discovery,phase_name=Discovery" condition="image">nltest.exe</Image>
             <Image name="technique_id=T1202,technique_name=Indirect Command Execution,phase_name=Defense Evasion" condition="image">winrs.exe</Image>
-            <Image name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="is">dfsvc.exe</Image>
-            <Image name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="is">dnscmd.exe</Image>
-            <Image name="technique_id=T1096,technique_name=NTFS File Attributes,phase_name=Defense Evasion" condition="is">esentutl.exe</Image>
-            <Image name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">expand.exe</Image>
-            <Image name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">extrac32.exe</Image>
-            <Image name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">IEExec.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">Msdt.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">msiexec.exe</Image>
-            <Image name="technique_id=T1105,technique_name=Remote File Copy,phase_name=Command and Control" condition="is">Print.Exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">RegisterCimProvider.exe</Image>
-            <Image name="technique_id=T1003,technique_name=Credential Dumping,phase_name=Credential Access" condition="is">RpcPing.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">ScriptRunner.exe</Image>
-            <Image name="technique_id=T1088,technique_name=Bypass User Account Control,phase_name=Privilege Escalation" condition="is">xwizard.exe</Image>
+            <Image name="technique_id=T1127,technique_name=Trusted Developer Utilities,phase_name=Execution" condition="image">dfsvc.exe</Image>
+            <Image name="technique_id=T1569.002,technique_name=System Services: Service Execution,phase_name=Execution" condition="image">dnscmd.exe</Image>
+            <Image name="technique_id=T1564.004,technique_name=Hide Artifacts: NTFS File Attributes,phase_name=Defense Evasion" condition="image">esentutl.exe</Image>
+            <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer,phase_name=Command and Control" condition="image">expand.exe</Image>
+            <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer,phase_name=Command and Control" condition="image">extrac32.exe</Image>
+            <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer,phase_name=Command and Control" condition="image">IEExec.exe</Image>
+            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">Msdt.exe</Image>
+            <Image name="technique_id=T1218.007,technique_name=Signed Binary Proxy Execution: Msiexec,phase_name=Execution" condition="image">msiexec.exe</Image>
+            <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer,phase_name=Command and Control" condition="image">Print.Exe</Image>
+            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">RegisterCimProvider.exe</Image>
+            <Image name="technique_id=T1003,technique_name=OS Credential Dumping,phase_name=Credential Access" condition="image">RpcPing.exe</Image>
+            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">ScriptRunner.exe</Image>
+            <Image name="technique_id=T1548.002,technique_name=Abuse Elevation Control Mechanism: Bypass User Access Control,phase_name=Privilege Escalation" condition="image">xwizard.exe</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">Mavinject.exe</Image>
-            <Image name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="image">at.exe</Image>
+            <Image name="technique_id=T1053.002,technique_name=Scheduled Task/Job: At,phase_name=Persistence" condition="image">at.exe</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">certutil.exe</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">desktopimgdownldr.exe</Image>
-            <Image condition="image">cmd.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">cscript.exe</Image>
-            <Image condition="image">java.exe</Image>
-            <Image name="technique_id=T1170,technique_name=Mshta,phase_name=Execution" condition="image">mshta.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">msiexec.exe</Image>
-            <Image name="technique_id=T1069,technique_name=Permission Groups Discovery,phase_name=Discovery" condition="image">net.exe</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">notepad.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">powershell.exe</Image>
-            <Image name="technique_id=T1012,technique_name=Query Registry,phase_name=Discovery" condition="image">reg.exe</Image>
-            <Image name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution" condition="image">regsvr32.exe</Image>
             <Image name="technique_id=T1085,technique_name=Rundll32,phase_name=Defense Evasion, Execution" condition="image">rundll32.exe</Image>
-            <Image name="technique_id=T1031,technique_name=Modify Existing Service,phase_name=Persistence" condition="image">sc.exe</Image>
             <Image name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="image">wmic.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">wscript.exe</Image>
+            <Image name="technique_id=T1543.003,technique_name=Create or Modify System Process: Windows Service,phase_name=Persistence" condition="image">mmc.exe</Image>
+            <Image name="technique_id=T1127.001,technique_name=Trusted Developer Utilities Proxy Execution: MSBuild,phase_name=Defense Evasion" condition="image">msbuild.exe</Image>
+            <Image name="technique_id=T1018,technique_name=Remote System Discovery,phase_name=Lateral Movement" condition="image">nslookup.exe</Image>
+            <Image name="technique_id=T1218.009,technique_name=Signed Binary Proxy Execution: Regsvcs/Regasm,phase_name=Defense Evasion" condition="image">regasm.exe</Image>
+            <Image name="technique_id=T1218.009,technique_name=Signed Binary Proxy Execution: Regsvcs/Regasm,phase_name=Defense Evasion" condition="image">regsvcs.exe</Image>
+            <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">rwinsta.exe</Image>
+            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">replace.exe</Image>
             <Image condition="image">driverquery.exe</Image>
             <Image condition="image">dsquery.exe</Image>
-            <Image condition="image">hh.exe</Image>
             <Image condition="image">infDefaultInstall.exe</Image>
+            <Image condition="image">java.exe</Image>
             <Image condition="image">javaw.exe</Image>
             <Image condition="image">javaws.exe</Image>
-            <Image name="technique_id=T1031,technique_name=Modify Existing Service,phase_name=Persistence" condition="image">mmc.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">msbuild.exe</Image>
-            <Image name="technique_id=T1016,technique_name=System Network Configuration Discovery,phase_name=Discovery" condition="image">nbtstat.exe</Image>
-            <Image name="technique_id=T1069,technique_name=Permission Groups Discovery,phase_name=Discovery" condition="image">net1.exe</Image>
-            <Image name="technique_id=T1018,technique_name=Remote System Discovery,phase_name=Lateral Movement" condition="image">nslookup.exe</Image>
-            <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">qprocess.exe</Image>
-            <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">qwinsta.exe</Image>
-            <Image name="technique_id=T1121,technique_name=Regsvcs/Regasm,phase_name=Defense Evasion" condition="image">regsvcs.exe</Image>
-            <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">rwinsta.exe</Image>
-            <Image name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="image">schtasks.exe</Image>
-            <Image name="technique_id=T1089,technique_name=Disabling Security Tools,phase_name=Defense Evasion" condition="image">taskkill.exe</Image>
-            <Image name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="image">tasklist.exe</Image>
-            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">replace.exe</Image>
             <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">1080</DestinationPort>
             <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">3128</DestinationPort>
             <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">8080</DestinationPort>
-            <DestinationPort name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="is">22</DestinationPort>
+            <DestinationPort name="technique_id=T1021.004,technique_name=Remote Services: SSH,phase_name=Lateral Movement" condition="is">22</DestinationPort>
             <DestinationPort name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="is">23</DestinationPort>
             <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">25</DestinationPort>
-            <DestinationPort name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="is">3389</DestinationPort>
-            <DestinationPort name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="is">5800</DestinationPort>
-            <DestinationPort name="technique_id=T1021,technique_name=Remote Services,phase_name=Lateral Movement" condition="is">5900</DestinationPort>
-            <Image name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="image">psexec.exe</Image>
-            <Image name="technique_id=T1035,technique_name=Service Execution,phase_name=Execution" condition="image">psexesvc.exe</Image>
+            <DestinationPort name="technique_id=T1021.001,technique_name=Remote Services: Remote Desktop Protocol,phase_name=Lateral Movement" condition="is">3389</DestinationPort>
+            <DestinationPort name="technique_id=T1021.005,technique_name=Remote Services: VNC,phase_name=Lateral Movement" condition="is">5800</DestinationPort>
+            <DestinationPort name="technique_id=T1021.005,technique_name=Remote Services: VNC,phase_name=Lateral Movement" condition="is">5900</DestinationPort>
+            <Image name="technique_id=T1569.002,technique_name=System Services: Service Execution,phase_name=Execution" condition="image">psexec.exe</Image>
+            <Image name="technique_id=T1569.002,technique_name=System Services: Service Execution,phase_name=Execution" condition="image">psexesvc.exe</Image>
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="begin with">C:\Users</Image>
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="begin with">C:\ProgramData</Image>
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="begin with">C:\Windows\Temp</Image>
@@ -124,12 +107,12 @@
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="contains">\htdocs\</Image>
             <Image name="technique_id=T1036,technique_name=Masquerading,phase_name=Defense Evasion" condition="contains">\wwwroot\</Image>
             <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">SyncAppvPublishingServer.exe</Image>
-            <Image condition="image">tor.exe</Image>
+            <Image name="technique_id=T1090.003,technique_name=Proxy: Multi-hop Proxy,phase_name=Command and Control" condition="image">tor.exe</Image>
             <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">1723</DestinationPort>
             <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">4500</DestinationPort>
-            <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">9001</DestinationPort>
-            <DestinationPort name="technique_id=T1043,technique_name=Commonly Used Port,phase_name=Command And Control" condition="is">9030</DestinationPort>
-            <DestinationPort name="technique_id=T1028,technique_name=Windows Remote Management,phase_name=Lateral Movement" condition="is">5986</DestinationPort>
+            <DestinationPort name="technique_id=T1090.003,technique_name=Proxy: Multi-hop Proxy,phase_name=Command and Control" condition="is">9001</DestinationPort>
+            <DestinationPort name="technique_id=T1090.003,technique_name=Proxy: Multi-hop Proxy,phase_name=Command and Control" condition="is">9030</DestinationPort>
+            <DestinationPort name="technique_id=T1021.006,technique_name=Remote Services: Windows Remote Management,phase_name=Lateral Movement" condition="is">5986</DestinationPort>
          </NetworkConnect>
       </RuleGroup>
    </EventFiltering>
