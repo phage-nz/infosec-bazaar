@@ -65,8 +65,7 @@
                   "durationMs": 7776000000
                 }
               ]
-            },
-            "resourceType": "microsoft.insights/components"
+            }
           },
           {
             "id": "02df1a75-51f3-45be-8dd3-516727f68631",
@@ -99,1378 +98,1469 @@
       "name": "parameters - 2"
     },
     {
-      "type": 1,
+      "type": 11,
       "content": {
-        "json": "# Summary\r\n---"
-      },
-      "name": "text - 30"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by Computer",
-        "size": 1,
-        "title": "Failed Logons",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "piechart"
-      },
-      "customWidth": "33",
-      "name": "query - 31"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Computer",
-        "size": 1,
-        "title": "Interactive Logons",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "piechart"
-      },
-      "customWidth": "33",
-      "name": "query - 32"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by Computer",
-        "size": 1,
-        "title": "Web Requests",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "piechart"
-      },
-      "customWidth": "33",
-      "name": "query - 33"
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "# Authentication Activity\r\n---"
-      },
-      "name": "text - 13"
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "## Logon Failures"
-      },
-      "name": "text - 16"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Top Usernames",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "barchart",
-        "tileSettings": {
-          "showBorder": false,
-          "titleContent": {
-            "columnMatch": "Account",
-            "formatter": 1
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "cellValue": "navigation_value",
+            "linkTarget": "parameter",
+            "linkLabel": "Summary",
+            "subTarget": "1",
+            "style": "link"
           },
-          "leftContent": {
-            "columnMatch": "count_",
-            "formatter": 12,
-            "formatOptions": {
-              "palette": "auto"
-            },
-            "numberFormat": {
-              "unit": 17,
-              "options": {
-                "maximumSignificantDigits": 3,
-                "maximumFractionDigits": 2
-              }
-            }
-          }
-        },
-        "graphSettings": {
-          "type": 0,
-          "topContent": {
-            "columnMatch": "Account",
-            "formatter": 1
+          {
+            "cellValue": "navigation_value",
+            "linkTarget": "parameter",
+            "linkLabel": "Authentication",
+            "subTarget": "2",
+            "style": "link"
           },
-          "centerContent": {
-            "columnMatch": "count_",
-            "formatter": 1,
-            "numberFormat": {
-              "unit": 17,
-              "options": {
-                "maximumSignificantDigits": 3,
-                "maximumFractionDigits": 2
-              }
-            }
-          }
-        }
-      },
-      "customWidth": "50",
-      "name": "query - 11"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Top Sources",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "barchart"
-      },
-      "customWidth": "50",
-      "name": "query - 12"
-    },
-    {
-      "type": 9,
-      "content": {
-        "version": "KqlParameterItem/1.0",
-        "parameters": [
           {
-            "id": "1cc5bfcc-07d3-4a17-bce9-3a58b636ea16",
-            "version": "KqlParameterItem/1.0",
-            "name": "fail_source_values",
-            "label": "Source IPs",
-            "type": 2,
-            "description": "Selects the source IPs to target during drilldown",
-            "isRequired": true,
-            "multiSelect": true,
-            "quote": "'",
-            "delimiter": ",",
-            "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize by IpAddress",
-            "value": [],
-            "typeSettings": {
-              "additionalResourceOptions": []
-            },
-            "timeContext": {
-              "durationMs": 0
-            },
-            "timeContextFromParameter": "time_span",
-            "queryType": 0,
-            "resourceType": "microsoft.operationalinsights/workspaces"
-          }
-        ],
-        "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
-      },
-      "name": "parameters - 27"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values}) and IpAddress in ({fail_source_values})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
-        "size": 1,
-        "showAnalytics": true,
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "scatterchart"
-      },
-      "name": "query - 26"
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "## Interactive Logons"
-      },
-      "name": "text - 17"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Top Usernames",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "barchart"
-      },
-      "customWidth": "50",
-      "name": "query - 14"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Top Sources",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "barchart"
-      },
-      "customWidth": "50",
-      "name": "query - 15"
-    },
-    {
-      "type": 9,
-      "content": {
-        "version": "KqlParameterItem/1.0",
-        "parameters": [
+            "cellValue": "navigation_value",
+            "linkTarget": "parameter",
+            "linkLabel": "User Activity",
+            "subTarget": "3",
+            "style": "link"
+          },
           {
-            "id": "7add83f3-b7c8-4808-b137-0f405d6a9cb1",
-            "version": "KqlParameterItem/1.0",
-            "name": "success_source_values",
-            "label": "Source IPs",
-            "type": 2,
-            "description": "Selects the source IPs to target during drilldown",
-            "isRequired": true,
-            "multiSelect": true,
-            "quote": "'",
-            "delimiter": ",",
-            "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize by IpAddress",
-            "value": [],
-            "typeSettings": {
-              "additionalResourceOptions": []
-            },
-            "timeContext": {
-              "durationMs": 0
-            },
-            "timeContextFromParameter": "time_span",
-            "queryType": 0,
-            "resourceType": "microsoft.operationalinsights/workspaces"
-          }
-        ],
-        "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
-      },
-      "name": "parameters - 28"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "SecurityEvent\r\n| where Computer in ({computer_values}) and IpAddress in ({success_source_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
-        "size": 1,
-        "showAnalytics": true,
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "scatterchart"
-      },
-      "name": "query - 29"
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "# User Activity\r\n---"
-      },
-      "name": "text - 18"
-    },
-    {
-      "type": 9,
-      "content": {
-        "version": "KqlParameterItem/1.0",
-        "parameters": [
+            "cellValue": "navigation_value",
+            "linkTarget": "parameter",
+            "linkLabel": "Web Activity",
+            "subTarget": "4",
+            "style": "link"
+          },
           {
-            "id": "e96a6769-0150-46f2-850d-17e41a2a6b0b",
-            "version": "KqlParameterItem/1.0",
-            "name": "username_values",
-            "label": "Usernames",
-            "type": 2,
-            "description": "Selects the usernames to target during drilldown",
-            "isRequired": true,
-            "multiSelect": true,
-            "quote": "'",
-            "delimiter": ",",
-            "query": "Sysmon\r\n| where Computer in ({computer_values})\r\n| where isnotempty(technique_name) and isnotempty(user_name)\r\n| summarize by replace(@'\\\\', @'\\\\\\\\', tostring(user_name)), tostring(user_name)",
-            "value": [],
-            "typeSettings": {
-              "additionalResourceOptions": []
-            },
-            "timeContext": {
-              "durationMs": 0
-            },
-            "timeContextFromParameter": "time_span",
-            "queryType": 0,
-            "resourceType": "microsoft.operationalinsights/workspaces"
-          }
-        ],
-        "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
-      },
-      "name": "parameters - 12"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\n| where user_name in ({username_values}) and Computer in ({computer_values})\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
-        "size": 1,
-        "showAnalytics": true,
-        "title": "ATT&CK Techniques",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "scatterchart"
-      },
-      "name": "user-activity-by-technique-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 1 and user_name in ({username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Process Create",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_parent_guid",
-              "formatter": 1,
-              "formatOptions": {}
-            }
-          ],
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
-            },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
-            },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "user_name",
-              "label": "User"
-            },
-            {
-              "columnId": "process_parent_path",
-              "label": "Process parent path"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "file_name",
-              "label": "File name"
-            },
-            {
-              "columnId": "process_parent_command_line",
-              "label": "Process parent command line"
-            },
-            {
-              "columnId": "process_command_line",
-              "label": "Process command line"
-            },
-            {
-              "columnId": "process_parent_guid",
-              "label": "Process parent GUID"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "hash_sha256",
-              "label": "Hash SHA256"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "process_parent_id",
-              "label": "Process parent ID"
-            }
-          ]
-        }
-      },
-      "name": "process-create-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 3 and user_name in ({username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Network Connection",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_guid",
-              "formatter": 1,
-              "formatOptions": {
-                "showIcon": true
-              }
-            }
-          ],
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
-            },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
-            },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "user_name",
-              "label": "User"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "src_ip",
-              "label": "Source IP"
-            },
-            {
-              "columnId": "dst_ip",
-              "label": "Destination IP"
-            },
-            {
-              "columnId": "dst_port",
-              "label": "Destination port"
-            },
-            {
-              "columnId": "src_host_name",
-              "label": "Source hostname"
-            },
-            {
-              "columnId": "dst_host_name",
-              "label": "Destination hostname"
-            }
-          ]
-        }
-      },
-      "name": "network-connection-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "# Web Activity\r\n---"
-      },
-      "name": "text - 21"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by csUriStem\r\n| sort by count_ desc\r\n| limit 10",
-        "size": 0,
-        "title": "Top Request Paths",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "barchart"
-      },
-      "customWidth": "50",
-      "name": "query - 22"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by cIP\r\n| sort by count_ desc\r\n| limit 10",
-        "size": 0,
-        "title": "Top Sources",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "visualization": "barchart"
-      },
-      "customWidth": "50",
-      "name": "query - 23"
-    },
-    {
-      "type": 9,
-      "content": {
-        "version": "KqlParameterItem/1.0",
-        "parameters": [
-          {
-            "id": "1e2acd94-a112-40db-aa3e-ce501a465c82",
-            "version": "KqlParameterItem/1.0",
-            "name": "client_values",
-            "label": "Client IPs",
-            "type": 2,
-            "description": "Selects the client IPs to target during drilldown",
-            "isRequired": true,
-            "multiSelect": true,
-            "quote": "'",
-            "delimiter": ",",
-            "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize by cIP",
-            "value": [],
-            "typeSettings": {
-              "additionalResourceOptions": []
-            },
-            "timeContext": {
-              "durationMs": 0
-            },
-            "timeContextFromParameter": "time_span",
-            "queryType": 0,
-            "resourceType": "microsoft.operationalinsights/workspaces"
-          }
-        ],
-        "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
-      },
-      "name": "parameters - 24"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "W3CIISLog\r\n| where cIP in ({client_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, cIP, sIP, sPort, sSiteName, csMethod, csUriStem, csUriQuery, scStatus, scSubStatus, csUserAgent, csCookie, csReferer, IndicatorThreatType, Confidence, FirstReportedDateTime, LastReportedDateTime, ReportReferenceLink",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Client Requests",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "filter": true,
-          "sortBy": [
-            {
-              "itemKey": "Confidence",
-              "sortOrder": 1
-            }
-          ],
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "cIP",
-              "label": "Client IP"
-            },
-            {
-              "columnId": "sIP",
-              "label": "Server IP"
-            },
-            {
-              "columnId": "sPort",
-              "label": "Server port"
-            },
-            {
-              "columnId": "sSiteName",
-              "label": "Site name"
-            },
-            {
-              "columnId": "csMethod",
-              "label": "HTTP method"
-            },
-            {
-              "columnId": "csUriStem",
-              "label": "URI stem"
-            },
-            {
-              "columnId": "csUriQuery",
-              "label": "URI query"
-            },
-            {
-              "columnId": "scStatus",
-              "label": "Request status"
-            },
-            {
-              "columnId": "scSubStatus",
-              "label": "Request substatus"
-            },
-            {
-              "columnId": "csUserAgent",
-              "label": "User agent"
-            },
-            {
-              "columnId": "csCookie",
-              "label": "Cookie"
-            },
-            {
-              "columnId": "csReferer",
-              "label": "Referer"
-            },
-            {
-              "columnId": "IndicatorThreatType",
-              "label": "Threat type"
-            },
-            {
-              "columnId": "Confidence",
-              "label": "Threat confidence"
-            },
-            {
-              "columnId": "FirstReportedDateTime",
-              "label": "First reported"
-            },
-            {
-              "columnId": "LastReportedDateTime",
-              "label": "Last reported"
-            },
-            {
-              "columnId": "ReportReferenceLink",
-              "label": "Report reference"
-            }
-          ]
-        },
-        "sortBy": [
-          {
-            "itemKey": "Confidence",
-            "sortOrder": 1
+            "cellValue": "navigation_value",
+            "linkTarget": "parameter",
+            "linkLabel": "System Activity",
+            "subTarget": "5",
+            "style": "link"
           }
         ]
       },
-      "name": "query - 25"
-    },
-    {
-      "type": 1,
-      "content": {
-        "json": "# System Activity\r\n---"
-      },
-      "name": "text - 20"
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 1 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Process Create",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_parent_guid",
-              "formatter": 1,
-              "formatOptions": {}
-            }
-          ],
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
-            },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
-            },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "user_name",
-              "label": "User"
-            },
-            {
-              "columnId": "process_parent_path",
-              "label": "Process parent path"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "file_name",
-              "label": "File name"
-            },
-            {
-              "columnId": "process_parent_command_line",
-              "label": "Process parent command line"
-            },
-            {
-              "columnId": "process_command_line",
-              "label": "Process command line"
-            },
-            {
-              "columnId": "process_parent_guid",
-              "label": "Process parent GUID"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "hash_sha256",
-              "label": "Hash SHA256"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "process_parent_id",
-              "label": "Process parent ID"
-            }
-          ]
-        }
-      },
-      "name": "process-create-query - Copy",
+      "name": "links - 36",
       "styleSettings": {
-        "progressStyle": "loader"
+        "showBorder": true
       }
     },
     {
-      "type": 3,
+      "type": 12,
       "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 10 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Process Access",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "target_process_guid",
-              "formatter": 1,
-              "formatOptions": {}
-            }
-          ],
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by Computer",
+              "size": 1,
+              "title": "Failed Logons",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "piechart"
             },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
+            "customWidth": "33",
+            "name": "query - 31"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Computer",
+              "size": 1,
+              "title": "Interactive Logons",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "piechart"
             },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
+            "customWidth": "33",
+            "name": "query - 32"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by Computer",
+              "size": 1,
+              "title": "Web Requests",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "piechart"
             },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "target_process_path",
-              "label": "Target process path"
-            },
-            {
-              "columnId": "process_granted_access",
-              "label": "Process granted access"
-            },
-            {
-              "columnId": "target_process_guid",
-              "label": "Target process GUID"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "target_process_id",
-              "label": "Target process ID"
-            }
-          ]
-        }
+            "customWidth": "33",
+            "name": "query - 33"
+          }
+        ]
       },
-      "name": "process-access-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
+      "conditionalVisibility": {
+        "parameterName": "navigation_value",
+        "comparison": "isEqualTo",
+        "value": "1"
+      },
+      "name": "summary-group"
     },
     {
-      "type": 3,
+      "type": 12,
       "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 11 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "File Created",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_guid",
-              "formatter": 1,
-              "formatOptions": {
-                "showIcon": true
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 1,
+            "content": {
+              "json": "## Logon Failures"
+            },
+            "name": "text - 16"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Top Usernames",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart",
+              "tileSettings": {
+                "showBorder": false,
+                "titleContent": {
+                  "columnMatch": "Account",
+                  "formatter": 1
+                },
+                "leftContent": {
+                  "columnMatch": "count_",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "auto"
+                  },
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "maximumSignificantDigits": 3,
+                      "maximumFractionDigits": 2
+                    }
+                  }
+                }
+              },
+              "graphSettings": {
+                "type": 0,
+                "topContent": {
+                  "columnMatch": "Account",
+                  "formatter": 1
+                },
+                "centerContent": {
+                  "columnMatch": "count_",
+                  "formatter": 1,
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "maximumSignificantDigits": 3,
+                      "maximumFractionDigits": 2
+                    }
+                  }
+                }
               }
-            }
-          ],
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
             },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
+            "customWidth": "50",
+            "name": "query - 11"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Top Sources",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart"
             },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
+            "customWidth": "50",
+            "name": "query - 12"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "1cc5bfcc-07d3-4a17-bce9-3a58b636ea16",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "fail_source_values",
+                  "label": "Source IPs",
+                  "type": 2,
+                  "description": "Selects the source IPs to target during drilldown",
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4625\r\n| summarize by IpAddress",
+                  "value": [],
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "timeContext": {
+                    "durationMs": 0
+                  },
+                  "timeContextFromParameter": "time_span",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
             },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
+            "name": "parameters - 27"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values}) and IpAddress in ({fail_source_values})\r\n| where EventID == 4625\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
+              "size": 1,
+              "showAnalytics": true,
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "scatterchart"
             },
-            {
-              "columnId": "Computer",
-              "label": "Host"
+            "name": "query - 26"
+          },
+          {
+            "type": 1,
+            "content": {
+              "json": "## Interactive Logons"
             },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
+            "name": "text - 17"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by Account\r\n| sort by count_ desc\r\n| limit 10",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Top Usernames",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart"
             },
-            {
-              "columnId": "file_name",
-              "label": "File name"
+            "customWidth": "50",
+            "name": "query - 14"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress\r\n| sort by count_ desc\r\n| limit 10",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Top Sources",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart"
             },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
+            "customWidth": "50",
+            "name": "query - 15"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "7add83f3-b7c8-4808-b137-0f405d6a9cb1",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "success_source_values",
+                  "label": "Source IPs",
+                  "type": 2,
+                  "description": "Selects the source IPs to target during drilldown",
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "SecurityEvent\r\n| where Computer in ({computer_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize by IpAddress",
+                  "value": [],
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "timeContext": {
+                    "durationMs": 0
+                  },
+                  "timeContextFromParameter": "time_span",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
             },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            }
-          ]
-        }
+            "name": "parameters - 28"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "SecurityEvent\r\n| where Computer in ({computer_values}) and IpAddress in ({success_source_values})\r\n| where EventID == 4624 and LogonType == 10\r\n| summarize count() by IpAddress, bin(TimeGenerated, 15m)",
+              "size": 1,
+              "showAnalytics": true,
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "scatterchart"
+            },
+            "name": "query - 29"
+          }
+        ]
       },
-      "name": "file-created-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
+      "conditionalVisibility": {
+        "parameterName": "navigation_value",
+        "comparison": "isEqualTo",
+        "value": "2"
+      },
+      "name": "authentication-group"
     },
     {
-      "type": 3,
+      "type": 12,
       "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 7 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Image Loaded",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_guid",
-              "formatter": 1,
-              "formatOptions": {
-                "showIcon": true
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "e96a6769-0150-46f2-850d-17e41a2a6b0b",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "username_values",
+                  "label": "Usernames",
+                  "type": 2,
+                  "description": "Selects the usernames to target during drilldown",
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "Sysmon\r\n| where Computer in ({computer_values})\r\n| where isnotempty(technique_name) and isnotempty(user_name)\r\n| summarize by replace(@'\\\\', @'\\\\\\\\', tostring(user_name)), tostring(user_name)",
+                  "value": [],
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "timeContext": {
+                    "durationMs": 0
+                  },
+                  "timeContextFromParameter": "time_span",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "parameters - 12"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\n| where user_name in ({username_values}) and Computer in ({computer_values})\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+              "size": 1,
+              "showAnalytics": true,
+              "title": "ATT&CK Techniques",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "scatterchart"
+            },
+            "name": "user-activity-by-technique-query",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 1 and user_name in ({username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Process Create",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_parent_guid",
+                    "formatter": 1,
+                    "formatOptions": {}
+                  }
+                ],
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "user_name",
+                    "label": "User"
+                  },
+                  {
+                    "columnId": "process_parent_path",
+                    "label": "Process parent path"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "file_name",
+                    "label": "File name"
+                  },
+                  {
+                    "columnId": "process_parent_command_line",
+                    "label": "Process parent command line"
+                  },
+                  {
+                    "columnId": "process_command_line",
+                    "label": "Process command line"
+                  },
+                  {
+                    "columnId": "process_parent_guid",
+                    "label": "Process parent GUID"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "hash_sha256",
+                    "label": "Hash SHA256"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "process_parent_id",
+                    "label": "Process parent ID"
+                  }
+                ]
               }
+            },
+            "name": "process-create-query",
+            "styleSettings": {
+              "progressStyle": "loader"
             }
-          ],
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
-            },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
-            },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "module_loaded",
-              "label": "Module loaded"
-            },
-            {
-              "columnId": "module_is_signed",
-              "label": "Module is signed"
-            },
-            {
-              "columnId": "module_signature",
-              "label": "Module signature"
-            },
-            {
-              "columnId": "module_signature_status",
-              "label": "Module signature status"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            }
-          ]
-        }
-      },
-      "name": "image-loaded-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 8 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, target_process_path, thread_new_id, process_guid, process_parent_guid",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Create Remote Thread",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
-      },
-      "name": "create-remote-thread-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 12 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, process_id, process_guid, registry_key_path",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Registry Access",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_guid",
-              "formatter": 1,
-              "formatOptions": {
-                "showIcon": true
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 3 and user_name in ({username_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Network Connection",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_guid",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "showIcon": true
+                    }
+                  }
+                ],
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "user_name",
+                    "label": "User"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "src_ip",
+                    "label": "Source IP"
+                  },
+                  {
+                    "columnId": "dst_ip",
+                    "label": "Destination IP"
+                  },
+                  {
+                    "columnId": "dst_port",
+                    "label": "Destination port"
+                  },
+                  {
+                    "columnId": "src_host_name",
+                    "label": "Source hostname"
+                  },
+                  {
+                    "columnId": "dst_host_name",
+                    "label": "Destination hostname"
+                  }
+                ]
               }
+            },
+            "name": "network-connection-query",
+            "styleSettings": {
+              "progressStyle": "loader"
             }
-          ],
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
-            },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
-            },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "registry_key_path",
-              "label": "Registry key path"
-            }
-          ]
-        }
+          }
+        ]
       },
-      "name": "registry-access-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
+      "conditionalVisibility": {
+        "parameterName": "navigation_value",
+        "comparison": "isEqualTo",
+        "value": "3"
+      },
+      "name": "user-group"
     },
     {
-      "type": 3,
+      "type": 12,
       "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where (EventID == 17 or EventID==18) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, pipe_name, process_path, process_guid, process_id",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Pipes",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by csUriStem\r\n| sort by count_ desc\r\n| limit 10",
+              "size": 0,
+              "title": "Top Request Paths",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart"
             },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
+            "customWidth": "50",
+            "name": "query - 22"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize count() by cIP\r\n| sort by count_ desc\r\n| limit 10",
+              "size": 0,
+              "title": "Top Sources",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart"
             },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
+            "customWidth": "50",
+            "name": "query - 23"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "1e2acd94-a112-40db-aa3e-ce501a465c82",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "client_values",
+                  "label": "Client IPs",
+                  "type": 2,
+                  "description": "Selects the client IPs to target during drilldown",
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "W3CIISLog\r\n| where Computer in ({computer_values})\r\n| summarize by cIP",
+                  "value": [],
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "timeContext": {
+                    "durationMs": 0
+                  },
+                  "timeContextFromParameter": "time_span",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
             },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
+            "name": "parameters - 24"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "W3CIISLog\r\n| where cIP in ({client_values}) and Computer in ({computer_values})\r\n| project TimeGenerated, cIP, sIP, sPort, sSiteName, csMethod, csUriStem, csUriQuery, scStatus, scSubStatus, csUserAgent, csCookie, csReferer, IndicatorThreatType, Confidence, FirstReportedDateTime, LastReportedDateTime, ReportReferenceLink",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Client Requests",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "filter": true,
+                "sortBy": [
+                  {
+                    "itemKey": "Confidence",
+                    "sortOrder": 1
+                  }
+                ],
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "cIP",
+                    "label": "Client IP"
+                  },
+                  {
+                    "columnId": "sIP",
+                    "label": "Server IP"
+                  },
+                  {
+                    "columnId": "sPort",
+                    "label": "Server port"
+                  },
+                  {
+                    "columnId": "sSiteName",
+                    "label": "Site name"
+                  },
+                  {
+                    "columnId": "csMethod",
+                    "label": "HTTP method"
+                  },
+                  {
+                    "columnId": "csUriStem",
+                    "label": "URI stem"
+                  },
+                  {
+                    "columnId": "csUriQuery",
+                    "label": "URI query"
+                  },
+                  {
+                    "columnId": "scStatus",
+                    "label": "Request status"
+                  },
+                  {
+                    "columnId": "scSubStatus",
+                    "label": "Request substatus"
+                  },
+                  {
+                    "columnId": "csUserAgent",
+                    "label": "User agent"
+                  },
+                  {
+                    "columnId": "csCookie",
+                    "label": "Cookie"
+                  },
+                  {
+                    "columnId": "csReferer",
+                    "label": "Referer"
+                  },
+                  {
+                    "columnId": "IndicatorThreatType",
+                    "label": "Threat type"
+                  },
+                  {
+                    "columnId": "Confidence",
+                    "label": "Threat confidence"
+                  },
+                  {
+                    "columnId": "FirstReportedDateTime",
+                    "label": "First reported"
+                  },
+                  {
+                    "columnId": "LastReportedDateTime",
+                    "label": "Last reported"
+                  },
+                  {
+                    "columnId": "ReportReferenceLink",
+                    "label": "Report reference"
+                  }
+                ]
+              },
+              "sortBy": [
+                {
+                  "itemKey": "Confidence",
+                  "sortOrder": 1
+                }
+              ]
             },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "pipe_name",
-              "label": "Pipe name"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            }
-          ]
-        }
+            "name": "query - 25"
+          }
+        ]
       },
-      "name": "pipes-query",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
+      "conditionalVisibility": {
+        "parameterName": "navigation_value",
+        "comparison": "isEqualTo",
+        "value": "4"
+      },
+      "name": "web-group"
     },
     {
-      "type": 3,
+      "type": 12,
       "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 3 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "Network Connection",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "formatters": [
-            {
-              "columnMatch": "process_guid",
-              "formatter": 1,
-              "formatOptions": {
-                "showIcon": true
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 1 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Process Create",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_parent_guid",
+                    "formatter": 1,
+                    "formatOptions": {}
+                  }
+                ],
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "user_name",
+                    "label": "User"
+                  },
+                  {
+                    "columnId": "process_parent_path",
+                    "label": "Process parent path"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "file_name",
+                    "label": "File name"
+                  },
+                  {
+                    "columnId": "process_parent_command_line",
+                    "label": "Process parent command line"
+                  },
+                  {
+                    "columnId": "process_command_line",
+                    "label": "Process command line"
+                  },
+                  {
+                    "columnId": "process_parent_guid",
+                    "label": "Process parent GUID"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "hash_sha256",
+                    "label": "Hash SHA256"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "process_parent_id",
+                    "label": "Process parent ID"
+                  }
+                ]
               }
+            },
+            "name": "process-create-query - Copy",
+            "styleSettings": {
+              "progressStyle": "loader"
             }
-          ],
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 10 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Process Access",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "target_process_guid",
+                    "formatter": 1,
+                    "formatOptions": {}
+                  }
+                ],
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "target_process_path",
+                    "label": "Target process path"
+                  },
+                  {
+                    "columnId": "process_granted_access",
+                    "label": "Process granted access"
+                  },
+                  {
+                    "columnId": "target_process_guid",
+                    "label": "Target process GUID"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "target_process_id",
+                    "label": "Target process ID"
+                  }
+                ]
+              }
             },
-            {
-              "columnId": "technique_id",
-              "label": "ID"
-            },
-            {
-              "columnId": "technique_name",
-              "label": "Technique"
-            },
-            {
-              "columnId": "phase_name",
-              "label": "Category"
-            },
-            {
-              "columnId": "Computer",
-              "label": "Host"
-            },
-            {
-              "columnId": "user_name",
-              "label": "User"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "src_ip",
-              "label": "Source IP"
-            },
-            {
-              "columnId": "dst_ip",
-              "label": "Destination IP"
-            },
-            {
-              "columnId": "dst_port",
-              "label": "Destination port"
-            },
-            {
-              "columnId": "src_host_name",
-              "label": "Source hostname"
-            },
-            {
-              "columnId": "dst_host_name",
-              "label": "Destination hostname"
+            "name": "process-access-query",
+            "styleSettings": {
+              "progressStyle": "loader"
             }
-          ]
-        }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 11 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "File Created",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_guid",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "showIcon": true
+                    }
+                  }
+                ],
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "file_name",
+                    "label": "File name"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  }
+                ]
+              }
+            },
+            "name": "file-created-query",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 7 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Image Loaded",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_guid",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "showIcon": true
+                    }
+                  }
+                ],
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "module_loaded",
+                    "label": "Module loaded"
+                  },
+                  {
+                    "columnId": "module_is_signed",
+                    "label": "Module is signed"
+                  },
+                  {
+                    "columnId": "module_signature",
+                    "label": "Module signature"
+                  },
+                  {
+                    "columnId": "module_signature_status",
+                    "label": "Module signature status"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  }
+                ]
+              }
+            },
+            "name": "image-loaded-query",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 8 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, target_process_path, thread_new_id, process_guid, process_parent_guid",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Create Remote Thread",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "create-remote-thread-query",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 12 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, process_id, process_guid, registry_key_path",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Registry Access",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_guid",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "showIcon": true
+                    }
+                  }
+                ],
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "registry_key_path",
+                    "label": "Registry key path"
+                  }
+                ]
+              }
+            },
+            "name": "registry-access-query",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where (EventID == 17 or EventID==18) and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, pipe_name, process_path, process_guid, process_id",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Pipes",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "pipe_name",
+                    "label": "Pipe name"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  }
+                ]
+              }
+            },
+            "name": "pipes-query",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 3 and Computer in ({computer_values})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Network Connection",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "process_guid",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "showIcon": true
+                    }
+                  }
+                ],
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "technique_id",
+                    "label": "ID"
+                  },
+                  {
+                    "columnId": "technique_name",
+                    "label": "Technique"
+                  },
+                  {
+                    "columnId": "phase_name",
+                    "label": "Category"
+                  },
+                  {
+                    "columnId": "Computer",
+                    "label": "Host"
+                  },
+                  {
+                    "columnId": "user_name",
+                    "label": "User"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "src_ip",
+                    "label": "Source IP"
+                  },
+                  {
+                    "columnId": "dst_ip",
+                    "label": "Destination IP"
+                  },
+                  {
+                    "columnId": "dst_port",
+                    "label": "Destination port"
+                  },
+                  {
+                    "columnId": "src_host_name",
+                    "label": "Source hostname"
+                  },
+                  {
+                    "columnId": "dst_host_name",
+                    "label": "Destination hostname"
+                  }
+                ]
+              }
+            },
+            "name": "network-connection-query - Copy",
+            "styleSettings": {
+              "progressStyle": "loader"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Sysmon\r\n| where EventID == 22 and Computer in ({computer_values})\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, process_guid, process_id",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "DNS Request",
+              "timeContext": {
+                "durationMs": 14400000
+              },
+              "timeContextFromParameter": "time_span",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "filter": true,
+                "labelSettings": [
+                  {
+                    "columnId": "TimeGenerated",
+                    "label": "Time generated"
+                  },
+                  {
+                    "columnId": "dns_query_name",
+                    "label": "Query name"
+                  },
+                  {
+                    "columnId": "dns_query_status",
+                    "label": "Query status"
+                  },
+                  {
+                    "columnId": "dns_query_results",
+                    "label": "Query result"
+                  },
+                  {
+                    "columnId": "process_path",
+                    "label": "Process path"
+                  },
+                  {
+                    "columnId": "process_guid",
+                    "label": "Process GUID"
+                  },
+                  {
+                    "columnId": "process_id",
+                    "label": "Process ID"
+                  }
+                ]
+              }
+            },
+            "name": "query - 19"
+          }
+        ]
       },
-      "name": "network-connection-query - Copy",
-      "styleSettings": {
-        "progressStyle": "loader"
-      }
-    },
-    {
-      "type": 3,
-      "content": {
-        "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 22 and Computer in ({computer_values})\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, process_guid, process_id",
-        "size": 0,
-        "showAnalytics": true,
-        "title": "DNS Request",
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "time_span",
-        "showExportToExcel": true,
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces",
-        "gridSettings": {
-          "filter": true,
-          "labelSettings": [
-            {
-              "columnId": "TimeGenerated",
-              "label": "Time generated"
-            },
-            {
-              "columnId": "dns_query_name",
-              "label": "Query name"
-            },
-            {
-              "columnId": "dns_query_status",
-              "label": "Query status"
-            },
-            {
-              "columnId": "dns_query_results",
-              "label": "Query result"
-            },
-            {
-              "columnId": "process_path",
-              "label": "Process path"
-            },
-            {
-              "columnId": "process_guid",
-              "label": "Process GUID"
-            },
-            {
-              "columnId": "process_id",
-              "label": "Process ID"
-            }
-          ]
-        }
+      "conditionalVisibility": {
+        "parameterName": "navigation_value",
+        "comparison": "isEqualTo",
+        "value": "5"
       },
-      "name": "query - 19"
+      "name": "system-group"
     }
+  ],
+  "fallbackResourceIds": [
+    "/subscriptions/20ac5bf8-4fbf-4114-b0a6-0c42bde53a42/resourcegroups/chris-research-rg/providers/microsoft.operationalinsights/workspaces/chris-research-ws"
   ],
   "fromTemplateId": "sentinel-UserWorkbook",
   "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
