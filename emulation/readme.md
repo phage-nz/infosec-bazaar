@@ -114,10 +114,6 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 - Start client: `posh`  
 - Reference: https://github.com/nettitude/PoshC2  
 
-**Pupy:**
-- Start: `cd /opt/Pupy && pupyws/bin/pupysh`  
-- Reference: https://github.com/n1nj4sec/pupy  
-
 **SILENTTRINITY:**
 - Start server: `cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>`  
 - Start client: `cd /opt/SILENTTRINITY && python3.7 st.py client wss://<username>:<password>@<server IP>:6666`  
