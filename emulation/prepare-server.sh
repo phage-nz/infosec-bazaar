@@ -24,7 +24,10 @@ echo "---------------------------------------------------"
 echo "[*] Installing OS pre-requisites..."
 add-apt-repository -y ppa:certbot/certbot
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
-apt install -y apache2 autoconf build-essential certbot default-jdk g++ git libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common nmap p7zip-full python-dev python-pip python-setuptools python-virtualenv python3-certbot-apache python3-dev python3-pip python3-setuptools python3.7-dev ruby ruby-dev software-properties-common swig unzip zlib1g-dev
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/dotnetdev.list
+apt-get update
+apt install -y apache2 autoconf build-essential certbot default-jdk dotnet-sdk-3.1 g++ git libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common nmap p7zip-full python-dev python-pip python-setuptools python-virtualenv python3-certbot-apache python3-dev python3-pip python3-setuptools python3.7-dev ruby ruby-dev software-properties-common swig unzip zlib1g-dev
 gem install bundle
 if [[ $INSTALL_RDP = "TRUE" ]]; then
     echo "[-] Including remote desktop packages..."
@@ -45,6 +48,11 @@ echo "[-] Fixing BeEF install script..."
 sed -i '/get_permission$/s/^/#/g' install
 sed -i '/apt-get install/apt install -y/g' install
 ./install
+echo "---------------------------------------------------"
+echo "[*] Installing Covenant"
+git clone --recurse-submodules https://github.com/cobbr/Covenant /opt/Covenant
+cd /opt/Covenant/Covenant
+dotnet build
 echo "---------------------------------------------------"
 echo "[*] Installing Empire..."
 git clone https://github.com/BC-SECURITY/Empire /opt/Empire

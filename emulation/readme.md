@@ -77,6 +77,10 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 - Start: `cd /opt/BeEF && ./beef`  
 - Reference: https://github.com/beefproject/beef  
 
+**Covenant:**
+- Start: `cd /opt/Covenant/Covenant && dotnet run`  
+- Reference: https://github.com/cobbr/Covenant  
+
 **Empire:**
 - Start: `cd /opt/Empire && ./empire`  
 - beacon2empire: `cd /opt/Empire/beacon2empire && ./convert.py`  
