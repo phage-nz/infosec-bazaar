@@ -46,7 +46,7 @@ git clone https://github.com/beefproject/beef /opt/BeEF
 cd /opt/BeEF
 echo "[-] Fixing BeEF install script..."
 sed -i '/get_permission$/s/^/#/g' install
-sed -i '/apt-get install/apt install -y/g' install
+sed -i 's/apt-get install/apt install -y/g' install
 ./install
 echo "---------------------------------------------------"
 echo "[*] Installing Covenant"
