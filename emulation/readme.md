@@ -59,34 +59,84 @@ It is recommended to run a cleanup in between runs as some tests can hang if cer
 - Provide support for Linux and MacOS tests.  
 - Permit disabling of specific tests.  
 
-## Tools
+## Emulation Server Preparation
 The tooling employed by bad actors isn't solely closed source. There is no shortage of open source or freely available options that can be quickly adopted and fulfil requirements at no cost. The goal of emulation is to match or closely imitate the actions of your adversaries, so being able to use the same or similar tooling to them is more preferable than confining your testing to a suite of controlled, autonomous executions.
-- **BeEF:** https://github.com/beefproject/beef/  
-- **BloodHound:** https://github.com/BloodHoundAD/BloodHound  
-- **Covenant:** https://github.com/cobbr/Covenant  
-- **Empire:** https://github.com/BC-SECURITY/Empire ([S0363](https://attack.mitre.org/software/S0363/))  
-- **Koadic:** https://github.com/zerosum0x0/koadic ([S0250](https://attack.mitre.org/software/S0250/))  
-- **LaZagne:** https://github.com/AlessandroZ/LaZagne ([S0349](https://attack.mitre.org/software/S0349/))  
-- **Merlin:** https://github.com/Ne0nd0g/merlin  
-- **Metasploit:** https://www.metasploit.com/  
-- **Mimikatz:** https://github.com/gentilkiwi/mimikatz ([S0002](https://attack.mitre.org/software/S0002/))  
-- **PoshC2:** https://github.com/nettitude/PoshC2 ([S0378](https://attack.mitre.org/software/S0378/))  
-- **PsExec:** https://docs.microsoft.com/en-us/sysinternals/downloads/psexec ([S0029](https://attack.mitre.org/software/S0029/))  
-- **Pupy:** https://github.com/n1nj4sec/pupy ([S0192](https://attack.mitre.org/software/S0192/))  
-- **QuasarRAT:** https://github.com/quasar/QuasarRAT ([S0262](https://attack.mitre.org/software/S0262/))  
-- **Responder:** https://github.com/lgandx/Responder ([S0174](https://attack.mitre.org/software/S0174/))  
-- **SILENTTRINITY:** https://github.com/byt3bl33d3r/SILENTTRINITY  
-- **Sliver:** https://github.com/BishopFox/sliver  
-- **SpiderFoot:** https://github.com/smicallef/spiderfoot  
-- **Windows Credential Editor:** https://www.ampliasecurity.com/research/windows-credentials-editor/ ([S0005](https://attack.mitre.org/software/S0005/))  
 
-## Server Preparation
-Included in this folder is "prepare-server.sh" which can help get you up and running with most of the above tools. Instructions on how to start and use them can be found at the bottom of the script.  The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
+Included in this folder is "prepare-server.sh" which can help get you up and running with a variety of tooling. The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
 
-Also included is "beacon2empire", which converts Cobalt Strike Malleable C2 profiles to matching Empire listener and Apache mod_rewrite configurations. Refer to the readme in the subfolder for more information.  
+The following notes are also saved as ~/readme.txt after running the script.
+
+### HTTPS Support
+You can use certbot to request an SSL certificate:
+```
+certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.yourdomain.here --email name@yourdomain.here
+```
+
+### Tool Reference
+**BeEF:**
+- Start: `cd /opt/BeEF && ./beef`  
+- Reference: https://github.com/beefproject/beef  
+
+**Empire:**
+- Start: `cd /opt/Empire && ./empire`  
+- beacon2empire: `cd /opt/Empire/beacon2empire && ./convert.py`  
+- References:  
+  - https://github.com/BC-SECURITY/Empire  
+  - https://github.com/phage-nz/infosec-bazaar/tree/master/emulation/beacon2empire  
+
+**Exploit DB:**
+- Search: `cd /opt/exploit-db && ./searchsploit`  
+- Reference: https://github.com/offensive-security/exploitdb  
+
+**Invoke-Obfuscation:**
+- Start: `cd /opt/Invoke-Obfuscation && pwsh -Command "Import-Module ./Invoke-Obfuscation.psd1 && Invoke-Obfuscation"`  
+- Reference: https://github.com/danielbohannon/Invoke-Obfuscation  
+
+**Koadic:**
+- Start: `cd /opt/Koadic && ./koadic`  
+- Reference: https://github.com/zerosum0x0/koadic  
+
+**Merlin:**
+- Start: `cd /opt/Merlin && ./merlinServer`  
+- Reference: https://github.com/Ne0nd0g/merlin  
+
+**Metasploit:**
+- Start: `msfconsole`  
+- Reference: https://github.com/rapid7/metasploit-framework  
+
+**Modlishka:**
+- Start: `cd /opt/Modlishka && ./Modlishka -config modlishka.config`  
+- Reference: https://github.com/drk1wi/Modlishka  
+
+**PoshC2:**
+- Edit config: `posh-config`  
+- Start server: `posh-server`  
+- Start client: `posh`  
+- Reference: https://github.com/nettitude/PoshC2  
+
+**Pupy:**
+- Start: `cd /opt/Pupy && pupyws/bin/pupysh`  
+- Reference: https://github.com/n1nj4sec/pupy  
+
+**SILENTTRINITY:**
+- Start server: `cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>`  
+- Start client: `cd /opt/SILENTTRINITY && python3.7 st.py client wss://<username>:<password>@<server IP>:6666`  
+- Reference: https://github.com/byt3bl33d3r/SILENTTRINITY  
+
+**Sliver:**
+- Start: `cd /opt/Sliver && ./sliver-server`  
+- Reference: https://github.com/BishopFox/sliver  
+
+**SpiderFoot:**
+- Start server: `cd /opt/SpiderFoot && python3 sf.py -l <server IP>:5001`  
+- Start client: `cd /opt/SpiderFoot && python3 sfcli.py -s http://<server IP>:5001`  
+- Reference: https://github.com/smicallef/spiderfoot  
+
+**Others:**
+- Tools intended to be used on the target (e.g. Mimikatz, Ncat, WSO) can be found in categorised folders under /var/www/html  
 
 ## Information Sources
-Beyond industry reports and whitepapers, the following publicly available sources will help you in building accurate profiles:
+Beyond industry reports and whitepapers, the following publicly available sources will help you in building and emulating accurate profiles:
 - https://attack.mitre.org/groups/  
 - https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit  
 - https://malpedia.caad.fkie.fraunhofer.de/  
@@ -95,3 +145,4 @@ Beyond industry reports and whitepapers, the following publicly available source
 - https://www.thaicert.or.th/downloads/files/A_Threat_Actor_Encyclopedia.pdf  
 - https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections  
 - https://otx.alienvault.com - use search filters such as adversary, country and industry.  
+- https://ired.team/  

@@ -48,6 +48,9 @@ echo "---------------------------------------------------"
 echo "[*] Setting up Exploit DB"
 git clone https://github.com/offensive-security/exploit-database /opt/exploit-db
 echo "---------------------------------------------------"
+echo "[*] Setting up Invoke-Obfuscation"
+git clone https://github.com/danielbohannon/Invoke-Obfuscation /opt/Invoke-Obfuscation
+echo "---------------------------------------------------"
 echo "[*] Installing Koadic"
 git clone https://github.com/zerosum0x0/koadic /opt/Koadic
 cd /opt/Koadic
@@ -151,9 +154,11 @@ mkdir recon
 wget https://github.com/angryip/ipscan/releases/download/3.7.2/ipscan-win64-3.7.2.exe -O recon/ipscan-win64-3.7.2.exe
 wget https://nmap.org/dist/nmap-7.80-setup.exe -O recon/nmap-7.80-setup.exe
 echo "---------------------------------------------------"
-echo "[*] Fetching web shells..."
-mkdir webshell
+echo "[*] Fetching shells..."
+mkdir shell
 wget https://raw.githubusercontent.com/tennc/webshell/master/net-friend/aspx/aspxspy.aspx -O webshell/aspxspy.txt
+wget https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj -O MSBuildShell.csproj
+wget http://nmap.org/dist/ncat-portable-5.59BETA1.zip -O ncat.zip
 wget https://raw.githubusercontent.com/mIcHyAmRaNe/wso-webshell/master/wso.php -O webshell/wso.txt
 echo "---------------------------------------------------"
 echo "[*] Fetching other utilities..."
@@ -168,56 +173,9 @@ wget https://download.sysinternals.com/files/SysinternalsSuite.zip -O Sysinterna
 unzip SysinternalsSuite.zip -d util && rm SysinternalsSuite.zip && rm util/*.txt
 wget https://winscp.net/download/WinSCP-5.17.6-Portable.zip -O util/WinSCP-5.17.6-Portable.zip
 echo "---------------------------------------------------"
+echo "[*] Fetching readme..."
+wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/readme.txt -O ~/readme.txt
+echo "---------------------------------------------------"
 echo "[*] All finished!"
-echo "---------------------------------------------------"
-echo "[!] WEB SERVER NOTES:"
-echo "[*] You can use certbot to request an SSL certificate:"
-echo "[-] certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.yourdomain.here --email name@yourdomain.here"
-echo "[*] Tools are in categorised folders under the web root (/var/www/html)"
-echo "[-] They can be pulled over HTTP/HTTPS onto targets"
-echo "---------------------------------------------------"
-echo "[!] SOFTWARE NOTES:"
-echo "[*] BeEF:"
-echo "[-] Start: cd /opt/BeEF && ./beef"
-echo "[-] Reference: https://github.com/beefproject/beef"
-echo "[*] Empire:"
-echo "[-] Start: cd /opt/Empire && ./empire"
-echo "[-] beacon2empire: cd /opt/Empire/beacon2empire && ./convert.py"
-echo "[*] References:"
-echo "[-] https://github.com/BC-SECURITY/Empire"
-echo "[-] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation/beacon2empire"
-echo "[*] Exploit DB:"
-echo "[-] Search: cd /opt/exploit-db && ./searchsploit"
-echo "[-] Reference: https://github.com/offensive-security/exploitdb"
-echo "[*] Koadic:"
-echo "[-] Start: cd /opt/Koadic && ./koadic"
-echo "[-] Reference: https://github.com/zerosum0x0/koadic"
-echo "[*] Merlin:"
-echo "[-] Start: cd /opt/Merlin && ./merlinServer"
-echo "[-] Reference: https://github.com/Ne0nd0g/merlin"
-echo "[*] Metasploit:"
-echo "[-] Start: msfconsole"
-echo "[-] Reference: https://github.com/rapid7/metasploit-framework"
-echo "[*] Modlishka:"
-echo "[-] Start: cd /opt/Modlishka && ./Modlishka -config modlishka.config"
-echo "[-] Reference: https://github.com/drk1wi/Modlishka"
-echo "[*] PoshC2"
-echo "[-] Edit config: posh-config"
-echo "[-] Start server: posh-server"
-echo "[-] Start client: posh"
-echo "[-] Reference: https://github.com/nettitude/PoshC2"
-echo "[*] Pupy"
-echo "[-] Start: cd /opt/Pupy && pupyws/bin/pupysh"
-echo "[-] Reference: https://github.com/n1nj4sec/pupy"
-echo "[*] SILENTTRINITY"
-echo "[-] Start server: cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>"
-echo "[-] Start client: cd /opt/SILENTTRINITY && python3.7 st.py client wss://<username>:<password>@<server IP>:6666"
-echo "[-] Reference: https://github.com/byt3bl33d3r/SILENTTRINITY"
-echo "[*] Sliver:"
-echo "[-] Start: cd /opt/Sliver && ./sliver-server"
-echo "[-] Reference: https://github.com/BishopFox/sliver"
-echo "[*] SpiderFoot:"
-echo "[-] Start server: cd /opt/SpiderFoot && python3 sf.py -l <server IP>:5001"
-echo "[-] Start client: cd /opt/SpiderFoot && python3 sfcli.py -s http://<server IP>:5001"
-echo "[-] Reference: https://github.com/smicallef/spiderfoot"
+echo "[-] Refer to ~/readme.txt for help getting started."
 echo "---------------------------------------------------"
