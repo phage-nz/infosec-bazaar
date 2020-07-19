@@ -1,30 +1,40 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 12/7/20"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 19/7/20"
 echo '[*] "Train like you fight..."'
 echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo "---------------------------------------------------"
-echo "[!] Note: this isn't completely unattended."
-echo "[-] Some installers require interaction."
-echo "---------------------------------------------------"
-read -p "[?] Do you want to enable remote desktop? (y/n)" remote
-sleep 5
+SHOW_HELP="FALSE"
+INSTALL_RDP="FALSE"
+while getopts hr OPT
+do
+    case "${OPT}" in
+        h) SHOW_HELP="TRUE";;
+        r) INSTALL_RDP="TRUE";;
+    esac
+done
+if [[ $SHOW_HELP = "TRUE" ]]; then
+    echo "-h show this message."
+    echo "-r install Lubuntu desktop and enable xRDP."
+    exit 0
+fi
 echo "[*] Updating OS..."
 apt update && apt upgrade -y
 echo "---------------------------------------------------"
 echo "[*] Installing OS pre-requisites..."
-apt install -y apache2 autoconf build-essential default-jdk g++ git libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common nmap p7zip-full python-dev python-pip python-setuptools$
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+add-apt-repository -y ppa:certbot/certbot
+add-apt-repository -y ppa:ubuntu-toolchain-r/test
+apt install -y apache2 autoconf build-essential certbot containerd.io docker-ce docker-ce-cli default-jdk g++ git libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common nmap p7zip-full python-dev python-pip python-setuptools python-virtualenv python3-certbot-apache python3-dev python3-pip python3-setuptools python3.7-dev ruby ruby-dev software-properties-common swig unzip zlib1g-dev
 gem install bundle
-case ${remote:0:1} in
-  y|Y )
-    echo "[*] Installing remote desktop packages..."
+if [[ $INSTALL_RDP = "TRUE" ]]; then
+    echo "[-] Including remote desktop packages..."
     apt install -y lubuntu-core xrdp
     systemctl enable xrdp && systemctl start xrdp
-  ;;
-  * )
+else
     echo "[!] Skipping remote desktop setup..."
-  ;;
-esac
+fi
 echo "---------------------------------------------------"
 echo "[*] Preparing Apache..."
 a2enmod rewrite proxy proxy_http
@@ -33,12 +43,16 @@ echo "---------------------------------------------------"
 echo "[*] Installing BeEF"
 git clone https://github.com/beefproject/beef /opt/BeEF
 cd /opt/BeEF
+echo "[-] Fixing BeEF install script..."
+sed -i '/get_permission$/s/^/#/g' install
+sed -i '/apt-get install/apt install -y/g' install
 ./install
 echo "---------------------------------------------------"
 echo "[*] Installing Empire..."
 git clone https://github.com/BC-SECURITY/Empire /opt/Empire
 cd /opt/Empire
 pip3 install -r setup/requirements.txt
+export STAGING_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 ./setup/install.sh
 mkdir beacon2empire && cd beacon2empire
 pip3 install coloredlogs
@@ -174,7 +188,7 @@ unzip SysinternalsSuite.zip -d util && rm SysinternalsSuite.zip && rm util/*.txt
 wget https://winscp.net/download/WinSCP-5.17.6-Portable.zip -O util/WinSCP-5.17.6-Portable.zip
 echo "---------------------------------------------------"
 echo "[*] Fetching readme..."
-wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/readme.txt -O ~/readme.txt
+wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/res/readme.txt -O ~/readme.txt
 echo "---------------------------------------------------"
 echo "[*] All finished!"
 echo "[-] Refer to ~/readme.txt for help getting started."
