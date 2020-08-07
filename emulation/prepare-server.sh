@@ -6,20 +6,25 @@ echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo "---------------------------------------------------"
 SHOW_HELP="FALSE"
 INSTALL_RDP="FALSE"
-while getopts hr OPT
+while getopts hru OPT
 do
     case "${OPT}" in
         h) SHOW_HELP="TRUE";;
         r) INSTALL_RDP="TRUE";;
+        u) UPGRADE_OS="TRUE";;
     esac
 done
 if [[ $SHOW_HELP = "TRUE" ]]; then
     echo "-h show this message."
     echo "-r install Lubuntu desktop and enable xRDP."
+    echo "-u upgrade OS packages."
     exit 0
 fi
 echo "[*] Updating OS..."
-apt update && apt upgrade -y
+apt update
+if [[ $UPGRADE_OS = "TRUE" ]]; then
+    apt upgrade -y
+fi
 echo "---------------------------------------------------"
 echo "[*] Installing OS pre-requisites..."
 add-apt-repository -y ppa:certbot/certbot
