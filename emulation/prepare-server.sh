@@ -173,7 +173,7 @@ wget https://github.com/angryip/ipscan/releases/download/3.7.2/ipscan-win64-3.7.
 wget https://nmap.org/dist/nmap-7.80-setup.exe -O recon/nmap-7.80-setup.exe
 echo "---------------------------------------------------"
 echo "[*] Fetching shells..."
-mkdir shell
+mkdir webshell
 wget https://raw.githubusercontent.com/tennc/webshell/master/net-friend/aspx/aspxspy.aspx -O webshell/aspxspy.txt
 wget https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj -O MSBuildShell.csproj
 wget http://nmap.org/dist/ncat-portable-5.59BETA1.zip -O ncat.zip
