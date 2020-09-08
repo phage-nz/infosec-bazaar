@@ -153,6 +153,10 @@
                <OriginalFileName name="technique_id=T1218.003,technique_name=Signed Binary Proxy Execution: CMSTP,phase_name=Defense Evasion" condition="is">CMSTP.exe</OriginalFileName>
                <CommandLine name="technique_id=T1218.003,technique_name=Signed Binary Proxy Execution: CMSTP,phase_name=Defense Evasion" condition="contains all">/ni;/s</CommandLine>
             </Rule>
+            <Rule name="Dev" groupRelation="and">
+               <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Defense Evasion" condition="image">DevToolsLauncher.exe</Image>
+               <CommandLine name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Defense Evasion" condition="contains any">LaunchForDeploy;LaunchForDebug</CommandLine>
+            </Rule>
             <OriginalFileName name="technique_id=T1127.001,technique_name=Trusted Developer Utilities Proxy Execution: MSBuild,phase_name=Defense Evasion" condition="is">MSBuild.exe</OriginalFileName>
             <ParentImage name="technique_id=T1137,technique_name=Office Application Startup,phase_name=Persistence" condition="image">excel.exe</ParentImage>
             <ParentImage name="technique_id=T1137,technique_name=Office Application Startup,phase_name=Persistence" condition="image">winword.exe</ParentImage>
@@ -216,6 +220,10 @@
             <Rule name="Windows Defender tampering" groupRelation="and">
                <Image name="technique_id=T1562.001,technique_name=Impair Defenses: Disable or Modify Tools,phase_name=Defense Evasion" condition="image">MpCmdRun.exe</Image>
                <CommandLine name="technique_id=T1562.001,technique_name=Impair Defenses: Disable or Modify Tools,phase_name=Defense Evasion" condition="contains any">Add-MpPreference;RemoveDefinitions;DisableIOAVProtection</CommandLine>
+            </Rule>
+            <Rule name="Windows Defender download" groupRelation="and">
+               <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">MpCmdRun.exe</Image>
+               <CommandLine name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="contains">-DownloadFile</CommandLine>
             </Rule>
             <OriginalFileName name="technique_id=T1021.006,technique_name=Remote Services: Windows Remote Management,phase_name=Lateral Movement" condition="is">wsmprovhost.exe</OriginalFileName>
             <Image name="technique_id=T1021.006,technique_name=Remote Services: Windows Remote Management,phase_name=Lateral Movement" condition="image">winrm.cmd</Image>

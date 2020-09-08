@@ -64,6 +64,7 @@
             <Image name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="image">wmic.exe</Image>
             <Image name="technique_id=T1543.003,technique_name=Create or Modify System Process: Windows Service,phase_name=Persistence" condition="image">mmc.exe</Image>
             <Image name="technique_id=T1127.001,technique_name=Trusted Developer Utilities Proxy Execution: MSBuild,phase_name=Defense Evasion" condition="image">msbuild.exe</Image>
+            <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">MpCmdRun.exe</Image>
             <Image name="technique_id=T1018,technique_name=Remote System Discovery,phase_name=Lateral Movement" condition="image">nslookup.exe</Image>
             <Image name="technique_id=T1218.009,technique_name=Signed Binary Proxy Execution: Regsvcs/Regasm,phase_name=Defense Evasion" condition="image">regasm.exe</Image>
             <Image name="technique_id=T1218.009,technique_name=Signed Binary Proxy Execution: Regsvcs/Regasm,phase_name=Defense Evasion" condition="image">regsvcs.exe</Image>
