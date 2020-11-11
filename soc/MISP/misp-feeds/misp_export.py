@@ -3,6 +3,7 @@
 from datetime import datetime, timedelta
 from pymisp import PyMISP
 
+import argparse
 import coloredlogs
 import logging
 import os
@@ -20,11 +21,11 @@ MISP_VALIDATE_SSL = False
 
 EXPORT_DAYS = 90
 EXPORT_PAGE_SIZE = 5000
-EXPORT_TAGS = ['tlp:white','tlp:green','osint:source-type="block-or-filter-list"']
-EXPORT_TYPES = ['domain','hostname','url','ip-dst','ip-src']
+EXPORT_TAGS = ['tlp:white','tlp:green','tlp:amber','osint:source-type="block-or-filter-list"']
+EXPORT_TYPES = ['domain','email-src','email-subject','hostname','url','ip-dst','ip-src','sha256']
 EXPORT_MERGE_HOSTNAME = True
 EXPORT_PATH = '/var/www/MISP/app/webroot/export'
-EXPORT_KEY = 'RANDOM STRING'
+EXPORT_KEY = 'RANDOM_STRING'
 
 WHITELIST_FILE = 'whitelist.txt'
 
@@ -38,7 +39,7 @@ def get_api():
     return tweepy.API(auth, wait_on_rate_limit=THROTTLE_REQUESTS)
 
 def export_run(misp, start_fresh=False):
-    LOGGER.info('Loading whitelist...')
+    LOGGER.info('Loading custom whitelist...')
 
     with open(WHITELIST_FILE, mode='r', encoding='utf-8') as in_file:
         white_list = [line.rstrip('\n') for line in in_file]
@@ -136,4 +137,9 @@ if __name__ == '__main__':
         LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
         sys.exit(1)
 
-    export_run(misp)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--full', default=False, action='store_true')
+
+    args = parser.parse_args()
+
+    export_run(misp, start_fresh=args.full)

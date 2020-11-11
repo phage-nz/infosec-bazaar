@@ -35,7 +35,7 @@ CONSUMER_SECRET = 'YOUR SECRET'
 ACCESS_TOKEN = 'YOUR TOKEN'
 ACCESS_TOKEN_SECRET = 'YOUR SECRET'
 
-HOURS_BACK = 7
+HOURS_BACK = 13
 ATTRIBUTE_PROGRESS = True
 MAX_SEARCH_ITEMS = 40
 MAX_USER_ITEMS = 20
@@ -43,8 +43,8 @@ WAIT_SECONDS = 10
 THROTTLE_REQUESTS = True
 INCLUDE_DOMAINS = False
 
-USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','CNMF_VirusAlert','executemalware','FewAtoms','James_inthe_box','JAMESWT_MHT','Jan0fficial','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
-SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
+USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','executemalware','FewAtoms','James_inthe_box','JAMESWT_MHT','Jan0fficial','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
+SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#qakbot','#qbot','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
 
 URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'otx.alienvault.com', 'proofpoint.com', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
 IP_BLACKLIST = ['0.0.0.0', '127.0.0.1', '127.0.1.1', '192.168.1.']
@@ -335,9 +335,12 @@ def process_tweets(api):
                 time.sleep(WAIT_SECONDS)
 
         except tweepy.error.TweepError as ex:
-            LOGGER.error('Failed to query Twitter: {0}'.format(str(ex)))
+            LOGGER.error('Tweepy error: {0}'.format(str(ex)))
 
-            if ex.api_code == 429:
+            if ex.api_code == 404:
+                LOGGER.warning('User no longer exists: {0}'.format(username))
+
+            elif ex.api_code == 429:
                 LOGGER.info('Waiting a moment...')
                 time.sleep(WAIT_SECONDS)
 
@@ -365,7 +368,7 @@ def process_tweets(api):
                 time.sleep(WAIT_SECONDS)
 
         except tweepy.error.TweepError as ex:
-            LOGGER.error('Failed to query Twitter: {0}'.format(str(ex)))
+            LOGGER.error('Tweepy error: {0}'.format(str(ex)))
 
             if ex.api_code == 429:
                 LOGGER.info('Waiting a moment...')
@@ -521,3 +524,4 @@ if __name__ == '__main__':
         sys.exit(1)
 
     twitter_run(misp)
+

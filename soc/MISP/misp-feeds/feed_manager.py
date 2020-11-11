@@ -22,8 +22,7 @@ TEXT_TIMES = ['06:00', '12:00', '18:00', '00:00']
 OTX_TIMES = ['06:00', '12:00', '18:00', '00:00']
 TWITTER_TIMES = ['06:00', '12:00', '18:00', '00:00']
 XFORCE_TIMES = ['06:00', '14:00', '22:00']
-HOURLY_FEEDS = ['16', '33', '42']
-FULL_EXPORT_TIME = '00:00'
+HOURLY_FEEDS = ['74', '75', '76']
 
 ENABLE_EXPORT = True
 ENABLE_OTX = True
@@ -142,18 +141,18 @@ def start_worker():
         if current_time in XFORCE_TIMES and ENABLE_XFORCE:
             LOGGER.info('Beginning X-Force run...')
             xforce_run(misp_user)
-            LOGGER.info('X-Force run complete!')
+            LOGGER.info('X-Force run completge!')
 
         if ENABLE_EXPORT:
-            if current_time == FULL_EXPORT_TIME:
+            if current_time.split(':')[1] == '00':
                 LOGGER.info('Beginning full export run...')
                 export_run(misp_user, start_fresh=True)
                 LOGGER.info('Full export run complete!')
 
-            elif current_time.split(':')[1] == '00':
-                LOGGER.info('Beginning hourly export run...')
+            elif current_time.split(':')[1] in ['10','20','30','40','50']:
+                LOGGER.info('Beginning partial export run...')
                 export_run(misp_user)
-                LOGGER.info('Hourly export run complete!')
+                LOGGER.info('Partial export run complete!')
 
         time.sleep(60)
 

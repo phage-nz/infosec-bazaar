@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+# Requirements:
+# pip3 install coloredlogs OTXv2 pymisp validators
+
 # References:
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 # https://github.com/AlienVault-OTX/OTX-Python-SDK
@@ -26,7 +29,7 @@ OTX_API_KEY = 'YOUR KEY'
 OTX_USER_BLACKLIST = []
 OTX_USER_WHITELIST = []
 
-MISP_URL = 'https://misp.yourdomain.com'
+MISP_URL = 'https://misp.domain.com'
 MISP_API_KEY = 'YOUR KEY'
 MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
@@ -225,7 +228,7 @@ def process_pulses(misp, pulses):
             indicator_value = indicator['indicator']
 
             attribute_exists = False
-            
+
             try:
                 attribute_search = misp.search(controller='attributes', value=indicator_value)
 
@@ -360,3 +363,4 @@ if __name__ == '__main__':
         sys.exit(1)
 
     otx_run(misp)
+
