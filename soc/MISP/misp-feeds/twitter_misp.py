@@ -23,17 +23,17 @@ LOGGER = logging.getLogger('twittermisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'https://misp.domain.com'
-MISP_API_KEY = 'YOUR KEY'
+MISP_URL = 'MISP BASE URL'
+MISP_API_KEY = 'MISP USER KEY'
 MISP_EVENT_TITLE = 'Twitter indicator feed'
 MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
-CONSUMER_KEY = 'YOUR KEY'
-CONSUMER_SECRET = 'YOUR SECRET'
-ACCESS_TOKEN = 'YOUR TOKEN'
-ACCESS_TOKEN_SECRET = 'YOUR SECRET'
+CONSUMER_KEY = 'TWITTER API CONSUMER KEY'
+CONSUMER_SECRET = 'TWITTER API CONSUMER SECRET'
+ACCESS_TOKEN = 'TWITTER API ACCESS TOKEN'
+ACCESS_TOKEN_SECRET = 'TWITTER API ACCESS TOKEN SECRET'
 
 HOURS_BACK = 13
 ATTRIBUTE_PROGRESS = True
@@ -43,10 +43,10 @@ WAIT_SECONDS = 10
 THROTTLE_REQUESTS = True
 INCLUDE_DOMAINS = False
 
-USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','executemalware','FewAtoms','James_inthe_box','JAMESWT_MHT','Jan0fficial','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
-SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#qakbot','#qbot','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
+USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','dubstard','executemalware','FewAtoms','fffoward','James_inthe_box','JAMESWT_MHT','Jan0fficial','JCyberSec_','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
+SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#cobaltstrike','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#qakbot','#qbot','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
 
-URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'otx.alienvault.com', 'proofpoint.com', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
+URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'capesandbox.com', 'otx.alienvault.com', 'proofpoint.com', 'tria.ge', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
 IP_BLACKLIST = ['0.0.0.0', '127.0.0.1', '127.0.1.1', '192.168.1.']
 
 SCRAPER_HEADERS = {
@@ -133,10 +133,11 @@ def get_hash_type(hash):
 def make_new_event(misp):
     LOGGER.info('Creating new fixed event...')
     event = MISPEvent()
+    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
+    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, timestamp)
 
-    timestamp = datetime.utcnow()
-    event_date = timestamp.strftime('%Y-%m-%d')
-    event.info = MISP_EVENT_TITLE
+    event_date = timestamp
+    event.info = event_title
     event.analysis = Analysis.completed
     event.distribution = Distribution.your_organisation_only
     event.threat_level_id = ThreatLevel.low
@@ -385,9 +386,11 @@ def process_tweets(api):
 
 def process_indicators(misp, indicator_list):
     event = False
+    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
+    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, timestamp)
 
     try:
-        event_search = misp.search_index(eventinfo=MISP_EVENT_TITLE)
+        event_search = misp.search_index(eventinfo=event_title)
 
     except Exception as ex:
         LOGGER.error('Failed to search for MISP event: {0}'.format(str(ex)))
@@ -395,7 +398,7 @@ def process_indicators(misp, indicator_list):
 
     if not event_search == []:
         for result in event_search:
-            if result['info'] == MISP_EVENT_TITLE:
+            if result['info'] == event_title:
                 event = event_search[0]
 
     if event:

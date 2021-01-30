@@ -25,12 +25,12 @@ LOGGER = logging.getLogger('otxmisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-OTX_API_KEY = 'YOUR KEY'
+OTX_API_KEY = 'OTX API KEY'
 OTX_USER_BLACKLIST = []
 OTX_USER_WHITELIST = []
 
-MISP_URL = 'https://misp.domain.com'
-MISP_API_KEY = 'YOUR KEY'
+MISP_URL = 'MISP BASE URL'
+MISP_API_KEY = 'MISP USER KEY'
 MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
@@ -57,7 +57,7 @@ def is_valid_url(url):
 
 def get_tags(misp, term):
     tags = [x.name for x in misp.tags(pythonify=True)]
-    return [t for t in tags if term in t]
+    return [t for t in tags if term.lower() in t.lower()]
 
 def get_pulses(otx, date_since):
     LOGGER.info('Getting recent pulses...')

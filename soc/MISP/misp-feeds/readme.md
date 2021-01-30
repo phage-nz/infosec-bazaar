@@ -1,5 +1,5 @@
 ## Python Service for MISP Feed Management
-This set of scripts is designed to offer better reliability and more control over the fetching of feeds into MISP. For the moment, the schedule is broken up into four components, at the top of feed_manager.py:
+This set of scripts is designed to offer better reliability and more control over the fetching of feeds into MISP. For the moment, the schedule is broken up into multiple components, at the top of feed_manager.py:
 - **MISP_TIMES:** An array of times (24hr format) when enabled MISP feeds will be fetched and cached.  
 - **TEXT_TIMES:** An array of times (24hr format) when enabled plaintext and CSV feeds will be fetched and cached.  
 - **TWITTER_TIMES:** An array of times (24hr format) when the Twitter API will be queried for new tweets.  
@@ -8,7 +8,7 @@ This set of scripts is designed to offer better reliability and more control ove
 - **HOURLY_FEEDS** An array of the ID's of enabled feeds that you wish to run at the beginning of every hour.  
 - **FULL_EXPORT_TIME** The time (24hr format) that you want to run a full text export of attributes.  
 
-In addition to this are "ENABLE" options for all external services.
+In addition to this are "ENABLE" options for all external services. By default, Abuse.ch is configured to run every hour.
 
 Am still working out the best way of going about granular scheduling.
 
@@ -17,7 +17,7 @@ Am still working out the best way of going about granular scheduling.
 - **MISP_USER_KEY:** This can be the key of an Org Admin, Sync User or your own custom role. They must be able to both manage and publish events, and hold the Tag Editor permission.  
 
 ### Installation:
-- Recommended: Ensure that the fetch_feeds and cache_feeds Scheduled Tasks are not enabled.  
+- Recommended: Ensure that the fetch_feeds and cache_feeds Scheduled Tasks are not enabled.   Also, disable the default Abuse.ch feeds as this project includes a module that loads the data with more context and into a separate event each day.
 - SCP this folder to your MISP server.  
 - Alter the paths in misp-feeds.service and start_worker.sh to point to where you've dropped the folder.  
 - Correct the user in misp-feeds.service if it is not ubuntu.  

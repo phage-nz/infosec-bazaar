@@ -26,12 +26,12 @@ LOGGER = logging.getLogger('xforcemisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-XFORCE_API_KEY = 'YOUR KEY'
-XFORCE_API_PASSWORD = 'YOUR PASSWORD'
+XFORCE_API_KEY = 'XFORCE API KEY'
+XFORCE_API_PASSWORD = 'XFORCE API PASSWORD'
 XFORCE_LINK_IGNORE = ['ibm.com', 'ibmcloud.com', 'xforce-security.com']
 
-MISP_URL = 'https://misp.domain.com'
-MISP_API_KEY = 'YOUR KEY'
+MISP_URL = 'MISP BASE URL'
+MISP_API_KEY = 'MISP USER KEY'
 MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False

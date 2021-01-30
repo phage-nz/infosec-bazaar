@@ -6,6 +6,7 @@
 # References:
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 
+from abusech_misp import abusech_run
 from misp_export import export_run
 from otx_misp import otx_run
 from pymisp import PyMISP
@@ -22,16 +23,17 @@ TEXT_TIMES = ['06:00', '12:00', '18:00', '00:00']
 OTX_TIMES = ['06:00', '12:00', '18:00', '00:00']
 TWITTER_TIMES = ['06:00', '12:00', '18:00', '00:00']
 XFORCE_TIMES = ['06:00', '14:00', '22:00']
-HOURLY_FEEDS = ['74', '75', '76']
+HOURLY_FEEDS = []
 
 ENABLE_EXPORT = True
+ENABLE ABUSECH = True
 ENABLE_OTX = True
 ENABLE_TWITTER = True
 ENABLE_XFORCE = True
 
-MISP_URL = 'https://misp.domain.com'
-MISP_ADMIN_KEY = 'YOUR ADMIN KEY'
-MISP_USER_KEY = 'YOUR USER KEY'
+MISP_URL = 'MISP BASE URL'
+MISP_ADMIN_KEY = 'MISP ADMIN KEY'
+MISP_USER_KEY = 'MISP USER KEY'
 MISP_VALIDATE_SSL = False
 
 LOGGER = logging.getLogger('mispfeedmanager')
@@ -99,6 +101,9 @@ def start_worker():
                     fetch_feed(misp_admin, feed)
                     LOGGER.info('Waiting a moment...')
                     time.sleep(2)
+
+            if ENABLE_ABUSECH:
+                abusech_run(misp_user)
 
             LOGGER.info('Hourly feed run complete!')
 

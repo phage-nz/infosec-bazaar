@@ -15,8 +15,8 @@ LOGGER = logging.getLogger('mispexport')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'https://misp.domain.com'
-MISP_API_KEY = 'YOUR KEY'
+MISP_URL = 'MISP BASE URL'
+MISP_API_KEY = 'MISP USER KEY'
 MISP_VALIDATE_SSL = False
 
 EXPORT_DAYS = 90
@@ -25,7 +25,7 @@ EXPORT_TAGS = ['tlp:white','tlp:green','tlp:amber','osint:source-type="block-or-
 EXPORT_TYPES = ['domain','email-src','email-subject','hostname','url','ip-dst','ip-src','sha256']
 EXPORT_MERGE_HOSTNAME = True
 EXPORT_PATH = '/var/www/MISP/app/webroot/export'
-EXPORT_KEY = 'RANDOM_STRING'
+EXPORT_KEY = 'RANDOM ALPHANUMERIC STRING'
 
 WHITELIST_FILE = 'whitelist.txt'
 
