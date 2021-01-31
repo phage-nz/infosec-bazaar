@@ -190,6 +190,10 @@ def process_pulses(misp, pulses):
             if not author in OTX_USER_WHITELIST:
                 continue
 
+        if OTX_PULSE_BLACKLIST:
+            if pulse['id'] in OTX_PULSE_BLACKLIST:
+                continue
+
         LOGGER.info('New pulse from {0}: {1}'.format(author, title))
 
         event = False

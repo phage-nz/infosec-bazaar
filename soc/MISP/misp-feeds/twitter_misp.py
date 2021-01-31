@@ -43,8 +43,8 @@ WAIT_SECONDS = 10
 THROTTLE_REQUESTS = True
 INCLUDE_DOMAINS = False
 
-USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','dubstard','executemalware','FewAtoms','fffoward','James_inthe_box','JAMESWT_MHT','Jan0fficial','JCyberSec_','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
-SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#cobaltstrike','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#qakbot','#qbot','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
+USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','dubstard','executemalware','FewAtoms','ffforward','James_inthe_box','JAMESWT_MHT','Jan0fficial','JCyberSec_','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
+SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#qakbot','#qbot','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
 
 URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'capesandbox.com', 'otx.alienvault.com', 'proofpoint.com', 'tria.ge', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
 IP_BLACKLIST = ['0.0.0.0', '127.0.0.1', '127.0.1.1', '192.168.1.']
@@ -133,10 +133,9 @@ def get_hash_type(hash):
 def make_new_event(misp):
     LOGGER.info('Creating new fixed event...')
     event = MISPEvent()
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
-    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, timestamp)
+    event_date = datetime.now().strftime('%Y-%m-%d')
+    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, event_date)
 
-    event_date = timestamp
     event.info = event_title
     event.analysis = Analysis.completed
     event.distribution = Distribution.your_organisation_only
@@ -386,8 +385,8 @@ def process_tweets(api):
 
 def process_indicators(misp, indicator_list):
     event = False
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
-    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, timestamp)
+    event_date = datetime.now().strftime('%Y-%m-%d')
+    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, event_date)
 
     try:
         event_search = misp.search_index(eventinfo=event_title)

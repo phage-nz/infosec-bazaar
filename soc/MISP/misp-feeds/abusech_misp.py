@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from collections import Counter
 from datetime import datetime, timedelta
 from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
 
@@ -92,10 +93,9 @@ def is_valid_sample(tags):
 def make_new_event(misp):
     LOGGER.info('Creating new fixed event...')
     event = MISPEvent()
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
-    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, timestamp)
+    event_date = datetime.now().strftime('%Y-%m-%d')
+    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, event_date)
 
-    event_date = timestamp
     event.info = event_title
     event.analysis = Analysis.completed
     event.distribution = Distribution.your_organisation_only
@@ -126,7 +126,7 @@ def get_urlhaus_list():
             content = response.text
             reader = csv.reader(content.splitlines(), delimiter=',')
             valid_lines = [line for line in list(reader) if len(line) == 8]
-            date_threshold = datetime.now() - timedelta(minutes=SAMPLE_MAX_MINUTES)
+            date_threshold = datetime.utcnow() - timedelta(minutes=SAMPLE_MAX_MINUTES)
 
             for line in valid_lines:
                 if line[0].startswith('#'):
@@ -163,7 +163,7 @@ def get_feodo_list():
             content = response.text
             reader = csv.reader(content.splitlines(), delimiter=',')
             valid_lines = [line for line in list(reader) if len(line) == 6]
-            date_threshold = datetime.now() - timedelta(minutes=SAMPLE_MAX_MINUTES)
+            date_threshold = datetime.utcnow() - timedelta(minutes=SAMPLE_MAX_MINUTES)
 
             for line in valid_lines:
                 if line[0].startswith('#'):
@@ -201,7 +201,7 @@ def get_bazaar_list():
             content = content.replace(', ',',')
             reader = csv.reader(content.splitlines(), delimiter=',')
             valid_lines = [line for line in list(reader) if len(line) == 14]
-            date_threshold = datetime.now() - timedelta(minutes=SAMPLE_MAX_MINUTES)
+            date_threshold = datetime.utcnow() - timedelta(minutes=SAMPLE_MAX_MINUTES)
 
             for line in valid_lines:
                 if line[0].startswith('#'):
@@ -232,8 +232,8 @@ def get_bazaar_list():
 
 def process_indicators(misp, indicator_list):
     event = False
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
-    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, timestamp)
+    event_date = datetime.now().strftime('%Y-%m-%d')
+    event_title = '{0} {1}'.format(MISP_EVENT_TITLE, event_date)
 
     try:
         event_search = misp.search_index(eventinfo=event_title)
