@@ -5,6 +5,7 @@ from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, 
 
 import coloredlogs
 import csv
+import json
 import logging
 import re
 import sys
@@ -18,8 +19,8 @@ LOGGER = logging.getLogger('abusechmisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'MISP BASE URL'
-MISP_API_KEY = 'MISP USER KEY'
+MISP_URL = 'MISP URL'
+MISP_API_KEY = 'MISP API KEY'
 MISP_EVENT_TITLE = 'Abuse.ch indicator feed'
 MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
@@ -27,10 +28,12 @@ MISP_PUBLISH_EVENTS = False
 
 FEODOTRACKER_URL = 'https://feodotracker.abuse.ch/downloads/ipblocklist.csv'
 MALWAREBAZAAR_URL = 'https://bazaar.abuse.ch/export/csv/recent/'
+THREATFOX_URL = 'https://threatfox.abuse.ch/export/json/recent/'
 URLHAUS_URL = 'https://urlhaus.abuse.ch/downloads/csv_recent/'
 
 ATTRIBUTE_PROGRESS = True
 SAMPLE_MAX_MINUTES = 70
+SHA256_ONLY = True
 
 IP_BLACKLIST = []
 URL_BLACKLIST = []
@@ -134,18 +137,20 @@ def get_urlhaus_list():
 
                 line_timestamp = datetime.strptime(line[1], '%Y-%m-%d %H:%M:%S')
 
-                if line_timestamp > date_threshold:
-                    url = line[2]
-                    tags = line[5]
-                    comment = line[6]
+                if not line_timestamp > date_threshold:
+                    continue
 
-                    if not is_valid_sample(tags):
-                        continue
+                url = line[2]
+                tags = line[5]
+                comment = line[6]
 
-                    if not is_valid_url(url):
-                        continue
+                if not is_valid_sample(tags):
+                    continue
 
-                    indicator_list.append(FeedIndicator(comment, tags, 'url', url))
+                if not is_valid_url(url):
+                    continue
+
+                indicator_list.append(FeedIndicator(comment, tags, 'url', url))
 
     except Exception as e:
         LOGGER.error('URLhaus request error: {0}'.format(str(e)))
@@ -166,26 +171,86 @@ def get_feodo_list():
             date_threshold = datetime.utcnow() - timedelta(minutes=SAMPLE_MAX_MINUTES)
 
             for line in valid_lines:
-                if line[0].startswith('#'):
+                if line[0].startswith('#') or 'first_seen' in line[0]:
                     continue
 
                 line_timestamp = datetime.strptime(line[0], '%Y-%m-%d %H:%M:%S')
 
-                if line_timestamp > date_threshold:
-                    ip = line[1]
-                    tag = line[5]
-                    comment = 'Port {0}'.format(line[2])
+                if not line_timestamp > date_threshold:
+                    continue
 
-                    if not is_valid_sample(tag):
-                        continue
+                ip = line[1]
+                port = line[2]
+                tag = line[5]
+                comment = 'https://feodotracker.abuse.ch/browse/host/{0}/'.format(ip)
 
-                    if not is_valid_ip(ip):
-                        continue
+                if not is_valid_sample(tag):
+                    continue
 
-                    indicator_list.append(FeedIndicator(comment, tag, 'ip-dst', ip))
+                if not is_valid_ip(ip):
+                    continue
+
+                indicator_list.append(FeedIndicator(comment, tag, 'ip-dst|port', '{0}|{1}'.format(ip,port)))
 
     except Exception as e:
         LOGGER.error('FeodoTracker request error: {0}'.format(str(e)))
+
+    return indicator_list
+
+def get_threatfox_list():
+    LOGGER.info('Fetching latest IOCs from ThreatFox...')
+    indicator_list = []
+
+    try:
+        response = requests.get(THREATFOX_URL)
+
+        if response.status_code == 200:
+            content = response.text
+            entries = json.loads(response.text)
+            date_threshold = datetime.utcnow() - timedelta(minutes=SAMPLE_MAX_MINUTES)
+
+            for entry_id in entries:
+                entry = entries[entry_id][0]
+                entry_timestamp = datetime.strptime(entry['first_seen_utc'], '%Y-%m-%d %H:%M:%S')
+
+                if not entry_timestamp > date_threshold:
+                    continue
+
+                ioc_value = entry['ioc_value']
+                ioc_type = entry['ioc_type']
+                tags = '{0},{1}'.format(entry['malware'], entry['malware_printable'])
+                comment = 'https://threatfox.abuse.ch/ioc/{0}/'.format(entry_id)
+
+                if not is_valid_sample(tags):
+                    continue
+
+                if ioc_type == 'url':
+                    if not is_valid_url(ioc_value):
+                        continue
+
+                elif ioc_type == 'ip:port':
+                    if not is_valid_ip(ioc_value.split(':')[0]):
+                        continue
+
+                    ioc_type = 'ip-dst|port'
+                    ioc_value = ioc_value.replace(':','|')
+
+                elif '_hash' in ioc_type:
+                    if SHA256_ONLY and not re.search(r'\w{64}', ioc_value):
+                        continue
+
+                    elif not re.search(r'\w{32,64}', ioc_value):
+                        continue
+
+                    ioc_type = ioc_type.replace('_hash','')
+
+                else:
+                    continue
+
+                indicator_list.append(FeedIndicator(comment, tags, ioc_type, ioc_value))
+
+    except Exception as e:
+        LOGGER.error('ThreatFox request error: {0}'.format(str(e)))
 
     return indicator_list
 
@@ -210,18 +275,22 @@ def get_bazaar_list():
                 line_timestamp = datetime.strptime(line[0], '%Y-%m-%d %H:%M:%S')
 
                 if line_timestamp > date_threshold:
-                    sha256 = line[1]
-                    md5 = line[2]
-                    sha1 = line[3]
-                    filename = line[5]
-                    filetype = line[6]
-                    tag = line[8]
-                    comment = 'File: {0} ({1})'.format(filename, filetype)
+                    continue
 
-                    if not is_valid_sample(tag):
-                        continue
+                sha256 = line[1]
+                md5 = line[2]
+                sha1 = line[3]
+                filename = line[5]
+                filetype = line[6]
+                tag = line[8]
+                comment = 'File: {0} ({1})'.format(filename, filetype)
 
-                    indicator_list.append(FeedIndicator(comment, tag, 'sha256', sha256))
+                if not is_valid_sample(tag):
+                    continue
+
+                indicator_list.append(FeedIndicator(comment, tag, 'sha256', sha256))
+
+                if not SHA256_ONLY:
                     indicator_list.append(FeedIndicator(comment, tag, 'md5', md5))
                     indicator_list.append(FeedIndicator(comment, tag, 'sha1', sha1))
 
@@ -275,7 +344,13 @@ def process_indicators(misp, indicator_list):
         attribute_exists = False
 
         try:
-            attribute_search = misp.search(controller='attributes', value=indicator_value)
+            if attribute_type == 'ip-dst|port':
+                search_value = indicator_value.split('|')[0]
+
+            else:
+                search_value = indicator_value
+
+            attribute_search = misp.search(controller='attributes', value=search_value, type=attribute_type)
 
         except Exception as ex:
             LOGGER.error('Failed to search for MISP attribute: {0}'.format(str(ex)))
@@ -283,8 +358,9 @@ def process_indicators(misp, indicator_list):
 
         if not attribute_search['Attribute'] == []:
             for attribute_result in attribute_search['Attribute']:
-                if int(attribute_result['event_id']) == int(event['id']):
-                    attribute_exists = True
+                if attribute_result['value'] == indicator_value:
+                    if int(attribute_result['event_id']) == int(event['id']):
+                        attribute_exists = True
 
         if attribute_exists:
             continue
@@ -299,6 +375,9 @@ def process_indicators(misp, indicator_list):
             attribute_category = 'Payload delivery'
 
         elif attribute_type == 'ip-dst':
+            attribute_category = 'Network activity'
+
+        elif attribute_type == 'ip-dst|port':
             attribute_category = 'Network activity'
 
         elif attribute_type == 'url':
@@ -325,7 +404,6 @@ def process_indicators(misp, indicator_list):
         attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': indicator_value, 'comment': indicator_comment, 'to_ids': MISP_TO_IDS, 'Tag': attribute_tags}
 
         try:
-            print(attribute_json)
             new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
 
         except Exception as ex:
@@ -365,6 +443,14 @@ def abusech_run(misp):
 
     else:
         LOGGER.warning('MalwareBazaar list is empty.')
+
+    threatfox_list = get_threatfox_list()
+
+    if len(threatfox_list) > 0:
+        process_indicators(misp, threatfox_list)
+
+    else:
+        LOGGER.warning('ThreatFox list is empty.')
 
     LOGGER.info('Run complete!')
 
