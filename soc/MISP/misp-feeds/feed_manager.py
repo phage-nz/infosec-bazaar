@@ -7,6 +7,7 @@
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 
 from abusech_misp import abusech_run
+from cleanmx_misp import cleanmx_run
 from misp_export import export_run
 from otx_misp import otx_run
 from pymisp import PyMISP
@@ -19,14 +20,16 @@ import time
 import urllib3
 
 MISP_TIMES = ['06:00', '18:00']
+CLEANMX_TIMES = ['08:00', '12:00', '16:00', '20:00', '00:00', '04:00']
+OTX_TIMES = ['08:00', '14:00', '20:00', '02:00']
 TEXT_TIMES = ['06:00', '12:00', '18:00', '00:00']
-OTX_TIMES = ['06:00', '12:00', '18:00', '00:00']
 TWITTER_TIMES = ['06:00', '12:00', '18:00', '00:00']
 XFORCE_TIMES = ['06:00', '14:00', '22:00']
 HOURLY_FEEDS = []
 
+ENABLE_ABUSECH = True
 ENABLE_EXPORT = True
-ENABLE ABUSECH = True
+ENABLE_CLEANMX = True
 ENABLE_OTX = True
 ENABLE_TWITTER = True
 ENABLE_XFORCE = True
@@ -45,19 +48,19 @@ def disable_ssl_warnings():
 
 def cache_feed(misp, feed):
     LOGGER.info('Caching feed: {0}'.format(feed.name))
-    
+
     try:
         misp.cache_feed(feed.id)
-        
+
     except Exception as ex:
         LOGGER.error('Failed to cache MISP feed: {0}'.format(str(ex)))
 
 def fetch_feed(misp, feed):
     LOGGER.info('Fetching feed: {0}'.format(feed.name))
-    
+
     try:
         fetch = misp.fetch_feed(feed.id)
-        
+
     except Exception as ex:
         LOGGER.error('Failed to fetch MISP feed: {0}'.format(str(ex)))
         return
@@ -132,6 +135,11 @@ def start_worker():
                     time.sleep(2)
 
             LOGGER.info('Text feed run complete!')
+
+        if current_time in CLEANMX_TIMES and ENABLE_CLEANMX:
+            LOGGER.info('Beginning CleanMX run...')
+            cleanmx_run(misp_user)
+            LOGGER.info('CleanMX run complete!')
 
         if current_time in OTX_TIMES and ENABLE_OTX:
             LOGGER.info('Beginning OTX run...')
