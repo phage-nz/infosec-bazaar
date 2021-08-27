@@ -28,6 +28,7 @@ coloredlogs.install(level='INFO')
 OTX_API_KEY = 'OTX API KEY'
 OTX_USER_BLACKLIST = []
 OTX_USER_WHITELIST = []
+OTX_PULSE_BLACKLIST = []
 
 MISP_URL = 'MISP BASE URL'
 MISP_API_KEY = 'MISP USER KEY'
@@ -109,12 +110,10 @@ def make_new_event(misp, pulse):
         tag_list = []
 
         if ',' in adversary:
-            adversary_list = [s.strip() for s in adversary.split(',')]
+            adversary_list = [s.strip() for s in adversary.split(',') if s.strip() != '']
 
         else:
             adversary_list.append(adversary)
-
-        print(adversary_list)
 
         for adversary in adversary_list:
             galaxy_tags = get_tags(misp, adversary)
@@ -242,8 +241,9 @@ def process_pulses(misp, pulses):
 
             if not attribute_search['Attribute'] == []:
                 for attribute_result in attribute_search['Attribute']:
-                    if int(attribute_result['event_id']) == int(event['id']):
-                        attribute_exists = True
+                    if attribute_result['value'] == indicator_value:
+                        if int(attribute_result['event_id']) == int(event['id']):
+                            attribute_exists = True
 
             if attribute_exists:
                 continue
@@ -367,4 +367,3 @@ if __name__ == '__main__':
         sys.exit(1)
 
     otx_run(misp)
-
