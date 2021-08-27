@@ -220,18 +220,46 @@ def get_ghostbin_paste(url):
 
     return None
 
+def get_github_blob(url):
+    try:
+        url_parts = urllib.parse.urlparse(url)
+
+        if url_parts.netloc == 'github.com':
+            raw_url = 'https://raw.githubusercontent.com{0}'.format(url_parts.path).replace('/blob','')
+
+        elif url_parts.netloc == 'gist.github.com':
+            raw_url = 'https://gist.githubusercontent.com{0}/raw'.format(url_parts.path)
+
+        elif '/raw' in url:
+            raw_url = url
+
+        else:
+            LOGGER.warning('Failed to construct raw GitHub URL from: {0}'.format(url))
+            return None
+
+        LOGGER.info('Requesting GitHub blob from: {0}'.format(raw_url))
+
+        blob_request = requests.get(raw_url)
+
+        if blob_request.status_code == 200:
+            return blob_request.content
+
+        else:
+            LOGGER.warning('Failed to request GitHub. Status: {0}'.format(blob_request.status_code))
+
+    except Exception as ex:
+        LOGGER.error('Failed to query GitHub: {0}'.format(ex))
+
+    return None
+
 def extract_paste_indicators(username, tweet_id, url):
+    paste_text = None
+
     if 'pastebin.com' in url:
         paste_text = get_pastebin_paste(url)
 
         LOGGER.info('Waiting a moment...')
         time.sleep(1)
-
-        if paste_text != None:
-            paste_indicators = extract_text_indicators(username, tweet_id, paste_text.decode('utf-8'))
-
-            if len(paste_indicators) > 0:
-                return paste_indicators
 
     elif 'ghostbin.com' in url:
         paste_text = get_ghostbin_paste(url)
@@ -239,11 +267,17 @@ def extract_paste_indicators(username, tweet_id, url):
         LOGGER.info('Waiting a moment...')
         time.sleep(1)
 
-        if paste_text != None:
-            paste_indicators = extract_text_indicators(username, tweet_id, paste_text.decode('utf-8'))
+    elif any(x in url for x in ['github.com','githubusercontent.com']):
+        paste_text = get_github_blob(url)
 
-            if len(paste_indicators) > 0:
-                return paste_indicators
+        LOGGER.info('Waiting a moment...')
+        time.sleep(1)
+
+    if paste_text != None:
+        paste_indicators = extract_text_indicators(username, tweet_id, paste_text.decode('utf-8'))
+
+        if len(paste_indicators) > 0:
+            return paste_indicators
 
     return []
 
@@ -265,12 +299,6 @@ def extract_text_indicators(username, tweet_id, text):
                 indicator_list.append(TwitterIndicator(user_id, tweet_url, hash_type, hash))
 
         for url in iocextract.extract_urls(text, refang=True):
-            if 'ghostbin.com' in url or 'pastebin.com' in url:
-                paste_indicators = extract_paste_indicators(username, url)
-
-                if len(paste_indicators) > 0:
-                    indicator_list.extend(paste_indicators)
-
             url = apply_url_fixes(url)
 
             if is_valid_url(url):
@@ -296,6 +324,7 @@ def parse_tweet(tweet):
             tweet_id = tweet.id
 
             LOGGER.info('Parsing Tweet: {0} (user: {1})'.format(tweet_id, screen_name))
+
             tweet_indicators = extract_text_indicators(screen_name, tweet_id, tweet.text)
 
             if len(tweet_indicators) > 0:
@@ -304,7 +333,7 @@ def parse_tweet(tweet):
             for url in tweet.entities['urls']:
                 expanded_url = url['expanded_url']
 
-                if 'ghostbin.com' in expanded_url or 'pastebin.com' in expanded_url:
+                if any(x in expanded_url for x in ['pastebin.com','ghostbin.com','github.com','githubusercontent.com']):
                     paste_indicators = extract_paste_indicators(screen_name, tweet_id, expanded_url)
 
                     if len(paste_indicators) > 0:
@@ -435,8 +464,9 @@ def process_indicators(misp, indicator_list):
 
         if not attribute_search['Attribute'] == []:
             for attribute_result in attribute_search['Attribute']:
-                if int(attribute_result['event_id']) == int(event['id']):
-                    attribute_exists = True
+                if attribute_result['value'] == indicator_value:
+                    if int(attribute_result['event_id']) == int(event['id']):
+                        attribute_exists = True
 
         if attribute_exists:
             continue
@@ -462,7 +492,7 @@ def process_indicators(misp, indicator_list):
             attribute_type = 'url'
 
         elif indicator_type == 'HOST':
-            if attribute_value.count('.') == 1:
+            if indicator_value.count('.') == 1:
                 attribute_type = 'domain'
 
             else:
@@ -526,4 +556,3 @@ if __name__ == '__main__':
         sys.exit(1)
 
     twitter_run(misp)
-
