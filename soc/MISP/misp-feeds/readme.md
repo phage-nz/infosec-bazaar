@@ -4,6 +4,7 @@ This set of scripts is designed to offer better reliability and more control ove
 - **TEXT_TIMES:** An array of times (24hr format) when enabled plaintext and CSV feeds will be fetched and cached.  
 - **TWITTER_TIMES:** An array of times (24hr format) when the Twitter API will be queried for new tweets.  
 - **OTX_TIMES:** An array of times (24hr format) when the OTX API will be queried for new+updated pulses.  
+- **CLEANMX_TIMES:** An array of times (24hr format) when the CleanMX feeds will be queried for new+updated URLs.  
 - **XFORCE_TIMES:** An array of times (24hr format) when the X-Force API will be queried for new+updated cases.  
 - **HOURLY_FEEDS** An array of the ID's of enabled feeds that you wish to run at the beginning of every hour.  
 - **FULL_EXPORT_TIME** The time (24hr format) that you want to run a full text export of attributes.  
