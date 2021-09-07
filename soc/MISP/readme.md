@@ -1,5 +1,5 @@
 ## Preparation
-Stand up a VM with at least:
+Stand up an Ubuntu 20.04 VM with at least:
 - 4GB RAM  
 - 2 CPU  
 - 80GB disk
