@@ -143,8 +143,9 @@ pip3 install -r requirements.txt
 echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
-wget https://github.com/BishopFox/sliver/releases/download/v1.4.21/sliver-client_linux.zip
+wget https://github.com/BishopFox/sliver/releases/download/v1.4.21/sliver-server_linux.zip
 unzip sliver-server_linux.zip && rm sliver-server_linux.zip
+chmod +x sliver-server
 echo "---------------------------------------------------"
 echo "[*] Installing SpiderFoot"
 git clone https://github.com/smicallef/spiderfoot /opt/SpiderFoot
