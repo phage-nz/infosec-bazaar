@@ -36,6 +36,10 @@ Metasploit:
 - Start: msfconsole
 - Reference: https://github.com/rapid7/metasploit-framework
 
+Mythic:
+- Start: cd /opt/Mythic && ./mythic-cli mythic start
+- Reference: https://github.com/its-a-feature/Mythic
+
 Modlishka:
 - Start: cd /opt/Modlishka && ./Modlishka -config modlishka.config
 - Reference: https://github.com/drk1wi/Modlishka
@@ -53,6 +57,10 @@ SpiderFoot:
 - Start server: cd /opt/SpiderFoot && python3 sf.py -l <server IP>:5001
 - Start client: cd /opt/SpiderFoot && python3 sfcli.py -s http://<server IP>:5001
 - Reference: https://github.com/smicallef/spiderfoot
+
+TrevorC2:
+- Start: cd /opt/TrevorC2 && ./trevorc2_server.py
+- Reference: https://github.com/trustedsec/trevorc2
 
 Others:
 - Tools intended to be used on the target (e.g. Mimikatz, Ncat, WSO) can be found in categorised folders under /var/www/html
