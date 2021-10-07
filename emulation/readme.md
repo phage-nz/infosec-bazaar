@@ -82,7 +82,8 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 - Reference: https://github.com/cobbr/Covenant  
 
 **Empire:**
-- Start: `cd /opt/Empire && ./empire`  
+- Start server: `cd /opt/Empire && ./ps-empire server`
+- Start client: `cd /opt/Empire && ./ps-empire client`
 - beacon2empire: `cd /opt/Empire/beacon2empire && ./convert.py`  
 - References:  
   - https://github.com/BC-SECURITY/Empire  
@@ -112,11 +113,9 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 - Start: `cd /opt/Modlishka && ./Modlishka -config modlishka.config`  
 - Reference: https://github.com/drk1wi/Modlishka  
 
-**PoshC2:**
-- Edit config: `posh-config`  
-- Start server: `posh-server`  
-- Start client: `posh`  
-- Reference: https://github.com/nettitude/PoshC2  
+**Mythic:**
+- Start: `cd /opt/Mythic && ./mythic-cli mythic start`  
+- Reference: https://github.com/its-a-feature/Mythic  
 
 **SILENTTRINITY:**
 - Start server: `cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>`  
@@ -131,6 +130,10 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 - Start server: `cd /opt/SpiderFoot && python3 sf.py -l <server IP>:5001`  
 - Start client: `cd /opt/SpiderFoot && python3 sfcli.py -s http://<server IP>:5001`  
 - Reference: https://github.com/smicallef/spiderfoot  
+
+**TrevorC2:**
+- Start: `cd /opt/TrevorC2 && ./trevorc2_server.py`  
+- Reference: https://github.com/trustedsec/trevorc2  
 
 **Others:**
 - Tools intended to be used on the target (e.g. Mimikatz, Ncat, WSO) can be found in categorised folders under /var/www/html  
