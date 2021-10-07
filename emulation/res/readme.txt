@@ -9,7 +9,8 @@ Covenant:
 - Reference: https://github.com/cobbr/Covenant
 
 Empire:
-- Start: cd /opt/Empire && ./empire
+- Start server: cd /opt/Empire && ./ps-empire server
+- Start client: cd /opt/Empire && ./ps-empire client
 - beacon2empire: cd /opt/Empire/beacon2empire && ./convert.py
 - References:
   - https://github.com/BC-SECURITY/Empire
@@ -20,7 +21,7 @@ Exploit DB:
 - Reference: https://github.com/offensive-security/exploitdb
 
 Invoke-Obfuscation:
-- Start: cd /opt/Invoke-Obfuscation && pwsh -Command "Import-Module ./Invoke-Obfuscation.psd1 && Invoke-Obfuscation"
+- Start: cd /opt/Obfuscators/Invoke-Obfuscation && pwsh -Command "Import-Module ./Invoke-Obfuscation.psd1 && Invoke-Obfuscation"
 - Reference: https://github.com/danielbohannon/Invoke-Obfuscation
 
 Koadic:
@@ -38,12 +39,6 @@ Metasploit:
 Modlishka:
 - Start: cd /opt/Modlishka && ./Modlishka -config modlishka.config
 - Reference: https://github.com/drk1wi/Modlishka
-
-PoshC2:
-- Edit config: posh-config
-- Start server: posh-server
-- Start client: posh
-- Reference: https://github.com/nettitude/PoshC2
 
 SILENTTRINITY:
 - Start server: cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>
