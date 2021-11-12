@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 07/10/21"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 12/11/21"
 echo '[*] "Train like you fight..."'
 echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo "---------------------------------------------------"
@@ -31,7 +31,7 @@ add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu
 wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
 dpkg -i /tmp/packages-microsoft-prod.deb
 apt-get update
-apt install -y apache2 autoconf build-essential certbot default-jdk docker-ce dotnet-sdk-3.1 g++ git libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common net-tools nmap p7zip-full python3-certbot-apache python3-dev python3-pip python3-setuptools python3-testresources ruby ruby-dev software-properties-common swig unzip zlib1g-dev
+apt install -y apache2 autoconf build-essential certbot default-jdk docker-ce dotnet-sdk-3.1 g++ git golang-go libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common net-tools nmap osslsigncode p7zip-full python3-certbot-apache python3-dev python3-pip python3-setuptools python3-testresources ruby ruby-dev software-properties-common swig unzip zlib1g-dev
 curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 gem install bundle
@@ -135,6 +135,10 @@ git clone https://github.com/its-a-feature/Mythic /opt/Mythic
 ./mythic-cli install github https://github.com/MythicC2Profiles/dynamichttp
 ./mythic-cli install github https://github.com/MythicC2Profiles/http
 ./mythic-cli install github https://github.com/MythicC2Profiles/websocket
+echo "---------------------------------------------------"
+echo "[*] Installing ScareCrow"
+mkdir /opt/ScareCrow && cd /opt/ScareCrow
+wget https://github.com/optiv/ScareCrow/releases/download/v3.01/ScareCrow_3.01_linux_amd64 -O ScareCrow
 echo "---------------------------------------------------"
 echo "[*] Installing SILENTTRINITY"
 git clone https://github.com/byt3bl33d3r/SILENTTRINITY /opt/SILENTTRINITY
