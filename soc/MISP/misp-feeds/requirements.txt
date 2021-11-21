@@ -1,8 +1,0 @@
-cfscrape
-coloredlogs
-iocextract
-OTXv2
-pymisp
-stix
-tweepy
-validators
