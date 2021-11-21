@@ -1,7 +1,12 @@
 #!/usr/bin/python3
+
 from collections import Counter
+from config import *
 from datetime import datetime, timedelta
-from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+from helpers import disable_ssl_warnings, is_valid_domain, is_valid_url, is_valid_ip, get_tags
+from pymisp import MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+
+from pprint import pprint
 
 import coloredlogs
 import csv
@@ -11,18 +16,16 @@ import re
 import sys
 import requests
 import time
-import urllib.parse
-import urllib3
-import validators
 
 LOGGER = logging.getLogger('abusechmisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'MISP URL'
-MISP_API_KEY = 'MISP API KEY'
+PLUGIN_NAME = 'Abuse.CH'
+PLUGIN_ENABLED = True
+PLUGIN_TIMES = ['hourly']
+
 MISP_EVENT_TITLE = 'Abuse.ch indicator feed'
-MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
@@ -35,11 +38,6 @@ ATTRIBUTE_PROGRESS = True
 SAMPLE_MAX_MINUTES = 70
 SHA256_ONLY = True
 
-IP_BLACKLIST = []
-URL_BLACKLIST = []
-TAG_BLACKLIST = ['arm','bashlite','elf','gafgyt','mirai','mozi','script']
-TAG_IGNORE = ['exe','dll','doc','encrypted','excel','hta','iso','msi','ransomware','rtf','script','xls']
-
 class FeedIndicator:
   def __init__(self, ref_comment, ref_tags, o_type, o_value):
     self.ref_comment = ref_comment
@@ -47,49 +45,10 @@ class FeedIndicator:
     self.o_type = o_type
     self.o_value = o_value
 
-def disable_ssl_warnings():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-def get_tags(misp, term):
-    tags = [x for x in misp.tags(pythonify=True)]
-    return [t.to_dict() for t in tags if term.lower() in t.name.lower()]
-
-def is_valid_domain(domain):
-    return validators.domain(domain)
-
-def is_valid_url(url):
-    if any(s in url for s in URL_BLACKLIST):
-        return False
-
-    if any(s in url for s in IP_BLACKLIST):
-        return False
-
-    if url.endswith('\u2026'):
-        return False
-
-    # iocextract can incorrectly match on http://123.123:123
-    if re.search(r'http://[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}', url):
-        return False
-
-    try:
-        result = urllib.parse.urlparse(url)
-        url_valid = all([result.scheme, result.netloc])
-        return url_valid
-
-    except Exception as ex:
-        LOGGER.warning('Error validating URL: {0}'.format(str(ex)))
-
-    return False
-
-def is_valid_ip(ip):
-    if any(s in ip for s in IP_BLACKLIST):
-        return False
-
-    return validators.ipv4(ip)
-
 def is_valid_sample(tags):
-    if any(x.lower() in TAG_BLACKLIST for x in tags.split(',')):
-        return False
+    if tags:
+        if any(x.lower() in SAMPLE_BLACKLIST for x in tags):
+            return False
 
     return True
 
@@ -104,6 +63,7 @@ def make_new_event(misp):
     event.distribution = Distribution.your_organisation_only
     event.threat_level_id = ThreatLevel.low
 
+    event.add_tag('abuse.ch')
     event.add_tag('type:OSINT')
     event.add_tag('tlp:white')
 
@@ -142,6 +102,13 @@ def get_urlhaus_list():
 
                 url = line[2]
                 tags = line[5]
+
+                if tags:
+                    tags = tags.split(',')
+
+                    if not is_valid_sample(tags):
+                        continue
+
                 comment = line[6]
 
                 if not is_valid_sample(tags):
@@ -181,16 +148,20 @@ def get_feodo_list():
 
                 ip = line[1]
                 port = line[2]
-                tag = line[5]
-                comment = 'https://feodotracker.abuse.ch/browse/host/{0}/'.format(ip)
+                tags = line[5]
 
-                if not is_valid_sample(tag):
-                    continue
+                if tags:
+                    tags = tags.split(',')
+
+                    if not is_valid_sample(tags):
+                        continue
+
+                comment = 'https://feodotracker.abuse.ch/browse/host/{0}/'.format(ip)
 
                 if not is_valid_ip(ip):
                     continue
 
-                indicator_list.append(FeedIndicator(comment, tag, 'ip-dst|port', '{0}|{1}'.format(ip,port)))
+                indicator_list.append(FeedIndicator(comment, tags, 'ip-dst|port', '{0}|{1}'.format(ip,port)))
 
     except Exception as e:
         LOGGER.error('FeodoTracker request error: {0}'.format(str(e)))
@@ -218,11 +189,18 @@ def get_threatfox_list():
 
                 ioc_value = entry['ioc_value']
                 ioc_type = entry['ioc_type']
-                tags = '{0},{1}'.format(entry['malware'], entry['malware_printable'])
-                comment = 'https://threatfox.abuse.ch/ioc/{0}/'.format(entry_id)
+                tags = []
+
+                if entry['malware']:
+                    tags.append(entry['malware'])
+
+                if entry['malware_printable']:
+                    tags.append(entry['malware_printable'])
 
                 if not is_valid_sample(tags):
                     continue
+
+                comment = 'https://threatfox.abuse.ch/ioc/{0}/'.format(entry_id)
 
                 if ioc_type == 'url':
                     if not is_valid_url(ioc_value):
@@ -282,17 +260,21 @@ def get_bazaar_list():
                 sha1 = line[3]
                 filename = line[5]
                 filetype = line[6]
-                tag = line[8]
+                tags = line[8]
+
+                if tags:
+                    tags = tags.split(',')
+
+                    if not is_valid_sample(tags):
+                        continue
+
                 comment = 'File: {0} ({1})'.format(filename, filetype)
 
-                if not is_valid_sample(tag):
-                    continue
-
-                indicator_list.append(FeedIndicator(comment, tag, 'sha256', sha256))
+                indicator_list.append(FeedIndicator(comment, tags, 'sha256', sha256))
 
                 if not SHA256_ONLY:
-                    indicator_list.append(FeedIndicator(comment, tag, 'md5', md5))
-                    indicator_list.append(FeedIndicator(comment, tag, 'sha1', sha1))
+                    indicator_list.append(FeedIndicator(comment, tags, 'md5', md5))
+                    indicator_list.append(FeedIndicator(comment, tags, 'sha1', sha1))
 
     except Exception as e:
         LOGGER.error('MalwareBazaar request error: {0}'.format(str(e)))
@@ -387,24 +369,25 @@ def process_indicators(misp, indicator_list):
             LOGGER.warning('Unsupported indicator type: {0}'.format(attribute_type))
             continue
 
-        attribute_tags = []
-
-        if indicator_tags:
-            for tag in indicator_tags.split(','):
-                if tag:
-                    if tag.lower() in TAG_IGNORE:
-                        continue
-
-                    galaxy_tags = get_tags(misp, tag)
-
-                    if galaxy_tags:
-                        #LOGGER.info('Adding tags for: {0}'.format(tag))
-                        attribute_tags.extend(galaxy_tags)
-
-        attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': indicator_value, 'comment': indicator_comment, 'to_ids': MISP_TO_IDS, 'Tag': attribute_tags}
+        attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': indicator_value, 'comment': indicator_comment, 'to_ids': MISP_TO_IDS}
 
         try:
             new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
+
+            if indicator_tags:
+                for tag in indicator_tags:
+                    if tag:
+                        if tag.lower() in TAG_BLACKLIST:
+                            continue
+
+                        galaxy_tags = get_tags(misp, tag, 'contains')
+
+                        if galaxy_tags:
+                            for galaxy_tag in galaxy_tags:
+                                misp.tag(new_attr, galaxy_tag)
+
+                        else:
+                            misp.tag(new_attr, tag)
 
         except Exception as ex:
             LOGGER.error('Failed to add MISP attribute: {0}'.format(str(ex)))
@@ -419,7 +402,7 @@ def process_indicators(misp, indicator_list):
         except Exception as ex:
             LOGGER.error('Failed to publish MISP event: {0}'.format(str(ex)))
 
-def abusech_run(misp):
+def plugin_run(misp):
     urlhaus_list = get_urlhaus_list()
 
     if len(urlhaus_list) > 0:
@@ -453,18 +436,3 @@ def abusech_run(misp):
         LOGGER.warning('ThreatFox list is empty.')
 
     LOGGER.info('Run complete!')
-
-if __name__ == '__main__':
-    LOGGER.info('Setting up MISP connector...')
-
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
-
-    try:
-        misp = PyMISP(MISP_URL, MISP_API_KEY, ssl=MISP_VALIDATE_SSL)
-
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
-
-    abusech_run(misp)

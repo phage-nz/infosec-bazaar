@@ -4,82 +4,39 @@
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 # https://api.xforce.ibmcloud.com/doc
 
+from config import *
 from datetime import datetime, timedelta, timezone
 from dateutil import parser as dateparser
+from helpers import disable_ssl_warnings, is_valid_domain, is_valid_url, is_valid_ip, get_textblock_tags
 from io import StringIO
-from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+from pymisp import MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
 from stix.core import STIXPackage
 
 import base64
 import coloredlogs
 import json
 import logging
-import re
 import requests
 import sys
 import time
-import urllib.parse
-import urllib3
-import validators
 
 LOGGER = logging.getLogger('xforcemisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-XFORCE_API_KEY = 'XFORCE API KEY'
-XFORCE_API_PASSWORD = 'XFORCE API PASSWORD'
+PLUGIN_NAME = 'X-Force'
+PLUGIN_ENABLED = True
+PLUGIN_TIMES = ['06:00', '14:00', '22:00']
+
+XFORCE_API_KEY = 'YOUR XFORCE API KEY'
+XFORCE_API_PASSWORD = 'YOUR XFORCE API PASSWORD'
 XFORCE_LINK_IGNORE = ['ibm.com', 'ibmcloud.com', 'xforce-security.com']
 
-MISP_URL = 'MISP BASE URL'
-MISP_API_KEY = 'MISP USER KEY'
-MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
 HOURS_TO_CHECK = 9
 ATTRIBUTE_PROGRESS = True
-
-def disable_ssl_warnings():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-def is_valid_domain(domain):
-    return validators.domain(domain)
-
-def is_valid_url(url):
-    try:
-        result = urllib.parse.urlparse(url)
-        url_valid = all([result.scheme, result.netloc])
-        return url_valid
-
-    except Exception as ex:
-        LOGGER.warning('Error validating URL: {0}'.format(str(ex)))
-
-    return False
-
-def get_tags(misp, term):
-    tags = [x.name for x in misp.tags(pythonify=True)]
-    return [t for t in tags if term in t]
-
-def get_tags(misp, input):
-    tags = [x.name for x in misp.tags(pythonify=True) if 'misp-galaxy' in x.name]
-
-    event_tags = []
-
-    for tag in tags:
-        if '"' in tag:
-            keyword = re.findall(r'"(.*?)"', tag)[0]
-
-        else:
-            keyword = tag
-
-        if ' - ' in keyword:
-            keyword = keyword.split(' - ')[0]
-
-        if keyword:
-            if keyword in input:
-                event_tags.append(tag)
-
-    return event_tags
 
 def get_api_headers():
     keypair = '{0}:{1}'.format(XFORCE_API_KEY, XFORCE_API_PASSWORD)
@@ -115,6 +72,7 @@ def get_cases():
 
     LOGGER.info('Assembled case list.')
 
+    print(case_list)
     return case_list
 
 def make_new_event(misp, stix_package):
@@ -175,7 +133,7 @@ def make_new_event(misp, stix_package):
                 LOGGER.info('Adding attribute for reference: {0}'.format(reference))
                 event.add_attribute('link', reference, category='External analysis')
 
-    tag_list = get_tags(misp, title)
+    tag_list = get_textblock_tags(misp, title)
 
     for tag in tag_list:
         LOGGER.info('Adding galaxy tag: "{0}"'.format(tag))
@@ -345,26 +303,10 @@ def process_cases(misp, case_list):
 
         LOGGER.info('Case complete!')
 
-def xforce_run(misp):
+def plugin_run(misp):
     cases = get_cases()
 
     if cases:
         process_cases(misp, cases)
 
     LOGGER.info('Run complete!')
-
-if __name__ == '__main__':
-    LOGGER.info('Setting up MISP connector...')
-
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
-
-    try:
-        misp = PyMISP(MISP_URL, MISP_API_KEY, ssl=MISP_VALIDATE_SSL)
-
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
-
-    xforce_run(misp)
-

@@ -7,58 +7,37 @@
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 # https://github.com/AlienVault-OTX/OTX-Python-SDK
 
+from config import *
 from datetime import datetime, timedelta
 from dateutil import parser as dateparser
+from helpers import disable_ssl_warnings, is_valid_domain, is_valid_url, is_valid_ip, get_tags
 from OTXv2 import OTXv2
 from OTXv2 import IndicatorTypes
-from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+from pymisp import MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
 
 import coloredlogs
 import logging
 import sys
 import time
-import urllib.parse
-import urllib3
-import validators
+
+PLUGIN_NAME = 'OTX'
+PLUGIN_ENABLED = True
+PLUGIN_TIMES = ['08:00', '14:00', '20:00', '02:00']
 
 LOGGER = logging.getLogger('otxmisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-OTX_API_KEY = 'OTX API KEY'
+OTX_API_KEY = 'YOUR OTX KEY'
 OTX_USER_BLACKLIST = []
 OTX_USER_WHITELIST = []
 OTX_PULSE_BLACKLIST = []
 
-MISP_URL = 'MISP BASE URL'
-MISP_API_KEY = 'MISP USER KEY'
-MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
 HOURS_TO_CHECK = 7
 ATTRIBUTE_PROGRESS = True
-
-def disable_ssl_warnings():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-def is_valid_domain(domain):
-    return validators.domain(domain)
-
-def is_valid_url(url):
-    try:
-        result = urllib.parse.urlparse(url)
-        url_valid = all([result.scheme, result.netloc])
-        return url_valid
-
-    except Exception as ex:
-        LOGGER.warning('Error validating URL: {0}'.format(str(ex)))
-
-    return False
-
-def get_tags(misp, term):
-    tags = [x.name for x in misp.tags(pythonify=True)]
-    return [t for t in tags if term.lower() in t.lower()]
 
 def get_pulses(otx, date_since):
     LOGGER.info('Getting recent pulses...')
@@ -87,6 +66,7 @@ def make_new_event(misp, pulse):
     author = pulse['author_name']
     adversary = pulse['adversary']
     description = pulse['description']
+    attack_ids = pulse['attack_ids']
     malware_families = pulse['malware_families']
     references = pulse['references']
     tlp = pulse['tlp']
@@ -107,7 +87,6 @@ def make_new_event(misp, pulse):
 
     if adversary:
         adversary_list = []
-        tag_list = []
 
         if ',' in adversary:
             adversary_list = [s.strip() for s in adversary.split(',') if s.strip() != '']
@@ -116,28 +95,34 @@ def make_new_event(misp, pulse):
             adversary_list.append(adversary)
 
         for adversary in adversary_list:
-            galaxy_tags = get_tags(misp, adversary)
+            galaxy_tags = get_tags(misp, adversary, 'contains')
 
             if galaxy_tags:
                 for galaxy_tag in galaxy_tags:
                     LOGGER.info('Adding threat actor galaxy tag: "{0}"'.format(galaxy_tag))
-                    tag_list.append(galaxy_tag)
+                    event.add_tag(galaxy_tab)
 
             else:
-                LOGGER.info('Adding default threat actor galaxy tag: misp-galaxy:threat-actor="{0}"'.format(adversary))
-                tag_list.append('misp-galaxy:threat-actor="{0}"'.format(adversary))
-
-        for tag in tag_list:
-            event.add_tag(tag)
+                event.add_tag(adversary)
 
     if description:
         LOGGER.info('Adding external analysis attribute.')
         event.add_attribute('comment', description, category='External analysis')
 
+    if attack_ids:
+        for attack_id in attack_ids:
+            if attack_id:
+                galaxy_tags = get_tags(misp, '{0}"'.format(attack_id), 'endswith')
+
+                if galaxy_tags:
+                    for galaxy_tag in galaxy_tags:
+                        LOGGER.info('Adding MITRE ATT&CK galaxy tag: "{0}"'.format(galaxy_tag))
+                        event.add_tag(galaxy_tag)
+
     if malware_families:
         for malware_family in malware_families:
             if malware_family:
-                galaxy_tags = get_tags(misp, malware_family)
+                galaxy_tags = get_tags(misp, malware_family, 'contains')
 
                 if galaxy_tags:
                     for tag in galaxy_tags:
@@ -145,8 +130,7 @@ def make_new_event(misp, pulse):
                         event.add_tag(tag)
 
                 else:
-                    LOGGER.info('Adding default malware galaxy tag: misp-galaxy:tool="{0}"'.format(malware_family))
-                    event.add_tag('misp-galaxy:tool="{0}"'.format(malware_family))
+                    event.add_tag(malware_family)
 
     if references:
         event.add_tag('type:OSINT')
@@ -337,7 +321,7 @@ def process_pulses(misp, pulses):
 
         LOGGER.info('Pulse complete!')
 
-def otx_run(misp):
+def plugin_run(misp):
     LOGGER.info('Setting up OTX connector...')
     try:
         otx = OTXv2(OTX_API_KEY)
@@ -353,17 +337,3 @@ def otx_run(misp):
         process_pulses(misp, pulses)
 
     LOGGER.info('Run complete!')
-
-if __name__ == '__main__':
-    LOGGER.info('Setting up MISP connector...')
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
-
-    try:
-        misp = PyMISP(MISP_URL, MISP_API_KEY, ssl=MISP_VALIDATE_SSL)
-
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
-
-    otx_run(misp)

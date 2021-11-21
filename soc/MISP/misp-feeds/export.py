@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
+from config import *
 from datetime import datetime, timedelta
+from helpers import misp_user_connection
 from pymisp import PyMISP
 
 import argparse
@@ -15,28 +17,8 @@ LOGGER = logging.getLogger('mispexport')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'MISP BASE URL'
-MISP_API_KEY = 'MISP USER KEY'
-MISP_VALIDATE_SSL = False
-
-EXPORT_DAYS = 90
-EXPORT_PAGE_SIZE = 5000
-EXPORT_TAGS = ['tlp:white','tlp:green','tlp:amber','osint:source-type="block-or-filter-list"']
-EXPORT_TYPES = ['domain','email-src','email-subject','hostname','url','ip-dst','ip-src','sha256']
-EXPORT_MERGE_HOSTNAME = True
-EXPORT_PATH = '/var/www/MISP/app/webroot/export'
-EXPORT_KEY = 'RANDOM ALPHANUMERIC STRING'
-
-WHITELIST_FILE = 'whitelist.txt'
-
 def disable_ssl_warnings():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-def get_api():
-    auth = tweepy.auth.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-
-    return tweepy.API(auth, wait_on_rate_limit=THROTTLE_REQUESTS)
 
 def export_run(misp, start_fresh=False):
     LOGGER.info('Loading custom whitelist...')
@@ -125,17 +107,7 @@ def export_run(misp, start_fresh=False):
     LOGGER.info('Run complete!')
 
 if __name__ == '__main__':
-    LOGGER.info('Setting up MISP connector...')
-
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
-
-    try:
-        misp = PyMISP(MISP_URL, MISP_API_KEY, ssl=MISP_VALIDATE_SSL)
-
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
+    misp = misp_user_connection()
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--full', default=False, action='store_true')

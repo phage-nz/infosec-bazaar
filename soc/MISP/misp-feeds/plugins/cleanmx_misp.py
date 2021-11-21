@@ -1,7 +1,10 @@
 #!/usr/bin/python3
+
 from collections import Counter
+from config import *
 from datetime import datetime, timedelta
-from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+from helpers import disable_ssl_warnings, is_valid_domain, is_valid_url, is_valid_ip, get_tags
+from pymisp import MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
 
 import coloredlogs
 import json
@@ -10,22 +13,20 @@ import re
 import requests
 import sys
 import time
-import urllib.parse
-import urllib3
-import validators
 
 LOGGER = logging.getLogger('cleanmxmisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'MISP BASE URL'
-MISP_API_KEY = 'MISP USER KEY'
+PLUGIN_NAME = 'CleanMX'
+PLUGIN_ENABLED = True
+PLUGIN_TIMES = ['08:00', '12:00', '16:00', '20:00', '00:00', '04:00']
+
 MISP_EVENT_TITLE = 'CleanMX indicator feed'
-MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
-CLEANMX_AGENT = 'CLEANMX USER AGENT'
+CLEANMX_AGENT = 'YOUR CLEANMX USER AGENT'
 
 PHISHING_URL = 'http://support.clean-mx.de/clean-mx/xmlphishing?response=alive&format=json&domain='
 VIRUS_URL = 'http://support.clean-mx.de/clean-mx/xmlviruses?response=alive&format=json&domain='
@@ -45,33 +46,6 @@ class FeedIndicator:
     self.o_type = o_type
     self.o_value = o_value
 
-def disable_ssl_warnings():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-def is_valid_url(url):
-    if any(s in url for s in URL_BLACKLIST):
-        return False
-
-    if any(s in url for s in IP_BLACKLIST):
-        return False
-
-    if url.endswith('\u2026'):
-        return False
-
-    # iocextract can incorrectly match on http://123.123:123
-    if re.search(r'http://[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}', url):
-        return False
-
-    try:
-        result = urllib.parse.urlparse(url)
-        url_valid = all([result.scheme, result.netloc])
-        return url_valid
-
-    except Exception as ex:
-        LOGGER.warning('Error validating URL: {0}'.format(str(ex)))
-
-    return False
-
 def make_new_event(misp):
     LOGGER.info('Creating new fixed event...')
     event = MISPEvent()
@@ -83,6 +57,7 @@ def make_new_event(misp):
     event.distribution = Distribution.your_organisation_only
     event.threat_level_id = ThreatLevel.low
 
+    event.add_tag('Clean MX')
     event.add_tag('type:OSINT')
     event.add_tag('tlp:amber')
 
@@ -269,7 +244,7 @@ def process_indicators(misp, indicator_list):
         except Exception as ex:
             LOGGER.error('Failed to publish MISP event: {0}'.format(str(ex)))
 
-def cleanmx_run(misp):
+def plugin_run(misp):
     phishing_list = get_phish_list()
 
     if len(phishing_list) > 0:
@@ -284,21 +259,6 @@ def cleanmx_run(misp):
         process_indicators(misp, virus_list)
 
     else:
-        LOGGER.warning('CleanMX phishing list is empty.')
+        LOGGER.warning('CleanMX malware list is empty.')
 
     LOGGER.info('Run complete!')
-
-if __name__ == '__main__':
-    LOGGER.info('Setting up MISP connector...')
-
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
-
-    try:
-        misp = PyMISP(MISP_URL, MISP_API_KEY, ssl=MISP_VALIDATE_SSL)
-
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
-
-    cleanmx_run(misp)

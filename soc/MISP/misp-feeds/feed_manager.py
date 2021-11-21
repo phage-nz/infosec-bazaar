@@ -6,45 +6,18 @@
 # References:
 # https://buildmedia.readthedocs.org/media/pdf/pymisp/latest/pymisp.pdf
 
-from abusech_misp import abusech_run
-from cleanmx_misp import cleanmx_run
-from misp_export import export_run
-from otx_misp import otx_run
-from pymisp import PyMISP
-from twitter_misp import twitter_run
-from xforce_misp import xforce_run
+from config import *
+from export import export_run
+from helpers import disable_ssl_warnings, load_plugins, misp_admin_connection, misp_user_connection
 
 import coloredlogs
 import logging
+import sys
 import time
-import urllib3
-
-MISP_TIMES = ['06:00', '18:00']
-CLEANMX_TIMES = ['08:00', '12:00', '16:00', '20:00', '00:00', '04:00']
-OTX_TIMES = ['08:00', '14:00', '20:00', '02:00']
-TEXT_TIMES = ['06:00', '12:00', '18:00', '00:00']
-TWITTER_TIMES = ['06:00', '12:00', '18:00', '00:00']
-XFORCE_TIMES = ['06:00', '14:00', '22:00']
-HOURLY_FEEDS = []
-
-ENABLE_ABUSECH = True
-ENABLE_EXPORT = True
-ENABLE_CLEANMX = True
-ENABLE_OTX = True
-ENABLE_TWITTER = True
-ENABLE_XFORCE = True
-
-MISP_URL = 'MISP BASE URL'
-MISP_ADMIN_KEY = 'MISP ADMIN KEY'
-MISP_USER_KEY = 'MISP USER KEY'
-MISP_VALIDATE_SSL = False
 
 LOGGER = logging.getLogger('mispfeedmanager')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
-
-def disable_ssl_warnings():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def cache_feed(misp, feed):
     LOGGER.info('Caching feed: {0}'.format(feed.name))
@@ -76,20 +49,18 @@ def fetch_feed(misp, feed):
         LOGGER.error('Failed to queue feed.')
 
 def start_worker():
-    LOGGER.info('Setting up MISP connector...')
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
+    misp_admin = misp_admin_connection()
+    misp_user = misp_user_connection()
 
-    try:
-        misp_admin = PyMISP(MISP_URL, MISP_ADMIN_KEY, ssl=MISP_VALIDATE_SSL)
-        LOGGER.info('Admin connector OK!')
+    feed_plugins = load_plugins()
 
-        misp_user = PyMISP(MISP_URL, MISP_USER_KEY, ssl=MISP_VALIDATE_SSL)
-        LOGGER.info('User connector OK!')
+    if feed_plugins:
+        enabled_plugins = [x for x in feed_plugins if x.PLUGIN_ENABLED == True]
 
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
+        LOGGER.info('Plugins enabled:')
+
+        for plugin in enabled_plugins:
+            LOGGER.info(plugin.PLUGIN_NAME)
 
     LOGGER.info('Starting MISP feeds worker...')
 
@@ -105,8 +76,12 @@ def start_worker():
                     LOGGER.info('Waiting a moment...')
                     time.sleep(2)
 
-            if ENABLE_ABUSECH:
-                abusech_run(misp_user)
+            hourly_plugins = [x for x in enabled_plugins if 'hourly' in x.PLUGIN_TIMES]
+
+            if hourly_plugins:
+                for plugin in hourly_plugins:
+                    LOGGER.info('Beginning {0} plugin run...'.format(plugin.PLUGIN_NAME))
+                    plugin.plugin_run(misp_user)
 
             LOGGER.info('Hourly feed run complete!')
 
@@ -136,25 +111,12 @@ def start_worker():
 
             LOGGER.info('Text feed run complete!')
 
-        if current_time in CLEANMX_TIMES and ENABLE_CLEANMX:
-            LOGGER.info('Beginning CleanMX run...')
-            cleanmx_run(misp_user)
-            LOGGER.info('CleanMX run complete!')
+        due_plugins = [x for x in enabled_plugins if current_time in x.PLUGIN_TIMES]
 
-        if current_time in OTX_TIMES and ENABLE_OTX:
-            LOGGER.info('Beginning OTX run...')
-            otx_run(misp_user)
-            LOGGER.info('OTX run complete!')
-
-        if current_time in TWITTER_TIMES and ENABLE_TWITTER:
-            LOGGER.info('Beginning Twitter run...')
-            twitter_run(misp_user)
-            LOGGER.info('Twitter run complete!')
-
-        if current_time in XFORCE_TIMES and ENABLE_XFORCE:
-            LOGGER.info('Beginning X-Force run...')
-            xforce_run(misp_user)
-            LOGGER.info('X-Force run completge!')
+        if due_plugins:
+            for plugin in due_plugins:
+                LOGGER.info('Beginning {0} plugin run...'.format(plugin.PLUGIN_NAME))
+                plugin.plugin_run(misp_user)
 
         if ENABLE_EXPORT:
             if current_time.split(':')[1] == '00':

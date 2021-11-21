@@ -2,52 +2,51 @@
 
 # cfscrape requires NodeJS for JS challenge bypass:
 # apt install nodejs
+
 from cfscrape import create_scraper
-from collections import Counter
+from config import *
 from datetime import datetime, timedelta
-from pymisp import PyMISP, MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+from helpers import disable_ssl_warnings, is_valid_domain, is_valid_url, is_valid_ip, get_tags, apply_url_fixes, get_hash_type
+from pymisp import MISPEvent, MISPAttribute, ThreatLevel, Distribution, Analysis
+from urllib.parse import urlparse
 
 import coloredlogs
 import iocextract
 import logging
+import pytz
 import re
 import sys
 import requests
 import time
 import tweepy
-import urllib.parse
-import urllib3
-import validators
 
 LOGGER = logging.getLogger('twittermisp')
 logging.basicConfig(filename='misp_feeds.log', format='%(asctime)s %(name)s %(levelname)s: %(message)s', level=logging.INFO)
 coloredlogs.install(level='INFO')
 
-MISP_URL = 'MISP BASE URL'
-MISP_API_KEY = 'MISP USER KEY'
+PLUGIN_NAME = 'Twitter'
+PLUGIN_ENABLED = True
+PLUGIN_TIMES = ['06:00', '12:00', '18:00', '00:00']
+
 MISP_EVENT_TITLE = 'Twitter indicator feed'
-MISP_VALIDATE_SSL = False
 MISP_TO_IDS = False
 MISP_PUBLISH_EVENTS = False
 
-CONSUMER_KEY = 'TWITTER API CONSUMER KEY'
-CONSUMER_SECRET = 'TWITTER API CONSUMER SECRET'
-ACCESS_TOKEN = 'TWITTER API ACCESS TOKEN'
-ACCESS_TOKEN_SECRET = 'TWITTER API ACCESS TOKEN SECRET'
+CONSUMER_KEY = 'YOUR TWITTER CONSUMER KEY'
+CONSUMER_SECRET = 'YOUR TWITTER CONSUMER SECRET'
+ACCESS_TOKEN = 'YOUR TWITTER ACCESS TOKEN'
+ACCESS_TOKEN_SECRET = 'YOUR TWITTER TOKEN SECRET'
 
 HOURS_BACK = 13
 ATTRIBUTE_PROGRESS = True
-MAX_SEARCH_ITEMS = 40
-MAX_USER_ITEMS = 20
+MAX_SEARCH_ITEMS = 50
+MAX_USER_ITEMS = 25
 WAIT_SECONDS = 10
 THROTTLE_REQUESTS = True
 INCLUDE_DOMAINS = False
 
-USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','Cryptolaemus1','dubstard','executemalware','FewAtoms','ffforward','James_inthe_box','JAMESWT_MHT','Jan0fficial','JCyberSec_','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','TrackerEmotet','VK_Intel']
-SEARCH_LIST = ['#agenttesla','#azorult','#banload','#brushaloader','#dridex','#emotet','#fin7','#formbook','#gandcrab','#gozi','#hancitor','#hawkeye','#icedid','#lokibot','#malspam','#nanocore','#njrat','#nymaim','#pyrogenic','#qakbot','#qbot','#ramnit','#remcos','#ryuk','#revil','#smokeloader','#sodinokibi','#trickbot','#troldesh','#ursnif']
-
-URL_BLACKLIST = ['//t.co/', 'abuse.ch', 'app.any.run', 'capesandbox.com', 'otx.alienvault.com', 'proofpoint.com', 'tria.ge', 'twitter.com', 'virustotal.com', 'www.cloudflare.com']
-IP_BLACKLIST = ['0.0.0.0', '127.0.0.1', '127.0.1.1', '192.168.1.']
+USERNAME_LIST = ['abuse_ch','avman1995','bad_packets','Bank_Security','cobaltstrikebot','Cryptolaemus1','dubstard','executemalware','FewAtoms','ffforward','James_inthe_box','JAMESWT_MHT','Jan0fficial','JCyberSec_','JRoosen','pollo290987','ps66uk','malwrhunterteam','mesa_matt','Mesiagh','nao_sec','Racco42','reecdeep','shotgunner101','thlnk3r','VK_Intel']
+SEARCH_LIST = ['#dridex','#emotet','#icedid','#qakbot','#qbot','#trickbot']
 
 SCRAPER_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36',
@@ -60,75 +59,12 @@ SCRAPER_HEADERS = {
 CF_SCRAPER = create_scraper()
 
 class TwitterIndicator:
-  def __init__(self, ref_name, ref_url, o_type, o_value):
+  def __init__(self, ref_name, ref_url, o_type, o_value, o_tags):
     self.ref_name = ref_name
     self.ref_url = ref_url
     self.o_type = o_type
     self.o_value = o_value
-
-def disable_ssl_warnings():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-def is_valid_domain(domain):
-    return validators.domain(domain)
-
-def apply_url_fixes(url):
-    # Handle unconventional defanging:
-    if url.startswith('p://'):
-        url = url.replace('p://', 'http://')
-
-    if url.startswith('s://'):
-        url = url.replace('s://', 'https://')
-
-    return url
-
-def is_valid_url(url):
-    if any(s in url for s in URL_BLACKLIST):
-        return False
-
-    if any(s in url for s in IP_BLACKLIST):
-        return False
-
-    if url.endswith('\u2026'):
-        return False
-
-    # iocextract can incorrectly match on http://123.123:123
-    if re.search(r'http://[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}', url):
-        return False
-
-    try:
-        result = urllib.parse.urlparse(url)
-        url_valid = all([result.scheme, result.netloc])
-        return url_valid
-
-    except Exception as ex:
-        LOGGER.warning('Error validating URL: {0}'.format(str(ex)))
-
-    return False
-
-def is_valid_ip(ip):
-    if any(s in ip for s in IP_BLACKLIST):
-        return False
-
-    return validators.ipv4(ip)
-
-def get_hash_type(hash):
-    repeat_threshold = int(len(hash)/2)
-
-    if [i for i,j in Counter(hash).items() if j>repeat_threshold]:
-        LOGGER.warning('High number of repeat characters detected in string. Potential binary or script segment.')
-        return False
-
-    if re.search(r'[A-Fa-f0-9]{64}$', hash):
-        return 'FileHash-SHA256'
-
-    if re.search(r'[A-Fa-f0-9]{40}$', hash):
-        return 'FileHash-SHA1'
-
-    if re.search(r'[A-Fa-f0-9]{32}$', hash):
-        return 'FileHash-MD5'
-
-    return False
+    self.o_tags = o_tags
 
 def make_new_event(misp):
     LOGGER.info('Creating new fixed event...')
@@ -141,6 +77,7 @@ def make_new_event(misp):
     event.distribution = Distribution.your_organisation_only
     event.threat_level_id = ThreatLevel.low
 
+    event.add_tag('Twitter')
     event.add_tag('type:OSINT')
     event.add_tag('tlp:white')
 
@@ -222,9 +159,9 @@ def get_ghostbin_paste(url):
 
 def get_github_blob(url):
     try:
-        url_parts = urllib.parse.urlparse(url)
+        url_parts = urlparse(url)
 
-        if url_parts.netloc == 'github.com':
+        if url_parts.netloc == 'github.com' and 'blob/' in url:
             raw_url = 'https://raw.githubusercontent.com{0}'.format(url_parts.path).replace('/blob','')
 
         elif url_parts.netloc == 'gist.github.com':
@@ -252,7 +189,17 @@ def get_github_blob(url):
 
     return None
 
-def extract_paste_indicators(username, tweet_id, url):
+def get_tweet_tags(tweet):
+    tweet_tags = []
+    tweet_hashtags = tweet.entities['hashtags']
+
+    if tweet_hashtags:
+        for hashtag in tweet_hashtags:
+            tweet_tags.append(hashtag['text'])
+
+    return tweet_tags
+
+def extract_paste_indicators(username, tweet_id, url, tags):
     paste_text = None
 
     if 'pastebin.com' in url:
@@ -274,14 +221,14 @@ def extract_paste_indicators(username, tweet_id, url):
         time.sleep(1)
 
     if paste_text != None:
-        paste_indicators = extract_text_indicators(username, tweet_id, paste_text.decode('utf-8'))
+        paste_indicators = extract_text_indicators(username, tweet_id, paste_text.decode('utf-8'), tags)
 
         if len(paste_indicators) > 0:
             return paste_indicators
 
     return []
 
-def extract_text_indicators(username, tweet_id, text):
+def extract_text_indicators(username, tweet_id, text, tags):
     indicator_list = []
 
     user_id = '@{0}'.format(username)
@@ -290,23 +237,23 @@ def extract_text_indicators(username, tweet_id, text):
     try:
         for ip in iocextract.extract_ipv4s(text, refang=True):
             if is_valid_ip(ip):
-                indicator_list.append(TwitterIndicator(user_id, tweet_url, 'IPv4', ip))
+                indicator_list.append(TwitterIndicator(user_id, tweet_url, 'IPv4', ip, tags))
 
         for hash in iocextract.extract_hashes(text):
             hash_type = get_hash_type(hash)
 
             if hash_type:
-                indicator_list.append(TwitterIndicator(user_id, tweet_url, hash_type, hash))
+                indicator_list.append(TwitterIndicator(user_id, tweet_url, hash_type, hash, tags))
 
         for url in iocextract.extract_urls(text, refang=True):
             url = apply_url_fixes(url)
 
             if is_valid_url(url):
-                indicator_list.append(TwitterIndicator(user_id, tweet_url, 'URL', url))
+                indicator_list.append(TwitterIndicator(user_id, tweet_url, 'URL', url, tags))
 
             elif INCLUDE_DOMAINS:
                 if is_valid_domain(url):
-                    indicator_list.append(TwitterIndicator(user_id, tweet_url, 'HOST', url))
+                    indicator_list.append(TwitterIndicator(user_id, tweet_url, 'HOST', url, tags))
 
     except Exception as ex:
         LOGGER.warning('Exception parsing text: {0}'.format(ex))
@@ -316,7 +263,7 @@ def extract_text_indicators(username, tweet_id, text):
 def parse_tweet(tweet):
     indicator_list = []
 
-    valid_since = datetime.utcnow() - timedelta(hours=HOURS_BACK)
+    valid_since = pytz.UTC.localize(datetime.utcnow() - timedelta(hours=HOURS_BACK))
 
     try:
         if (tweet.created_at > valid_since):
@@ -325,7 +272,8 @@ def parse_tweet(tweet):
 
             LOGGER.info('Parsing Tweet: {0} (user: {1})'.format(tweet_id, screen_name))
 
-            tweet_indicators = extract_text_indicators(screen_name, tweet_id, tweet.text)
+            tweet_tags = get_tweet_tags(tweet)
+            tweet_indicators = extract_text_indicators(screen_name, tweet_id, tweet.full_text, tweet_tags)
 
             if len(tweet_indicators) > 0:
                 indicator_list.extend(tweet_indicators)
@@ -334,7 +282,7 @@ def parse_tweet(tweet):
                 expanded_url = url['expanded_url']
 
                 if any(x in expanded_url for x in ['pastebin.com','ghostbin.com','github.com','githubusercontent.com']):
-                    paste_indicators = extract_paste_indicators(screen_name, tweet_id, expanded_url)
+                    paste_indicators = extract_paste_indicators(screen_name, tweet_id, expanded_url, tweet_tags)
 
                     if len(paste_indicators) > 0:
                         indicator_list.extend(paste_indicators)
@@ -351,7 +299,7 @@ def process_tweets(api):
         LOGGER.info('Processing Tweets for user: {0}...'.format(username))
 
         try:
-            recent_tweets = tweepy.Cursor(api.user_timeline, id=username).items(MAX_USER_ITEMS)
+            recent_tweets =  api.user_timeline(screen_name=username, count=100, tweet_mode='extended')
 
             for recent_tweet in recent_tweets:
                 tweet_indicators = parse_tweet(recent_tweet)
@@ -363,18 +311,14 @@ def process_tweets(api):
                 LOGGER.info('Waiting a moment...')
                 time.sleep(WAIT_SECONDS)
 
-        except tweepy.error.TweepError as ex:
-            LOGGER.error('Tweepy error: {0}'.format(str(ex)))
+        except tweepy.errors.TooManyRequests as ex:
+            LOGGER.error('Tweepy error: 429')
+            LOGGER.info('Waiting a moment...')
+            time.sleep(WAIT_SECONDS)
 
-            if ex.api_code == 404:
-                LOGGER.warning('User no longer exists: {0}'.format(username))
-
-            elif ex.api_code == 429:
-                LOGGER.info('Waiting a moment...')
-                time.sleep(WAIT_SECONDS)
-
-            else:
-                return []
+        except tweepy.errors.NotFound as ex:
+            LOGGER.error('Tweepy error: 404')
+            return []
 
         except Exception as ex:
             LOGGER.error('Failed to query Twitter: {0}'.format(str(ex)))
@@ -384,7 +328,7 @@ def process_tweets(api):
         LOGGER.info('Processing Tweets for search: "{0}"...'.format(search))
 
         try:
-            recent_tweets = tweepy.Cursor(api.search, q=search).items(MAX_SEARCH_ITEMS)
+            recent_tweets = api.search_tweets(q=search, count=100, result_type='recent', tweet_mode='extended')
 
             for recent_tweet in recent_tweets:
                 tweet_indicators = parse_tweet(recent_tweet)
@@ -396,15 +340,14 @@ def process_tweets(api):
                 LOGGER.info('Waiting a moment...')
                 time.sleep(WAIT_SECONDS)
 
-        except tweepy.error.TweepError as ex:
-            LOGGER.error('Tweepy error: {0}'.format(str(ex)))
+        except tweepy.errors.TooManyRequests as ex:
+            LOGGER.error('Tweepy error: 429')
+            LOGGER.info('Waiting a moment...')
+            time.sleep(WAIT_SECONDS)
 
-            if ex.api_code == 429:
-                LOGGER.info('Waiting a moment...')
-                time.sleep(WAIT_SECONDS)
-
-            else:
-                return []
+        except tweepy.errors.NotFound as ex:
+            LOGGER.error('Tweepy error: 404')
+            return []
 
         except Exception as ex:
             LOGGER.error('Failed to query Twitter: {0}'.format(str(ex)))
@@ -447,11 +390,10 @@ def process_indicators(misp, indicator_list):
             progress_value = int(round(100 * (i / float(indicator_count))))
             LOGGER.info('Event completion: {0}%'.format(progress_value))
 
-        LOGGER.info('Found {0} "{1}" in: {2}'.format(indicator.o_type, indicator.o_value, indicator.ref_url))
-
         indicator_type = indicator.o_type
         indicator_value = indicator.o_value
         indicator_comment = indicator.ref_url
+        indicator_tags = indicator.o_tags
 
         attribute_exists = False
 
@@ -502,10 +444,27 @@ def process_indicators(misp, indicator_list):
             LOGGER.warning('Unsupported indicator type: {0}'.format(indicator_type))
             continue
 
-        attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': indicator_value, 'comment': indicator_comment, 'to_ids': MISP_TO_IDS}
+        attribute_tags = []
+
+        attribute_json = {'category': attribute_category, 'type': attribute_type, 'value': indicator_value, 'comment': indicator_comment, 'to_ids': MISP_TO_IDS, 'Tag': attribute_tags}
 
         try:
             new_attr = misp.add_attribute(event, attribute_json, pythonify=True)
+
+            if indicator_tags:
+                for tag in indicator_tags:
+                    if tag:
+                        if tag.lower() in TAG_BLACKLIST:
+                            continue
+
+                        galaxy_tags = get_tags(misp, tag, 'contains')
+
+                        if galaxy_tags:
+                            for galaxy_tag in galaxy_tags:
+                                misp.tag(new_attr, galaxy_tag)
+
+                        else:
+                            misp.tag(new_attr, tag)
 
         except Exception as ex:
             LOGGER.error('Failed to add MISP attribute: {0}'.format(str(ex)))
@@ -520,7 +479,7 @@ def process_indicators(misp, indicator_list):
         except Exception as ex:
             LOGGER.error('Failed to publish MISP event: {0}'.format(str(ex)))
 
-def twitter_run(misp):
+def plugin_run(misp):
     LOGGER.info('Setting up Twitter connector...')
 
     try:
@@ -541,18 +500,3 @@ def twitter_run(misp):
         LOGGER.warning('Twitter indicator list is empty.')
 
     LOGGER.info('Run complete!')
-
-if __name__ == '__main__':
-    LOGGER.info('Setting up MISP connector...')
-
-    if MISP_VALIDATE_SSL == False:
-        disable_ssl_warnings()
-
-    try:
-        misp = PyMISP(MISP_URL, MISP_API_KEY, ssl=MISP_VALIDATE_SSL)
-
-    except Exception as ex:
-        LOGGER.error('Failed to connect to MISP: {0}'.format(str(ex)))
-        sys.exit(1)
-
-    twitter_run(misp)
