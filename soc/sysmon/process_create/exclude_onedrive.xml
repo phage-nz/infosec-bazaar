@@ -1,9 +1,0 @@
-<Sysmon schemaversion="4.22">
-   <EventFiltering>
-	  <RuleGroup groupRelation="or">
-         <ProcessCreate onmatch="exclude">
-			<Image condition="end with">\AppData\Local\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe</Image>
-         </ProcessCreate>
-      </RuleGroup>
-   </EventFiltering>
-</Sysmon>

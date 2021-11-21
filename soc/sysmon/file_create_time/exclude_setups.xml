@@ -1,9 +1,0 @@
-<Sysmon schemaversion="4.22">
-   <EventFiltering>
-      <RuleGroup groupRelation="or">
-         <FileCreateTime onmatch="exclude">
-            <Image condition="contains">setup</Image>
-         </FileCreateTime>
-      </RuleGroup>
-   </EventFiltering>
-</Sysmon>

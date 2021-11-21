@@ -1,9 +1,0 @@
-<Sysmon schemaversion="4.22">
-   <EventFiltering>
-	  <RuleGroup groupRelation="or">
-         <DriverLoad onmatch="exclude">
-            <Signature condition="contains">Citrix</Signature>
-         </DriverLoad>
-      </RuleGroup>
-   </EventFiltering>
-</Sysmon>

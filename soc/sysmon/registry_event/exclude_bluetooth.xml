@@ -1,9 +1,0 @@
-<Sysmon schemaversion="4.22">
-   <EventFiltering>
-	  <RuleGroup groupRelation="or">
-         <RegistryEvent onmatch="exclude">
-            <Image condition="is">C:\Program Files\WIDCOMM\Bluetooth Software\btwdins.exe</Image>
-         </RegistryEvent>
-      </RuleGroup>
-   </EventFiltering>
-</Sysmon>

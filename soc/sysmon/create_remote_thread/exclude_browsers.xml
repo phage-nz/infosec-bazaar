@@ -1,9 +1,0 @@
-<Sysmon schemaversion="4.22">
-   <EventFiltering>
-      <RuleGroup groupRelation="or">
-         <CreateRemoteThread onmatch="exclude">
-            <TargetImage condition="end with">Google\Chrome\Application\chrome.exe</TargetImage>
-         </CreateRemoteThread>
-      </RuleGroup>
-   </EventFiltering>
-</Sysmon>

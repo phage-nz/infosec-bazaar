@@ -1,9 +1,0 @@
-<Sysmon schemaversion="4.22">
-   <EventFiltering>
-      <RuleGroup groupRelation="or">
-         <FileCreateTime onmatch="exclude">
-            <Image condition="end with">AppData\Local\Microsoft\Teams\current\Teams.exe</Image>
-         </FileCreateTime>
-      </RuleGroup>
-   </EventFiltering>
-</Sysmon>
