@@ -37,7 +37,7 @@ CONSUMER_SECRET = 'YOUR TWITTER CONSUMER SECRET'
 ACCESS_TOKEN = 'YOUR TWITTER ACCESS TOKEN'
 ACCESS_TOKEN_SECRET = 'YOUR TWITTER TOKEN SECRET'
 
-HOURS_BACK = 13
+HOURS_BACK =  7
 ATTRIBUTE_PROGRESS = True
 MAX_SEARCH_ITEMS = 50
 MAX_USER_ITEMS = 25
@@ -299,7 +299,7 @@ def process_tweets(api):
         LOGGER.info('Processing Tweets for user: {0}...'.format(username))
 
         try:
-            recent_tweets =  api.user_timeline(screen_name=username, count=100, tweet_mode='extended')
+            recent_tweets =  tweepy.Cursor(api.user_timeline, screen_name=username, tweet_mode='extended').items(MAX_USER_ITEMS)
 
             for recent_tweet in recent_tweets:
                 tweet_indicators = parse_tweet(recent_tweet)
@@ -328,7 +328,7 @@ def process_tweets(api):
         LOGGER.info('Processing Tweets for search: "{0}"...'.format(search))
 
         try:
-            recent_tweets = api.search_tweets(q=search, count=100, result_type='recent', tweet_mode='extended')
+            recent_items = tweepy.Cursor(api.search_tweets, q=search, result_type='recent', tweet_mode='extended').items(MAX_SEARCH_ITEMS)
 
             for recent_tweet in recent_tweets:
                 tweet_indicators = parse_tweet(recent_tweet)
