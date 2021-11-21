@@ -1,11 +1,7 @@
 ## Python Service for MISP Feed Management
-This set of scripts is designed to offer better reliability and more control over the fetching of feeds into MISP. For the moment, the schedule is broken up into multiple components, at the top of feed_manager.py:
+This set of scripts is designed to offer better reliability and more control over the fetching of feeds into MISP. For the moment, the schedule is broken up into multiple components, at the top of each plugin and in config.py:
 - **MISP_TIMES:** An array of times (24hr format) when enabled MISP feeds will be fetched and cached.  
 - **TEXT_TIMES:** An array of times (24hr format) when enabled plaintext and CSV feeds will be fetched and cached.  
-- **TWITTER_TIMES:** An array of times (24hr format) when the Twitter API will be queried for new tweets.  
-- **OTX_TIMES:** An array of times (24hr format) when the OTX API will be queried for new+updated pulses.  
-- **CLEANMX_TIMES:** An array of times (24hr format) when the CleanMX feeds will be queried for new+updated URLs.  
-- **XFORCE_TIMES:** An array of times (24hr format) when the X-Force API will be queried for new+updated cases.  
 - **HOURLY_FEEDS** An array of the ID's of enabled feeds that you wish to run at the beginning of every hour.  
 - **FULL_EXPORT_TIME** The time (24hr format) that you want to run a full text export of attributes.  
 
@@ -42,9 +38,21 @@ sudo systemctl start misp-feeds.service
 - A full export is run once a day for the number of days defined by EXPORT_DAYS. Incremental updates are made daily.  
 - The sample values for EXPORT_TAGS and EXPORT_TYPES should give you an idea of how to configure this. 'domain' and 'hostname' can be output separately or together. Use EXPORT_MERGE_HOSTNAME to configure this.  
 
-#### Twitter:
-- Twitter is considered a feed of indicators as opposed to events. Indicators are therefore put in a fixed event. Ensure that you define a unique event title (variable: MISP_EVENT_TITLE). All attributes are commented with the source tweet.  
-- The accuracy of pulling domains from Twitter is sketchy, at best. I prefer to leave this disabled (variable: INCLUDE_DOMAINS).  
+#### Plugins:
 
-#### X-Force:
-- Tagging of X-Force sourced events is currently limited to string matches in the case title. Cases are generically tagged (i.e. not tagged with specific adversary or tool names), and string matches on text bodies is unreliable.  
+At the top of each plugin are three variables which determine its operation:
+
+- PLUGIN_NAME: The friendly name of the Plugin. Only used for logging and ad-hoc operation.
+
+- PLUGIN_ENABLED: Boolean setting to enable/disable the plugin.
+
+- PLUGIN_TIMES: The times throughout the day to run the plugin. Also accepts 'hourly', which will run it on the hour every hour.
+
+Default plugins are as follows:
+
+- Abuse.ch: Pulls URLhaus, Feodo Tracker, MalwareBazaar and ThreatFox into a single event per day. Attributes are tagged according to the feed tags and/or classification.
+- CleanMX: Virus and Phishing feeds are pulled into a single event per day. No tagging yet.
+- OTX: Individual pulses form a separate events in MISP. OTX tags can be spammy so are ignored, but Adversary, Malware and ATT&CK techniques are used. Galaxy tags are attempted, and if no appropriate tag can be found, the feed supplied tag is used.
+- RiskIQ: Individual articles form a separate events in MISP. The same method of tagging is employed as OTX.
+- Twitter: Pulls IOC's found on Twitter into a single event per day. GitHub, PasteBin and GhostBin links are followed and also scraped. Attributes are tagged with the hashtags included in the Tweet and the same method as OTX.
+- X-Force: Individual articles form a separate events in MISP. X-Force articles are not tagged, so the Title of the article is parsed to identify Galaxy tags that match Title keywords.
