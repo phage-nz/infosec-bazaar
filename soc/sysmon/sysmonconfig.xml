@@ -1263,6 +1263,8 @@
         <TargetFilename condition="end with">.rft</TargetFilename>
         <TargetFilename condition="end with">.jsp</TargetFilename>
         <TargetFilename condition="end with">.jspx</TargetFilename>
+		<TargetFilename name="technique_id=T1059.007,technique_name=JavaScript,phase_name=Execution" condition="end with">.js</TargetFilename>
+		<TargetFilename name="technique_id=T1059.007,technique_name=JavaScript,phase_name=Execution" condition="end with">.javascript</TargetFilename>
         <TargetFilename condition="end with">.asp</TargetFilename>
         <TargetFilename condition="end with">.aspx</TargetFilename>
         <TargetFilename condition="end with">.php</TargetFilename>
