@@ -100,6 +100,7 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 **Koadic:**
 - Start: `cd /opt/Koadic && ./koadic`  
 - Reference: https://github.com/zerosum0x0/koadic  
+- Note: Koadic appears to have been archived by the author. Fork here: https://github.com/offsecginger/koadic (unvalidated)  
 
 **Merlin:**
 - Start: `cd /opt/Merlin && ./merlinServer`  
