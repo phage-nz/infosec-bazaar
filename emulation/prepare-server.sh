@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 12/11/21"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 10/01/22"
 echo '[*] "Train like you fight..."'
 echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo "---------------------------------------------------"
