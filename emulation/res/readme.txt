@@ -24,10 +24,6 @@ Invoke-Obfuscation:
 - Start: cd /opt/Obfuscators/Invoke-Obfuscation && pwsh -Command "Import-Module ./Invoke-Obfuscation.psd1 && Invoke-Obfuscation"
 - Reference: https://github.com/danielbohannon/Invoke-Obfuscation
 
-Koadic:
-- Start: cd /opt/Koadic && ./koadic
-- Reference: https://github.com/zerosum0x0/koadic
-
 Merlin:
 - Start: cd /opt/Merlin && ./merlinServer
 - Reference: https://github.com/Ne0nd0g/merlin
@@ -43,6 +39,10 @@ Mythic:
 Modlishka:
 - Start: cd /opt/Modlishka && ./Modlishka -config modlishka.config
 - Reference: https://github.com/drk1wi/Modlishka
+
+Prelude Operator:
+- Start: cd /opt/Operator && ./prelude-operator.appImage
+- Reference: https://www.prelude.org/
 
 SILENTTRINITY:
 - Start server: cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>
