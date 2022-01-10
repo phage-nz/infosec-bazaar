@@ -117,6 +117,10 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 - Start: `cd /opt/Mythic && ./mythic-cli mythic start`  
 - Reference: https://github.com/its-a-feature/Mythic  
 
+**Prelude Operator:**
+- Start: `cd /opt/Operator && ./prelude-operator.appImage`  
+- Reference: https://www.prelude.org/  
+
 **SILENTTRINITY:**
 - Start server: `cd /opt/SILENTTRINITY && python3.7 st.py teamserver --port 6666 0.0.0.0 <password>`  
 - Start client: `cd /opt/SILENTTRINITY && python3.7 st.py client wss://<username>:<password>@<server IP>:6666`  
