@@ -79,11 +79,6 @@ mkdir /opt/Obfuscators
 git clone https://github.com/danielbohannon/Invoke-Obfuscation /opt/Obfuscators/Invoke-Obfuscation
 git clone https://github.com/CBHue/PyFuscation /opt/Obfuscators/PyFuscation
 echo "---------------------------------------------------"
-echo "[*] Installing Koadic"
-git clone https://github.com/zerosum0x0/koadic /opt/Koadic
-cd /opt/Koadic
-pip3 install -r requirements.txt
-echo "---------------------------------------------------"
 echo "[*] Installing Merlin"
 mkdir /opt/Merlin && cd /opt/Merlin
 wget https://github.com/Ne0nd0g/merlin/releases/download/v1.1.0/merlinServer-Linux-x64.7z
@@ -135,6 +130,10 @@ git clone https://github.com/its-a-feature/Mythic /opt/Mythic
 ./mythic-cli install github https://github.com/MythicC2Profiles/dynamichttp
 ./mythic-cli install github https://github.com/MythicC2Profiles/http
 ./mythic-cli install github https://github.com/MythicC2Profiles/websocket
+echo "---------------------------------------------------"
+echo "[*] Installing Prelude Operator"
+mkdir /opt/Operator && cd /opt/Operator
+wget "https://download.prelude.org/latest?arch=x64&platform=linux&variant=appImage" -O prelude-operator.appImage
 echo "---------------------------------------------------"
 echo "[*] Installing ScareCrow"
 mkdir /opt/ScareCrow && cd /opt/ScareCrow
