@@ -81,9 +81,9 @@ git clone https://github.com/CBHue/PyFuscation /opt/Obfuscators/PyFuscation
 echo "---------------------------------------------------"
 echo "[*] Installing Merlin"
 mkdir /opt/Merlin && cd /opt/Merlin
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.1.0/merlinServer-Linux-x64.7z
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.1.0/merlinAgent-Linux-x64.7z
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.1.0/merlinAgent-Windows-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/download/v1.2.1/merlinServer-Linux-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/download/v1.2.1/merlinAgent-Linux-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/download/v1.2.1/merlinAgent-Windows-x64.7z
 7z x -pmerlin merlinServer-Linux-x64.7z && rm merlinServer-Linux-x64.7z
 mv merlinServer-Linux-x64 merlinServer
 echo "---------------------------------------------------"
@@ -146,7 +146,7 @@ pip3 install -r requirements.txt
 echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
-wget https://github.com/BishopFox/sliver/releases/download/v1.4.21/sliver-server_linux.zip
+wget https://github.com/BishopFox/sliver/releases/download/v1.5.1/sliver-server_linux.zip
 unzip sliver-server_linux.zip && rm sliver-server_linux.zip
 chmod +x sliver-server
 echo "---------------------------------------------------"
@@ -174,7 +174,7 @@ echo "---------------------------------------------------"
 echo "[*] Fetching privilege escalation tools..."
 mkdir privesc
 wget https://github.com/AlessandroZ/BeRoot/archive/master.zip -O privesc/BeRoot.zip
-wget https://github.com/l0ss/Grouper2/releases/download/0.9.62/Grouper2.exe -O privesc/Grouper2.exe
+wget https://github.com/l0ss/Grouper2/releases/download/0.9.64/Grouper2.exe -O privesc/Grouper2.exe
 wget https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1 -O privesc/jaws.ps1
 wget https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe -O privesc/lazagne.exe
 wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20210810-2/mimikatz_trunk.zip -O privesc/mimikatz.zip
