@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 10/01/22"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 15/03/22"
 echo '[*] "Train like you fight..."'
 echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo "---------------------------------------------------"
@@ -81,9 +81,9 @@ git clone https://github.com/CBHue/PyFuscation /opt/Obfuscators/PyFuscation
 echo "---------------------------------------------------"
 echo "[*] Installing Merlin"
 mkdir /opt/Merlin && cd /opt/Merlin
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.2.1/merlinServer-Linux-x64.7z
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.2.1/merlinAgent-Linux-x64.7z
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.2.1/merlinAgent-Windows-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/download/v1.3.0/merlinServer-Linux-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/download/v1.3.0/merlinAgent-Linux-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/download/v1.3.0/merlinAgent-Windows-x64.7z
 7z x -pmerlin merlinServer-Linux-x64.7z && rm merlinServer-Linux-x64.7z
 mv merlinServer-Linux-x64 merlinServer
 echo "---------------------------------------------------"
@@ -139,6 +139,11 @@ echo "[*] Installing ScareCrow"
 mkdir /opt/ScareCrow && cd /opt/ScareCrow
 wget https://github.com/optiv/ScareCrow/releases/download/v3.01/ScareCrow_3.01_linux_amd64 -O ScareCrow
 echo "---------------------------------------------------"
+echo "[*] Installing shad0w"
+git clone --recurse-submodules https://github.com/bats3c/shad0w /opt/shad0w
+cd /opt/shad0w
+./shad0w install
+echo "---------------------------------------------------"
 echo "[*] Installing SILENTTRINITY"
 git clone https://github.com/byt3bl33d3r/SILENTTRINITY /opt/SILENTTRINITY
 cd /opt/SILENTTRINITY
@@ -146,7 +151,7 @@ pip3 install -r requirements.txt
 echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
-wget https://github.com/BishopFox/sliver/releases/download/v1.5.1/sliver-server_linux.zip
+wget https://github.com/BishopFox/sliver/releases/download/v1.5.8/sliver-server_linux.zip
 unzip sliver-server_linux.zip && rm sliver-server_linux.zip
 chmod +x sliver-server
 echo "---------------------------------------------------"
@@ -170,6 +175,10 @@ wget https://github.com/lgandx/Responder/archive/master.zip -O credentials/Respo
 wget https://github.com/lgandx/Responder-Windows/archive/master.zip -O credentials/Responder-Windows.zip
 wget https://www.ampliasecurity.com/research/wce_v1_42beta_x32.zip -O credentials/wce_x32.zip
 wget https://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip -O credentials/wce_x64.zip
+echo "---------------------------------------------------"
+echo "[*] Fetching delivery objects..."
+mkdir delivery
+git clone https://github.com/mdsecactivebreach/CACTUSTORCH delivery/CACTUSTORCH
 echo "---------------------------------------------------"
 echo "[*] Fetching privilege escalation tools..."
 mkdir privesc
