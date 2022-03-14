@@ -81,9 +81,9 @@ git clone https://github.com/CBHue/PyFuscation /opt/Obfuscators/PyFuscation
 echo "---------------------------------------------------"
 echo "[*] Installing Merlin"
 mkdir /opt/Merlin && cd /opt/Merlin
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.3.0/merlinServer-Linux-x64.7z
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.3.0/merlinAgent-Linux-x64.7z
-wget https://github.com/Ne0nd0g/merlin/releases/download/v1.3.0/merlinAgent-Windows-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/latest/download/merlinServer-Linux-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/latest/download/merlinAgent-Linux-x64.7z
+wget https://github.com/Ne0nd0g/merlin/releases/latest/download/merlinAgent-Windows-x64.7z
 7z x -pmerlin merlinServer-Linux-x64.7z && rm merlinServer-Linux-x64.7z
 mv merlinServer-Linux-x64 merlinServer
 echo "---------------------------------------------------"
@@ -94,7 +94,7 @@ chmod +x msfinstall && ./msfinstall && rm msfinstall
 echo "---------------------------------------------------"
 echo "[*] Installing Modlishka..."
 mkdir /opt/Modlishka && cd /opt/Modlishka
-wget https://github.com/drk1wi/Modlishka/releases/download/v.1.1.0/Modlishka-linux-amd64 -O Modlishka
+wget https://github.com/drk1wi/Modlishka/releases/latest/download/Modlishka-linux-amd64 -O Modlishka
 chmod +x Modlishka
 cat > modlishka.config << EOF
 {
@@ -151,7 +151,7 @@ pip3 install -r requirements.txt
 echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
-wget https://github.com/BishopFox/sliver/releases/download/v1.5.8/sliver-server_linux.zip
+wget https://github.com/BishopFox/sliver/releases/latest/download/sliver-server_linux.zip
 unzip sliver-server_linux.zip && rm sliver-server_linux.zip
 chmod +x sliver-server
 echo "---------------------------------------------------"
@@ -183,10 +183,10 @@ echo "---------------------------------------------------"
 echo "[*] Fetching privilege escalation tools..."
 mkdir privesc
 wget https://github.com/AlessandroZ/BeRoot/archive/master.zip -O privesc/BeRoot.zip
-wget https://github.com/l0ss/Grouper2/releases/download/0.9.64/Grouper2.exe -O privesc/Grouper2.exe
+wget https://github.com/l0ss/Grouper2/releases/latest/download/Grouper2.exe -O privesc/Grouper2.exe
 wget https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1 -O privesc/jaws.ps1
-wget https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe -O privesc/lazagne.exe
-wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20210810-2/mimikatz_trunk.zip -O privesc/mimikatz.zip
+wget https://github.com/AlessandroZ/LaZagne/releases/latest/download/lazagne.exe -O privesc/lazagne.exe
+wget https://github.com/gentilkiwi/mimikatz/releases/latest/download/mimikatz_trunk.zip -O privesc/mimikatz.zip
 wget https://raw.githubusercontent.com/M4ximuss/Powerless/master/Powerless.bat -O privesc/Powerless.bat
 wget https://github.com/BloodHoundAD/SharpHound/releases/download/v1.0.3/SharpHound-v1.0.3.zip -O privesc/SharpHound.zip
 wget https://raw.githubusercontent.com/carlospolop/privilege-escalation-awesome-scripts-suite/master/winPEAS/winPEASbat/winPEAS.bat -O privesc/winPEAS.bat
@@ -214,7 +214,7 @@ wget https://notepad-plus-plus.org/repository/7.x/7.0/npp.7.bin.x64.zip -O npp.7
 wget https://download.java.net/java/GA/jdk14.0.1/664493ef4a6946b186ff29eb326336a2/7/GPL/openjdk-14.0.1_windows-x64_bin.zip -O util/openjdk-14.0.1_windows-x64_bin.zip
 wget https://the.earth.li/~sgtatham/putty/latest/w32/putty.zip -O util/putty_w32.zip
 wget https://the.earth.li/~sgtatham/putty/latest/w64/putty.zip -O util/putty_w64.zip
-wget https://www.python.org/ftp/python/3.8.3/python-3.8.3.exe -O util/python-3.8.3.exe
+wget https://www.python.org/ftp/python/3.10.2/python-3.10.2.exe -O util/python-3.8.3.exe
 wget https://download.sysinternals.com/files/SysinternalsSuite.zip -O SysinternalsSuite.zip
 unzip SysinternalsSuite.zip -d util && rm SysinternalsSuite.zip && rm util/*.txt
 wget https://winscp.net/download/WinSCP-5.17.6-Portable.zip -O util/WinSCP-5.17.6-Portable.zip
