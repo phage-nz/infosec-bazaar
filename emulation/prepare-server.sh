@@ -1,3 +1,11 @@
+---------------------------------------------------
+[*] EMULATION SERVER PREPARATION SCRIPT - 22/05/22
+[*] "Train like you fight..."
+[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation
+[?] Intended for use with Ubuntu 20.04
+---------------------------------------------------
+[!] Must be run with sudo.
+ubuntu@vultr:~$ cat prepare_server.sh
 #!/bin/bash
 echo "---------------------------------------------------"
 echo "[*] EMULATION SERVER PREPARATION SCRIPT - 22/05/22"
@@ -7,19 +15,35 @@ echo '[?] Intended for use with Ubuntu 20.04'
 echo "---------------------------------------------------"
 SHOW_HELP="FALSE"
 INSTALL_RDP="FALSE"
+INTSALL_VECTR="FALSE"
 while getopts hru OPT
 do
     case "${OPT}" in
         h) SHOW_HELP="TRUE";;
         r) INSTALL_RDP="TRUE";;
         u) UPGRADE_OS="TRUE";;
+        v) INSTALL_VECTR="TRUE";;
     esac
 done
 if [[ $SHOW_HELP = "TRUE" ]]; then
     echo "-h show this message."
     echo "-r install Lubuntu desktop and enable xRDP."
     echo "-u upgrade OS packages."
+    echo "-v install Vectr."
     exit 0
+fi
+if [[ "$EUID" -eq 0 ]]; then
+    echo "[!] Do not run as root."
+    exit
+fi
+if [[ -z "$SUDO_COMMAND" ]]; then
+    echo "[!] Must be run with sudo."
+    exit
+fi
+read -p "[?] Enter hostname to be used in configs: " hostname
+if [[ -z $(getent hosts $hostname) ]]; then
+    echo "[!] Hostname could not be resolved."
+    exit
 fi
 echo "[*] Updating OS..."
 apt update
@@ -43,7 +67,8 @@ if [[ $INSTALL_RDP = "TRUE" ]]; then
     adduser xrdp ssl-cert
     systemctl enable xrdp && systemctl start xrdp
     echo xfce4-session > ~/.xsession
-    echo "[!] Remote desktop setup complete. Please set a password for your user:"
+    echo "[!] Remote desktop setup complete."
+    echo "[?] Please set a password for your user ($USER):"
     sudo passwd $USER
 else
     echo "[!] Skipping remote desktop setup..."
@@ -167,6 +192,18 @@ echo "[*] Installing TrevorC2"
 git clone https://github.com/trustedsec/trevorc2/ /opt/TrevorC2
 cd /opt/TrevorC2
 pip3 install -r requirements.txt
+if [[ $INSTALL_VECTR = "TRUE" ]]; then
+    echo "---------------------------------------------------"
+    echo "[*] Installing Vectr"
+    mkdir /opt/vectr && cd /opt/vectr
+    wget https://github.com/SecurityRiskAdvisors/VECTR/releases/download/ce-8.3.2/sra-vectr-runtime-8.3.2-ce.zip
+    unzip sra-vectr-runtime-8.3.2-ce.zip
+    sed -i "s/sravectr.internal/$hostname/g" .env
+    sed -i "s/Test1234/$(openssl rand -hex 16)/g" .env
+    sed -i "s/CHANGEMENOWPLEASE/$(openssl rand -hex 16)/g" .env
+    docker-compose up -d
+    echo "[*] Vectr started on port 8081."
+fi
 echo "---------------------------------------------------"
 echo "[*] Fetching credential access tools..."
 cd /var/www/html
