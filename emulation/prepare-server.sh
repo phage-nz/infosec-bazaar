@@ -203,6 +203,7 @@ if [[ $INSTALL_VECTR = "TRUE" ]]; then
     sed -i "s/CHANGEMENOWPLEASE/$(openssl rand -hex 16)/g" .env
     docker-compose up -d
     echo "[*] Vectr started on port 8081."
+    echo "[-] Find the default credentials here: https://docs.vectr.io/Installation/"
 fi
 echo "---------------------------------------------------"
 echo "[*] Fetching credential access tools..."
