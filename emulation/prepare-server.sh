@@ -1,8 +1,9 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 15/03/22"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 22/05/22"
 echo '[*] "Train like you fight..."'
-echo '[*] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
+echo '[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
+echo '[?] Intended for use with Ubuntu 20.04'
 echo "---------------------------------------------------"
 SHOW_HELP="FALSE"
 INSTALL_RDP="FALSE"
@@ -27,18 +28,23 @@ if [[ $UPGRADE_OS = "TRUE" ]]; then
 fi
 echo "---------------------------------------------------"
 echo "[*] Installing OS pre-requisites..."
-add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
 dpkg -i /tmp/packages-microsoft-prod.deb
 apt-get update
-apt install -y apache2 autoconf build-essential certbot default-jdk docker-ce dotnet-sdk-3.1 g++ git golang-go libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common net-tools nmap osslsigncode p7zip-full python3-certbot-apache python3-dev python3-pip python3-setuptools python3-testresources ruby ruby-dev software-properties-common swig unzip zlib1g-dev
-curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+apt install -y apache2 autoconf build-essential certbot default-jdk docker-ce dotnet-sdk-6.0 g++ git golang-go libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common net-tools nmap osslsigncode p7zip-full python3-certbot-apache python3-dev python3-pip python3-setuptools python3-testresources ruby ruby-dev software-properties-common swig unzip zlib1g-dev
+curl -L "https://github.com/docker/compose/releases/download/v2.5.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 gem install bundle
 if [[ $INSTALL_RDP = "TRUE" ]]; then
     echo "[-] Including remote desktop packages..."
-    apt install -y lubuntu-core xrdp
+    apt install -y xrdp xfce4 xubuntu-core xorg dbus-x11 x11-xserver-utils firefox
+    adduser xrdp ssl-cert
     systemctl enable xrdp && systemctl start xrdp
+    echo xfce4-session > ~/.xsession
+    echo "[!] Remote desktop setup complete. Please set a password for your user:"
+    sudo passwd $USER
 else
     echo "[!] Skipping remote desktop setup..."
 fi
@@ -51,8 +57,8 @@ echo "[*] Installing BeEF"
 git clone https://github.com/beefproject/beef /opt/BeEF
 cd /opt/BeEF
 echo "[-] Fixing BeEF install script..."
-sed -i '/get_permission$/s/^/#/g' install
-sed -i 's/apt-get install/apt install -y/g' install
+#sed -i '/get_permission$/s/^/#/g' install
+#sed -i 's/apt-get install/apt install -y/g' install
 ./install
 echo "---------------------------------------------------"
 echo "[*] Installing Covenant"
@@ -66,10 +72,7 @@ git clone https://github.com/BC-SECURITY/Empire /opt/Empire
 cd /opt/Empire
 export STAGING_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 ./setup/install.sh
-mkdir beacon2empire && cd beacon2empire
-pip3 install coloredlogs
-wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/beacon2empire/convert.py
-git clone https://github.com/rsmudge/Malleable-C2-Profiles profiles
+git clone https://github.com/BC-SECURITY/Malleable-C2-Profiles profiles
 echo "---------------------------------------------------"
 echo "[*] Setting up Exploit DB"
 git clone https://github.com/offensive-security/exploit-database /opt/exploit-db
@@ -137,7 +140,7 @@ wget "https://download.prelude.org/latest?arch=x64&platform=linux&variant=appIma
 echo "---------------------------------------------------"
 echo "[*] Installing ScareCrow"
 mkdir /opt/ScareCrow && cd /opt/ScareCrow
-wget https://github.com/optiv/ScareCrow/releases/download/v3.01/ScareCrow_3.01_linux_amd64 -O ScareCrow
+wget https://github.com/optiv/ScareCrow/releases/download/v4.1/ScareCrow_4.1_linux_amd64 -O ScareCrow
 echo "---------------------------------------------------"
 echo "[*] Installing shad0w"
 git clone --recurse-submodules https://github.com/bats3c/shad0w /opt/shad0w
@@ -151,8 +154,8 @@ pip3 install -r requirements.txt
 echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
-wget https://github.com/BishopFox/sliver/releases/latest/download/sliver-server_linux.zip
-unzip sliver-server_linux.zip && rm sliver-server_linux.zip
+wget https://github.com/BishopFox/sliver/releases/latest/download/sliver-server_linux
+mv sliver-server_linux sliver-server
 chmod +x sliver-server
 echo "---------------------------------------------------"
 echo "[*] Installing SpiderFoot"
