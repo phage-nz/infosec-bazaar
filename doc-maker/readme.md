@@ -1,5 +1,5 @@
 ## CTI Documentation Maker
-This is a rough but functional set of scripts intended to take data from multiple sources and create comprehensive markdown documentation, intended for use with Obsidian. It has been heavily inspired by [pyattck](https://github.com/swimlane/pyattck), but I wanted something more lightweight. In short: actors backlink to malware and tools, malware and tools backlink to techniques, and techniques contain emulations and backlink to mitigations. Sub-techniques are detailed under their parent. This format should serve as a solid foundation upon which you can build out your personal documentation.
+This is a rough but functional set of scripts to take data from multiple sources and create comprehensive markdown documentation, intended for use with Obsidian. It has been heavily inspired by [pyattck](https://github.com/swimlane/pyattck), but I wanted something more lightweight. In short: actors backlink to malware and tools, malware and tools backlink to techniques, and techniques contain emulations and backlink to mitigations. Sub-techniques are detailed under their parent. This format should serve as a solid foundation upon which you can build out your personal documentation.
 
 ### Categories
 - Actors  
