@@ -13,13 +13,13 @@ https://github.com/phage-nz/infosec-bazaar
 
 A collection of infosec-related scripts and information.  
 
-
 ## Current Inventory ##
+**\doc-maker**
+- CTI documentation creation scripts.  
+
 **\emulation**  
-- \beacon2empire - Script to convert Cobalt Strike Beacon configs to Empire + mod_rewrite.  
 - cradle.ps1 - PowerShell cradle script to download an execute malware samples.  
-- emulate.py - MITRE ATT&CK wrapper for Atomic Red Team tests.  
-- readme.md - Instructions for the above, plus a collection of Adversary Emulation resources.  
+- readme.md - a collection of Adversary Emulation resources.  
 - prepare-server.sh - Adversary emulation tooling deployment script.  
 
 **\honeypots**  
@@ -27,15 +27,19 @@ A collection of infosec-related scripts and information.
 - \spamtrap - Spam traps setup using Mail-in-a-Box and Shiva.  
 - \windows - Information on setting up a Windows honeypot.  
 
-**\modules**  
-- readme.md - A collection of modules from retired projects of mine.  
+**\sysmon**  
+- sysmonconfig.xml - ATT&CK mapped Sysmon configuration.  
 
-**\powershell**  
-- iis-fortify.ps1 - Schannel hardening script.  
+## Other Items ##
+- [Threat Intelligence Learning](https://pastebin.com/p3HWxkDT)  
 
-**\soc**  
-- \Cortex-Analyzers - Custom analyzers for Hive Project's Cortex.  
-- \Graylog - Custom content packs for Graylog.  
-- \MISP - Install documentation and custom feed management.  
-- \sysmon - Modular Sysmon configuration.  
-- \volatility - - A script to automatically install Volatility, bulk_extractor and vshot by CrowdStrike.  
+RSS sources:
+- [Geopolitical News](https://pastebin.com/2smGjM2t)  
+- [Infosec Reading](https://pastebin.com/jJRu19jy)  
+- [Vulnerability Tracking](https://pastebin.com/qsDBsnQS)  
+
+Twitter lists:
+- [Cryptocurrency](https://pastebin.com/EjaT1hcn)  
+- [Defensive Intel](https://pastebin.com/iR4iGzYU)  
+- [Geopolitical Intel](https://pastebin.com/HUEBefe1)  
+- [Offensive Intel](https://pastebin.com/MxnSBJ6P)  

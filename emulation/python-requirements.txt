@@ -1,4 +1,0 @@
-attackcti
-coloredlogs
-PyYAML
-Unidecode

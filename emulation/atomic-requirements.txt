@@ -1,6 +1,0 @@
-WinRAR from https://www.win-rar.com/download.html?&L=0
-7zip from https://www.7-zip.org/download.html
-WCE from: https://www.ampliasecurity.com/research/windows-credentials-editor/ into $PathToAtomicsFolder\T1003\bin\gsecdump.exe
-Procdump from: https://docs.microsoft.com/en-us/sysinternals/downloads/procdump into: $PathToAtomicsFolder\T1003\bin\procdump.exe
-Mimikatz from: https://github.com/gentilkiwi/mimikatz/releases/ into $PathToAtomicsFolder\T1003\bin\mimikatz.exe
-Wireshark from: https://www.wireshark.org/download.html into C:\Program Files\Wireshark\

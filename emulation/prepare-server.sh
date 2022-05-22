@@ -74,8 +74,6 @@ echo "[*] Installing BeEF"
 git clone https://github.com/beefproject/beef /opt/BeEF
 cd /opt/BeEF
 echo "[-] Fixing BeEF install script..."
-#sed -i '/get_permission$/s/^/#/g' install
-#sed -i 's/apt-get install/apt install -y/g' install
 ./install
 echo "---------------------------------------------------"
 echo "[*] Installing Covenant"
@@ -87,12 +85,18 @@ echo "[*] Installing Empire..."
 echo "[!] Note: the install script will require your input at several points."
 git clone https://github.com/BC-SECURITY/Empire /opt/Empire
 cd /opt/Empire
-export STAGING_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+export STAGING_KEY=$(openssl rand -hex 32)
 ./setup/install.sh
 git clone https://github.com/BC-SECURITY/Malleable-C2-Profiles profiles
 echo "---------------------------------------------------"
 echo "[*] Setting up Exploit DB"
 git clone https://github.com/offensive-security/exploit-database /opt/exploit-db
+echo "---------------------------------------------------"
+echo "[*] Setting up Loaders"
+mkdir /opt/Obfuscators
+git clone https://github.com/mdsecactivebreach/CACTUSTORCH /opt/Obfuscators/CACTUSTORCH
+git clone https://github.com/xuanxuan0/DripLoader /opt/Obfuscators/DripLoader
+git clone https://github.com/sh4hin/GoPurple /opt/Obfuscators/GoPurple
 echo "---------------------------------------------------"
 echo "[*] Setting up Obfuscators"
 mkdir /opt/Obfuscators
@@ -153,7 +157,7 @@ git clone https://github.com/its-a-feature/Mythic /opt/Mythic
 echo "---------------------------------------------------"
 echo "[*] Installing Prelude Operator"
 mkdir /opt/Operator && cd /opt/Operator
-wget "https://download.prelude.org/latest?arch=x64&platform=linux&variant=appImage" -O prelude-operator.appImage
+wget "https://download.prelude.org/latest?arch=x64&platform=linux&variant=appImage" -O prelude-operator
 echo "---------------------------------------------------"
 echo "[*] Installing ScareCrow"
 mkdir /opt/ScareCrow && cd /opt/ScareCrow
@@ -208,10 +212,6 @@ wget https://github.com/lgandx/Responder/archive/master.zip -O credentials/Respo
 wget https://github.com/lgandx/Responder-Windows/archive/master.zip -O credentials/Responder-Windows.zip
 wget https://www.ampliasecurity.com/research/wce_v1_42beta_x32.zip -O credentials/wce_x32.zip
 wget https://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip -O credentials/wce_x64.zip
-echo "---------------------------------------------------"
-echo "[*] Fetching delivery objects..."
-mkdir delivery
-git clone https://github.com/mdsecactivebreach/CACTUSTORCH delivery/CACTUSTORCH
 echo "---------------------------------------------------"
 echo "[*] Fetching privilege escalation tools..."
 mkdir privesc
