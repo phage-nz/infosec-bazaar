@@ -39,7 +39,6 @@ RSS sources:
 - [Vulnerability Tracking](https://pastebin.com/qsDBsnQS)  
 
 Twitter lists:
-- [Cryptocurrency](https://pastebin.com/EjaT1hcn)  
 - [Defensive Intel](https://pastebin.com/iR4iGzYU)  
 - [Geopolitical Intel](https://pastebin.com/HUEBefe1)  
 - [Offensive Intel](https://pastebin.com/MxnSBJ6P)  
