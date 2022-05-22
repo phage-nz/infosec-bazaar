@@ -1,11 +1,3 @@
----------------------------------------------------
-[*] EMULATION SERVER PREPARATION SCRIPT - 22/05/22
-[*] "Train like you fight..."
-[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation
-[?] Intended for use with Ubuntu 20.04
----------------------------------------------------
-[!] Must be run with sudo.
-ubuntu@vultr:~$ cat prepare_server.sh
 #!/bin/bash
 echo "---------------------------------------------------"
 echo "[*] EMULATION SERVER PREPARATION SCRIPT - 22/05/22"
