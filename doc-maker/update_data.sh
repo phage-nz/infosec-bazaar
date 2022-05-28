@@ -6,6 +6,8 @@ wget https://raw.githubusercontent.com/MISP/misp-galaxy/main/clusters/mitre-malw
 wget https://raw.githubusercontent.com/MISP/misp-galaxy/main/clusters/mitre-tool.json -O data/mitre-tool.json
 wget https://raw.githubusercontent.com/MISP/misp-galaxy/main/clusters/mitre-intrusion-set.json -O data/mitre-intrusion-set.json
 wget https://raw.githubusercontent.com/MISP/misp-galaxy/main/clusters/malpedia.json -O data/malpedia.json
+wget https://apt.etda.or.th/cgi-bin/getmisp.cgi?o=g -O data/cert-actor.json
+wget https://apt.etda.or.th/cgi-bin/getmisp.cgi?o=t -O data/cert-tool.json
 
 if [ -d atomic-red-team ]; then rm -rf atomic-red-team; fi
 

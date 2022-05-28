@@ -5,7 +5,7 @@ import re
 import os
 import yaml
 
-print('[*] Loading data...')
+print('[*] Loading threat data...')
 
 with open('data/mitre-attack-pattern.json', 'r') as f:
     techniques = json.load(f)['values']
@@ -29,6 +29,44 @@ with open('data/mitre-intrusion-set.json', 'r') as f:
 with open('data/malpedia.json', 'r') as f:
     malpedia = json.load(f)['values']
 
+with open('data/cert-actor.json', 'r') as f:
+    cert_actors = json.load(f)['values']
+
+with open('data/cert-tool.json', 'r') as f:
+    _cert_tools = json.load(f)['values']
+    cert_malwares = [x for x in _cert_tools if x['meta']['category'] == 'Malware']
+    cert_tools = [x for x in _cert_tools if x['meta']['category'] == 'Tools']
+
+print('[*] Extracting and normalising value data...')
+mitre_intrusion_sets = [x['value'].replace(' ','').lower() for x in intrusion_sets]
+mitre_malware_names = [x['value'].split(' - ')[0].replace(' ','').lower() for x in malwares]
+mitre_tool_names = [x['value'].split(' - ')[0].replace(' ','').lower() for x in tools]
+cert_actor_names = [
+    x['value'].replace(' ','').lower() for x in cert_actors
+    if ',' not in x['value'] and 'related' in x
+]
+cert_actor_names.extend([
+    y.strip().replace(' ','').lower() for z in
+    [
+        x['value'].split(',') for x in cert_actors
+        if ',' in x['value'] and 'related' in x
+    ]
+    for y in z
+])
+cert_malware_names = [x['value'].replace(' ','').lower() for x in cert_malwares]
+cert_tool_names = [x['value'].replace(' ','').lower() for x in cert_tools]
+
+print('[*] Performing diff...')
+cert_actor_diff = [x for x in cert_actor_names if x not in mitre_intrusion_sets]
+cert_malware_diff = [x for x in cert_malware_names if x not in mitre_malware_names]
+cert_tool_diff = [x for x in cert_tool_names if x not in mitre_tool_names]
+
+print('[*] Merging threat data...')
+intrusion_sets.extend([x for x in cert_actors if x['value'].replace(' ','').lower() in cert_actor_diff])
+malwares.extend([x for x in cert_malwares if x['value'].replace(' ','').lower() in cert_malware_diff])
+tools.extend([x for x in cert_tools if x['value'].replace(' ','').lower() in cert_tool_diff])
+
+print('[*] Loading ART data...')
 atomics = []
 
 atomic_files = glob.glob('atomic-red-team/atomics/*/*.yaml', recursive=True)
@@ -242,10 +280,19 @@ def load_actors():
     print('[*] Loading actors...')
 
     for intrusion_set in intrusion_sets:
+        if 'synonyms' not in intrusion_set['meta']:
+            print('No synonyms in intrusion set: {0}'.format(intrusion_set['value']))
+            continue
+
         if len(intrusion_set['meta']['synonyms']) == 0:
+            print('Empty synonym list in intrusion set: {0}'.format(intrusion_set['value']))
             continue
 
         actor_name = get_name(intrusion_set['value'])
+
+        if actor_name.startswith(('APT','FIN','TA','UNC')):
+            actor_name = actor_name.replace(' ','')
+
         technique_list = [x for x in techniques
             if [y for y in intrusion_set['related'] if y['dest-uuid'] == x['uuid']]
             and not x['description'].startswith('This object is deprecated')
@@ -363,6 +410,15 @@ def load_software(input_list, category):
 
     for software in input_list:
         software_name = get_name(software['value'])
+
+        if 'related' not in software:
+            print('No relations for software: {0}'.format(software['value']))
+            software['related'] = []
+
+        if 'synonyms' not in software['meta']:
+            print('No synonyms for software: {0}'.format(software['value']))
+            software['meta']['synonyms'] = []
+
         technique_list = [x for x in techniques
             if [y for y in software['related'] if y['dest-uuid'] == x['uuid']]
             and not x['description'].startswith('This object is deprecated')
@@ -388,7 +444,7 @@ def load_software(input_list, category):
     description=software['description']
 )
 
-        if len('synonyms') > 0:
+        if len(software['meta']['synonyms']) > 0:
             software_md += '''
 ## Aliases
 {aliases}
