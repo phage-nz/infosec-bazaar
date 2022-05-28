@@ -18,6 +18,7 @@ This is a rough but functional set of scripts to take data from multiple sources
 - [deepdarkCTI](https://github.com/fastfire/deepdarkCTI)  
 
 ### Sample
+![S0331 Agent Tesla](res/obsidian_malware_example.png)
 ![T1003 Credential Dumping](res/obsidian_ttp_example.png)
 
 ### Operation
