@@ -17,8 +17,14 @@ This is a rough but functional set of scripts to take data from multiple sources
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team)  
 - [deepdarkCTI](https://github.com/fastfire/deepdarkCTI)  
 
-### Sample
+### Samples
+Actor:
+![G0115 GOLD SOUTHFIELD](res/obsidian_actor_example.png)
+
+Malware:
 ![S0331 Agent Tesla](res/obsidian_malware_example.png)
+
+Technique:
 ![T1003 Credential Dumping](res/obsidian_ttp_example.png)
 
 ### Operation
