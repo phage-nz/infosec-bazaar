@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 22/05/22"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 05/07/22"
 echo '[*] "Train like you fight..."'
 echo '[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo '[?] Intended for use with Ubuntu 20.04'
@@ -93,10 +93,10 @@ echo "[*] Setting up Exploit DB"
 git clone https://github.com/offensive-security/exploit-database /opt/exploit-db
 echo "---------------------------------------------------"
 echo "[*] Setting up Loaders"
-mkdir /opt/Obfuscators
-git clone https://github.com/mdsecactivebreach/CACTUSTORCH /opt/Obfuscators/CACTUSTORCH
-git clone https://github.com/xuanxuan0/DripLoader /opt/Obfuscators/DripLoader
-git clone https://github.com/sh4hin/GoPurple /opt/Obfuscators/GoPurple
+mkdir /opt/Loaders
+git clone https://github.com/mdsecactivebreach/CACTUSTORCH /opt/Loaders/CACTUSTORCH
+git clone https://github.com/xuanxuan0/DripLoader /opt/Loaders/DripLoader
+git clone https://github.com/sh4hin/GoPurple /opt/Loaders/GoPurple
 echo "---------------------------------------------------"
 echo "[*] Setting up Obfuscators"
 mkdir /opt/Obfuscators
@@ -163,16 +163,6 @@ echo "[*] Installing ScareCrow"
 mkdir /opt/ScareCrow && cd /opt/ScareCrow
 wget https://github.com/optiv/ScareCrow/releases/download/v4.1/ScareCrow_4.1_linux_amd64 -O ScareCrow
 echo "---------------------------------------------------"
-echo "[*] Installing shad0w"
-git clone --recurse-submodules https://github.com/bats3c/shad0w /opt/shad0w
-cd /opt/shad0w
-./shad0w install
-echo "---------------------------------------------------"
-echo "[*] Installing SILENTTRINITY"
-git clone https://github.com/byt3bl33d3r/SILENTTRINITY /opt/SILENTTRINITY
-cd /opt/SILENTTRINITY
-pip3 install -r requirements.txt
-echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
 wget https://github.com/BishopFox/sliver/releases/latest/download/sliver-server_linux
@@ -182,11 +172,6 @@ echo "---------------------------------------------------"
 echo "[*] Installing SpiderFoot"
 git clone https://github.com/smicallef/spiderfoot /opt/SpiderFoot
 cd /opt/SpiderFoot
-pip3 install -r requirements.txt
-echo "---------------------------------------------------"
-echo "[*] Installing TrevorC2"
-git clone https://github.com/trustedsec/trevorc2/ /opt/TrevorC2
-cd /opt/TrevorC2
 pip3 install -r requirements.txt
 if [[ $INSTALL_VECTR = "TRUE" ]]; then
     echo "---------------------------------------------------"
