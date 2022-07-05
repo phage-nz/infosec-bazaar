@@ -148,12 +148,17 @@ EOF
 echo "---------------------------------------------------"
 echo "[*] Installing Mythic"
 git clone https://github.com/its-a-feature/Mythic /opt/Mythic
+cd /opt/Mythic
+./mythic-cli install github https://github.com/MythicAgents/Athena
 ./mythic-cli install github https://github.com/MythicAgents/Apollo
 ./mythic-cli install github https://github.com/MythicAgents/Medusa
+./mythic-cli install github https://github.com/MythicAgents/tetanus
 ./mythic-cli install github https://github.com/MythicC2Profiles/dns
 ./mythic-cli install github https://github.com/MythicC2Profiles/dynamichttp
 ./mythic-cli install github https://github.com/MythicC2Profiles/http
 ./mythic-cli install github https://github.com/MythicC2Profiles/websocket
+./mythic-cli install github https://github.com/MythicAgents/scarecrow_wrapper
+./mythic-cli install github https://github.com/MythicAgents/service_wrapper
 echo "---------------------------------------------------"
 echo "[*] Installing Prelude Operator"
 mkdir /opt/Operator && cd /opt/Operator

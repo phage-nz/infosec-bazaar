@@ -32,6 +32,7 @@ Modlishka:
 
 Mythic:
 - Start: cd /opt/Mythic && ./mythic-cli mythic start  
+- Get Password: ./mythic-cli config get MYTHIC_ADMIN_PASSWORD  
 - Reference: https://github.com/its-a-feature/Mythic  
 
 Prelude Operator:
