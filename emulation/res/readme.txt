@@ -1,12 +1,8 @@
 Tool Reference
 
 BeEF:
-- Start: cd /opt/BeEF && ./beef  
+- Start: docker run -p 3000:3000 -p 6789:6789 -p 61985:61985 -p 61986:61986 -d --name beef beef
 - Reference: https://github.com/beefproject/beef  
-
-Covenant:
-- Start: cd /opt/Covenant/Covenant && dotnet run  
-- Reference: https://github.com/cobbr/Covenant  
 
 Empire:
 - Start server: cd /opt/Empire && ./ps-empire server
@@ -17,6 +13,11 @@ Empire:
 Exploit DB:
 - Search: cd /opt/exploit-db && ./searchsploit  
 - Reference: https://github.com/offensive-security/exploitdb  
+
+Havoc:
+- Start server: cd /opt/Havoc/Teamserver && sudo ./teamserver server --profile ./profiles/havoc.yaotl -v --debug
+- Start client: cd /opt/Havoc/Client && ./Havoc
+- Reference: https://github.com/HavocFramework/Havoc
 
 Merlin:
 - Start: cd /opt/Merlin && ./merlinServer  
@@ -44,10 +45,9 @@ Sliver:
 - Reference: https://github.com/BishopFox/sliver  
 
 SpiderFoot:
-- Start server: cd /opt/SpiderFoot && python3 sf.py -l <server IP>:5001  
-- Start client: cd /opt/SpiderFoot && python3 sfcli.py -s http://<server IP>:5001  
+- Start: docker run -p 5009:5001 -d --name spiderfoot spiderfoot 
 - Reference: https://github.com/smicallef/spiderfoot  
 
 Others:
-- Loaders can be found in /opt/Loaders and Obfuscators in /opt/Obfuscators  
+- Loaders can be found in /opt/Loaders, Payload tools in /opt/Payloads and Obfuscators in /opt/Obfuscators  
 - Tools intended to be used on the target (e.g. Mimikatz, Ncat, WSO) can be found in categorised folders under /var/www/html
