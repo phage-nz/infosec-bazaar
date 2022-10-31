@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 05/07/22"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 01/11/22"
 echo '[*] "Train like you fight..."'
 echo '[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo '[?] Intended for use with Ubuntu 20.04'
@@ -24,10 +24,6 @@ if [[ $SHOW_HELP = "TRUE" ]]; then
     echo "-v install Vectr."
     exit 0
 fi
-if [[ "$EUID" -eq 0 ]]; then
-    echo "[!] Do not run as root."
-    exit
-fi
 if [[ -z "$SUDO_COMMAND" ]]; then
     echo "[!] Must be run with sudo."
     exit
@@ -37,22 +33,25 @@ if [[ -z $(getent hosts $hostname) ]]; then
     echo "[!] Hostname could not be resolved."
     exit
 fi
+read -p "[?] Enter username to be used in configs: " app_user
+read -p "[?] Enter password to be used in configs: " app_pass
 echo "[*] Updating OS..."
 apt update
 if [[ $UPGRADE_OS = "TRUE" ]]; then
     apt upgrade -y
 fi
 echo "---------------------------------------------------"
-echo "[*] Installing OS pre-requisites..."
+echo "[*] Setting up non-default repositories..."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
-dpkg -i /tmp/packages-microsoft-prod.deb
-apt-get update
-apt install -y apache2 autoconf build-essential certbot default-jdk docker-ce dotnet-sdk-6.0 g++ git golang-go libffi-dev libssl-dev libssl1.1 libxml2-dev make mingw-w64 mingw-w64-common net-tools nmap osslsigncode p7zip-full python3-certbot-apache python3-dev python3-pip python3-setuptools python3-testresources ruby ruby-dev software-properties-common swig unzip zlib1g-dev
-curl -L "https://github.com/docker/compose/releases/download/v2.5.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+add-apt-repository -y ppa:deadsnakes/ppa
+echo "[*] Installing OS pre-requisites..."
+curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
-gem install bundle
+apt-get update
+apt install -y apache2 apt-utils autoconf build-essential certbot cmake default-jdk docker-ce g++ git libboost-all-dev libbz2-dev libffi-dev libfontconfig1 libgdbm-dev libglu1-mesa-dev libgtest-dev libncurses5-dev libqt5websockets5 libqt5websockets5-dev libreadline-dev libspdlog-dev libsqlite3-dev libssl-dev make mesa-common-dev mingw-w64 mingw-w64-common nasm net-tools nmap p7zip-full python3-certbot-apache python3-dev python3-pip python3.10 python3.10-dev qt5-qmake qtbase5-dev qtbase5-dev-tools qtchooser qtdeclarative5-dev software-properties-common unzip
+snap install go --classic
+usermod -aG docker $USER
 if [[ $INSTALL_RDP = "TRUE" ]]; then
     echo "[-] Including remote desktop packages..."
     apt install -y xrdp xfce4 xubuntu-core xorg dbus-x11 x11-xserver-utils firefox
@@ -73,17 +72,14 @@ echo "---------------------------------------------------"
 echo "[*] Installing BeEF"
 git clone https://github.com/beefproject/beef /opt/BeEF
 cd /opt/BeEF
-echo "[-] Fixing BeEF install script..."
-./install
-echo "---------------------------------------------------"
-echo "[*] Installing Covenant"
-git clone --recurse-submodules https://github.com/cobbr/Covenant /opt/Covenant
-cd /opt/Covenant/Covenant
-dotnet build
+sed -i "s/user:   \"beef\"/user:   \"$app_user\"/g" config.yaml
+sed -i "s/passwd: \"beef\"/passwd: \"$app_pass\"/g" config.yaml
+docker build -t beef .
+#docker run -p 3000:3000 -p 6789:6789 -p 61985:61985 -p 61986:61986 -d --name beef beef
 echo "---------------------------------------------------"
 echo "[*] Installing Empire..."
 echo "[!] Note: the install script will require your input at several points."
-git clone https://github.com/BC-SECURITY/Empire /opt/Empire
+git clone --recursive https://github.com/BC-SECURITY/Empire /opt/Empire
 cd /opt/Empire
 export STAGING_KEY=$(openssl rand -hex 32)
 ./setup/install.sh
@@ -92,16 +88,21 @@ echo "---------------------------------------------------"
 echo "[*] Setting up Exploit DB"
 git clone https://github.com/offensive-security/exploit-database /opt/exploit-db
 echo "---------------------------------------------------"
+echo "[*] Setting up Havoc"
+git clone https://github.com/HavocFramework/Havoc.git /opt/Havoc
+cd /opt/Havoc/Client
+make
+cd /opt/Havoc/Teamserver
+go mod download golang.org/x/sys
+go mod download github.com/ugorji/go
+./Install.sh
+make
+echo "---------------------------------------------------"
 echo "[*] Setting up Loaders"
 mkdir /opt/Loaders
 git clone https://github.com/mdsecactivebreach/CACTUSTORCH /opt/Loaders/CACTUSTORCH
 git clone https://github.com/xuanxuan0/DripLoader /opt/Loaders/DripLoader
 git clone https://github.com/sh4hin/GoPurple /opt/Loaders/GoPurple
-echo "---------------------------------------------------"
-echo "[*] Setting up Obfuscators"
-mkdir /opt/Obfuscators
-git clone https://github.com/danielbohannon/Invoke-Obfuscation /opt/Obfuscators/Invoke-Obfuscation
-git clone https://github.com/CBHue/PyFuscation /opt/Obfuscators/PyFuscation
 echo "---------------------------------------------------"
 echo "[*] Installing Merlin"
 mkdir /opt/Merlin && cd /opt/Merlin
@@ -160,13 +161,20 @@ cd /opt/Mythic
 ./mythic-cli install github https://github.com/MythicAgents/scarecrow_wrapper
 ./mythic-cli install github https://github.com/MythicAgents/service_wrapper
 echo "---------------------------------------------------"
+echo "[*] Setting up Obfuscators"
+mkdir /opt/Obfuscators
+git clone https://github.com/danielbohannon/Invoke-Obfuscation /opt/Obfuscators/Invoke-Obfuscation
+git clone https://github.com/CBHue/PyFuscation /opt/Obfuscators/PyFuscation
+echo "---------------------------------------------------"
+echo "[*] Setting up Payload Tools"
+git clone https://github.com/ORCx41/AtomPePacker /opt/Payloads/AtomPePacker
+git clone https://github.com/optiv/Freeze /opt/Payloads/Freeze
+mkdir /opt/Payloads/ScareCrow && cd /opt/Payloads/ScareCrow
+wget https://github.com/optiv/ScareCrow/releases/download/v4.1/ScareCrow_4.1_linux_amd64 -O ScareCrow
+echo "---------------------------------------------------"
 echo "[*] Installing Prelude Operator"
 mkdir /opt/Operator && cd /opt/Operator
 wget "https://download.prelude.org/latest?arch=x64&platform=linux&variant=appImage" -O prelude-operator
-echo "---------------------------------------------------"
-echo "[*] Installing ScareCrow"
-mkdir /opt/ScareCrow && cd /opt/ScareCrow
-wget https://github.com/optiv/ScareCrow/releases/download/v4.1/ScareCrow_4.1_linux_amd64 -O ScareCrow
 echo "---------------------------------------------------"
 echo "[*] Installing Sliver..."
 mkdir /opt/Sliver && cd /opt/Sliver
@@ -177,7 +185,8 @@ echo "---------------------------------------------------"
 echo "[*] Installing SpiderFoot"
 git clone https://github.com/smicallef/spiderfoot /opt/SpiderFoot
 cd /opt/SpiderFoot
-pip3 install -r requirements.txt
+docker build -t spiderfoot .
+#docker run -p 5009:5001 -d --name spiderfoot spiderfoot
 if [[ $INSTALL_VECTR = "TRUE" ]]; then
     echo "---------------------------------------------------"
     echo "[*] Installing Vectr"
