@@ -54,7 +54,7 @@ apt install -y apache2 apt-utils autoconf build-essential cmake default-jdk dock
 snap install go --classic
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 echo 'export PATH=/root/.nimble/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
-usermod -aG docker $USER
+usermod -aG docker $SUDO_USER
 if [[ $NO_RDP = "FALSE" ]]; then
     echo "[-] Including remote desktop packages..."
     apt install -y xrdp xfce4 xubuntu-core xorg dbus-x11 x11-xserver-utils firefox
