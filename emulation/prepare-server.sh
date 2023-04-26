@@ -216,8 +216,7 @@ fi
 echo "---------------------------------------------------"
 echo "[*] Setting up Villain"
 git clone https://github.com/t3l3machus/Villain /opt/Villain
-cd /opt/Villain
-pip install -r requirements.txt
+cd /opt/Villain && pip install -r requirements.txt
 echo "---------------------------------------------------"
 echo "[*] Beginning helper tools"
 mkdir /opt/Tools/
