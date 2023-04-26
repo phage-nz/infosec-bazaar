@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 19/02/23"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 26/04/23"
 echo '[*] "Train like you fight..."'
 echo '[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
 echo '[?] Intended for use with Ubuntu 20.04'
@@ -41,6 +41,7 @@ apt update
 if [[ $UPGRADE_OS = "TRUE" ]]; then
     apt upgrade -y
 fi
+USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
 echo "---------------------------------------------------"
 echo "[*] Setting up non-default repositories..."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -54,16 +55,20 @@ apt install -y apache2 apt-utils autoconf build-essential cmake default-jdk dock
 snap install go --classic
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 echo 'export PATH=/root/.nimble/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
+if [[ ":$PATH:" != *"/.nimble/bin"* ]]; then
+    export PATH=/root/.nimble/bin:$PATH
+fi
 usermod -aG docker $SUDO_USER
 if [[ $NO_RDP = "FALSE" ]]; then
     echo "[-] Including remote desktop packages..."
     apt install -y xrdp xfce4 xubuntu-core xorg dbus-x11 x11-xserver-utils firefox
     adduser xrdp ssl-cert
     systemctl enable xrdp && systemctl start xrdp
-    echo xfce4-session > ~/.xsession
+    echo xfce4-session > $USER_HOME/.xsession
+    chown $SUDO_USER:$SUDO_USER $USER_HOME/.xsession
     echo "[!] Remote desktop setup complete."
     echo "[?] Please ensure that you set a password for your user."
-	sleep 5
+        sleep 5
 else
     echo "[!] Skipping remote desktop setup..."
 fi
@@ -277,8 +282,8 @@ unzip /tmp/SysinternalsSuite.zip -d /opt/Tools/Util && rm /tmp/SysinternalsSuite
 wget https://winscp.net/download/WinSCP-5.21.5-Portable.zip -O WinSCP.zip
 echo "---------------------------------------------------"
 echo "[*] Fetching readme..."
-wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/res/readme.txt -O ~/readme.txt
+wget https://raw.githubusercontent.com/phage-nz/infosec-bazaar/master/emulation/res/readme.txt -O $USER_HOME/readme.txt
 echo "---------------------------------------------------"
 echo "[*] All finished!"
-echo "[-] Refer to ~/readme.txt for help getting started."
+echo "[-] Refer to $USER_HOME/readme.txt for help getting started."
 echo "---------------------------------------------------"
