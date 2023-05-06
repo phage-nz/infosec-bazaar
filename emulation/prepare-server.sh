@@ -1,28 +1,35 @@
 #!/bin/bash
 echo "---------------------------------------------------"
-echo "[*] EMULATION SERVER PREPARATION SCRIPT - 26/04/23"
+echo "[*] EMULATION SERVER PREPARATION SCRIPT - 06/05/23"
 echo '[*] "Train like you fight..."'
 echo '[?] https://github.com/phage-nz/infosec-bazaar/tree/master/emulation'
-echo '[?] Intended for use with Ubuntu 20.04'
+echo '[?] Intended for use with Ubuntu 20.04+'
 echo "---------------------------------------------------"
 SHOW_HELP="FALSE"
-NO_RDP="FALSE"
 UPGRADE_OS="FALSE"
-INTSALL_VECTR="FALSE"
-while getopts hru OPT
-do
+NO_RDP="FALSE"
+NO_VIRTUALENV="FALSE"
+INSTALL_VECTR="FALSE"
+while getopts ":abc-:" OPT; do
     case "${OPT}" in
         h) SHOW_HELP="TRUE";;
-        n) NO_RDP="TRUE";;
         u) UPGRADE_OS="TRUE";;
-        v) INSTALL_VECTR="TRUE";;
+        -)
+            case ${OPTARG} in
+                "help"*) SHOW_HELP="TRUE";;
+                "upgrade-os"*) UPGRADE_OS="TRUE";;
+                "no-virtualenv"*) NO_VIRTUALENV="TRUE";;
+                "no-rdp"*) NO_RDP="TRUE";;
+                "install-vectr"*) INSTALL_VECTR="TRUE";;
+            esac
     esac
 done
 if [[ $SHOW_HELP = "TRUE" ]]; then
-    echo "-h show this message."
-    echo "-n do not install Lubuntu desktop and enable xRDP (default: false)."
-    echo "-u upgrade OS packages  (default: false)."
-    echo "-v install Vectr  (default: false)."
+    echo "-h --help show this message."
+    echo "-u --upgrade upgrade OS packages  (default: false)."
+    echo "--no-rdp do not install Lubuntu desktop and enable xRDP (default: false)."
+    echo "--no-virtualenv do not use per-tool Python virtualenv's (default: false)."
+    echo "--install-vectr install Vectr  (default: false)."
     exit 0
 fi
 if [[ -z "$SUDO_COMMAND" ]]; then
@@ -48,10 +55,12 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 add-apt-repository -y ppa:deadsnakes/ppa
 echo "[*] Installing OS pre-requisites..."
-curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/v2.17/3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 apt-get update
-apt install -y apache2 apt-utils autoconf build-essential cmake default-jdk docker-ce git make mingw-w64 mingw-w64-common nasm net-tools nmap p7zip-full python3-dev python3-pip python3.10 python3.10-dev software-properties-common unzip
+apt install -y apache2 apt-utils autoconf build-essential cmake default-jdk docker-ce git make masscan mingw-w64 mingw-w64-common nasm net-tools nmap p7zip-full python3-dev python3-pip python3-virtualenv python3.10 python3.10-dev software-properties-common unzip
+echo "[-] Disabling apache2 autostart..."
+systemctl stop apache2 && systemctl disable apache2
 snap install go --classic
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 echo 'export PATH=/root/.nimble/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
@@ -177,13 +186,17 @@ cd /opt/Mythic
 echo "---------------------------------------------------"
 echo "[*] Installing NimPlant"
 git clone https://github.com/chvancooten/NimPlant /opt/NimPlant
+cd /opt/NimPlant
+if [[ $NO_VIRTUALENV = "FALSE" ]]; then
+    echo "[*] Installing Python dependencies in virtualenv."
+    virtualenv env
+    source /opt/NimPlant/env/bin/activate
+fi
 cd /opt/NimPlant/client && nimble install -d
 cd /opt/NimPlant/server && pip install -r requirements.txt
-echo "---------------------------------------------------"
-echo "[*] Setting up Prelude Operator"
-mkdir /opt/Operator && cd /opt/Operator
-wget "https://download.prelude.org/latest?arch=x64&platform=linux&variant=appImage" -O prelude-operator
-chmod +x prelude-operator
+if [[ $NO_VIRTUALENV = "FALSE" ]]; then
+    deactivate
+fi
 echo "---------------------------------------------------"
 echo "[*] Installing Python Packages"
 apt remove -y python3-openssl
@@ -204,8 +217,8 @@ if [[ $INSTALL_VECTR = "TRUE" ]]; then
     echo "---------------------------------------------------"
     echo "[*] Setting up Vectr"
     mkdir /opt/vectr && cd /opt/vectr
-    wget https://github.com/SecurityRiskAdvisors/VECTR/releases/download/ce-8.3.2/sra-vectr-runtime-8.3.2-ce.zip
-    unzip sra-vectr-runtime-8.3.2-ce.zip
+    wget https://github.com/SecurityRiskAdvisors/VECTR/releases/download/ce-8.8.0/sra-vectr-runtime-8.8.0-ce.zip
+    unzip sra-vectr-runtime-8.8.0-ce.zip
     sed -i "s/sravectr.internal/$hostname/g" .env
     sed -i "s/Test1234/$(openssl rand -hex 16)/g" .env
     sed -i "s/CHANGEMENOWPLEASE/$(openssl rand -hex 16)/g" .env
@@ -216,7 +229,16 @@ fi
 echo "---------------------------------------------------"
 echo "[*] Setting up Villain"
 git clone https://github.com/t3l3machus/Villain /opt/Villain
-cd /opt/Villain && pip install -r requirements.txt
+cd /opt/Villain
+if [[ $NO_VIRTUALENV = "FALSE" ]]; then
+    echo "[*] Installing Python dependencies in virtualenv."
+    virtualenv env
+    source /opt/NimPlant/env/bin/activate
+fi
+pip install -r requirements.txt
+if [[ $NO_VIRTUALENV = "FALSE" ]]; then
+    deactivate
+fi
 echo "---------------------------------------------------"
 echo "[*] Beginning helper tools"
 mkdir /opt/Tools/
@@ -240,7 +262,7 @@ mkdir /opt/Tools/Payloads
 git clone https://github.com/ORCx41/AtomPePacker /opt/Tools/Payloads/AtomPePacker
 git clone https://github.com/optiv/Freeze /opt/Tools/Payloads/Freeze
 mkdir /opt/Payloads/ScareCrow && cd /opt/Tools/Payloads/ScareCrow
-wget https://github.com/optiv/ScareCrow/releases/download/v4.11/ScareCrow_4.11_linux_amd64 -O ScareCrow
+wget https://github.com/optiv/ScareCrow/releases/download/v5.1/ScareCrow_5.1_linux_amd64 -O ScareCrow
 echo "---------------------------------------------------"
 echo "[*] Fetching privilege escalation Tools..."
 mkdir /opt/Tools/Privesc && cd /opt/Tools/Privesc
@@ -255,7 +277,7 @@ wget https://raw.githubusercontent.com/M4ximuss/Powerless/master/Powerless.bat -
 wget https://github.com/BC-SECURITY/Empire/raw/main/empire/server/data/module_source/privesc/PowerUp.ps1 -O PowerUp.ps1
 wget https://github.com/lgandx/Responder/archive/master.zip -O Responder.zip
 wget https://github.com/lgandx/Responder-Windows/archive/master.zip -O Responder-Windows.zip
-wget https://github.com/BloodHoundAD/SharpHound/releases/download/v1.0.3/SharpHound-v1.0.3.zip -O SharpHound.zip
+wget https://github.com/BloodHoundAD/SharpHound/releases/download/v1.1.0/SharpHound-v1.1.0.zip -O SharpHound.zip
 wget https://www.ampliasecurity.com/research/wce_v1_42beta_x32.zip -O wce_x32.zip
 wget https://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip -O wce_x64.zip
 wget https://raw.githubusercontent.com/carlospolop/privilege-escalation-awesome-scripts-suite/master/winPEAS/winPEASbat/winPEAS.bat -O winPEAS.bat
@@ -279,10 +301,10 @@ echo "---------------------------------------------------"
 echo "[*] Fetching other utilities..."
 mkdir /opt/Tools/Util && cd /opt/Tools/Util
 wget https://www.7-zip.org/a/7z2201-x64.exe -O 7z.exe
-wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.4.9/npp.8.4.9.Installer.x64.exe -O npp.exe
+wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.2/npp.8.5.2.portable.x64.zip -O npp.exe
 wget https://download.java.net/java/GA/jdk14.0.1/664493ef4a6946b186ff29eb326336a2/7/GPL/openjdk-14.0.1_windows-x64_bin.zip -O openjdk.zip
 wget https://the.earth.li/~sgtatham/putty/latest/w64/putty.zip -O putty.zip
-wget https://www.python.org/ftp/python/3.10.10/python-3.10.10.exe -O python-3.exe
+wget https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe -O python-3.exe
 wget https://download.sysinternals.com/files/SysinternalsSuite.zip -O /tmp/SysinternalsSuite.zip
 unzip /tmp/SysinternalsSuite.zip -d /opt/Tools/Util && rm /tmp/SysinternalsSuite.zip && rm /opt/Tools/Util/*.txt
 wget https://winscp.net/download/WinSCP-5.21.5-Portable.zip -O WinSCP.zip

@@ -8,7 +8,7 @@ BeEF:
 
 Chisel:
 - Start server: cd /opt/Chisel && ./chisel_linux_amd64 server -p 8080 --key "private" --auth "user:pass" --reverse --proxy "https://www.google.com"
-- Start client: chisel.exe client --auth user:pass https://d15i3ejqu7j95x.cloudfront.net R:1080:socks
+- Start client: chisel.exe client --auth user:pass https://example.cloudfront.net R:1080:socks
 - Reference: https://github.com/jpillora/chisel
 
 Empire:
@@ -45,13 +45,10 @@ Mythic:
 - Reference: https://github.com/its-a-feature/Mythic  
 
 NimPlant:
-- Start: cd /opt/NimPlant && python3 NimPlant.py server  
+- Activate virtualenv: cd /opt/NimPlant && source env/bin/activate
+- Start: python3 NimPlant.py server  
 - Compile Implants: python3 NimPlant.py compile all  
 - Reference: https://github.com/chvancooten/NimPlant  
-
-Prelude Operator:
-- Start: cd /opt/Operator && ./prelude-operator  
-- Reference: https://www.prelude.org/  
 
 Sliver:
 - Start: cd /opt/Sliver && ./sliver-server  
@@ -60,6 +57,11 @@ Sliver:
 SpiderFoot:
 - Start: docker run -p 5009:5001 -d --name spiderfoot spiderfoot 
 - Reference: https://github.com/smicallef/spiderfoot  
+
+Villain:
+- Activate virtualenv: cd /opt/Villain && source env/bin/activate  
+- Start: python Villain.py  
+- Reference: https://github.com/t3l3machus/Villain  
 
 Others:
 - Loaders: /opt/Tools/Loaders  
