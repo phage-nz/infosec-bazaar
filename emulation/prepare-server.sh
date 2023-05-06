@@ -29,7 +29,7 @@ if [[ $SHOW_HELP = "TRUE" ]]; then
     echo "-u --upgrade upgrade OS packages  (default: false)."
     echo "--no-rdp do not install Lubuntu desktop and enable xRDP (default: false)."
     echo "--no-virtualenv do not use per-tool Python virtualenv's (default: false)."
-    echo "--install-vectr install Vectr  (default: false)."
+    echo "--install-vectr install Vectr (default: false)."
     exit 0
 fi
 if [[ -z "$SUDO_COMMAND" ]]; then

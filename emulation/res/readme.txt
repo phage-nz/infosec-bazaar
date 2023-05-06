@@ -23,8 +23,8 @@ Exploit DB:
 - Reference: https://github.com/offensive-security/exploitdb  
 
 Havoc:
-- Start server: cd /opt/Havoc/Teamserver && sudo ./teamserver server --profile ./profiles/havoc.yaotl -v --debug
-- Start client: cd /opt/Havoc/Client && ./Havoc
+- Start server: cd /opt/Havoc && sudo ./havoc server --profile ./profiles/havoc.yaotl -v --debug
+- Start client: cd /opt/Havoc && ./havoc client
 - Reference: https://github.com/HavocFramework/Havoc
 
 Merlin:

@@ -7,9 +7,12 @@ The following notes are also saved as `~/readme.txt` after running the script.
 
 ### Script Paramters
 ```
--h show help
--n do not install XFCE+XRDP
--v install Vectr
+-h --help show help message.
+-u --upgrade upgrade OS packages  (default: false).
+--no-rdp do not install Lubuntu desktop and enable xRDP (default: false).
+--no-virtualenv do not use per-tool Python virtualenv's (default: false).
+--install-vectr install Vectr (default: false).
+
 ```
 
 ### HTTPS Support
@@ -19,8 +22,6 @@ certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.a
 ```
 
 ### Tool Reference
-Tool Reference
-
 See [readme.txt](res/readme.txt)
 
 ## Information Sources
