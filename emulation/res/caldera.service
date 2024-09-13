@@ -1,0 +1,14 @@
+[Unit]
+Description=Caldera Service
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+KillSignal=SIGINT
+WorkingDirectory=/opt/caldera
+ExecStart=/opt/caldera/env/bin/python3 /opt/caldera/server.py --insecure
+
+[Install]
+WantedBy=multi-user.target

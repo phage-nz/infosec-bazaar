@@ -1,37 +1,41 @@
 ## Emulation Server Preparation
 The tooling employed by bad actors isn't solely closed source. There is no shortage of open source or freely available options that can be quickly adopted and fulfil requirements at no cost. The goal of emulation is to match or closely imitate the actions of your adversaries, so being able to use the same or similar tooling to them is more preferable than confining your testing to a suite of controlled, autonomous executions.
 
-Included in this folder is `prepare-server.sh` which can help get you up and running with a variety of tooling. The [C2 Matrix](https://www.thec2matrix.com/) may help you to decide what best suits your needs.
+Included in this folder is:
+- `install-docker.sh`: Must be run first.
+- `prepare-server.sh`: Installs the following tools.
 
-The following notes are also saved as `~/readme.txt` after running the script.
+In indicated in the `prepare-server.sh` script, it isn't totally standalone. Some steps may require minor interactions.
 
-### Script Paramters
-```
--h --help show help message.
--u --upgrade upgrade OS packages  (default: false).
---no-rdp do not install Lubuntu desktop and enable xRDP (default: false).
---no-virtualenv do not use per-tool Python virtualenv's (default: false).
---install-vectr install Vectr (default: false).
+## Tooling
+You can find all tooling under `/opt`.
+### C2
+- Havoc: https://github.com/HavocFramework/Havoc
+- Mythic: https://github.com/its-a-feature/Mythic
+- Sliver: https://github.com/BishopFox/sliver
 
-```
+### Platform
+- Caldera: https://github.com/mitre/caldera
+- Metasploit: https://github.com/rapid7/metasploit-framework
+- VECTR: https://github.com/SecurityRiskAdvisors/VECTR
 
-### HTTPS Support
-You can use certbot to request an SSL certificate:
-```
-certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.yourdomain.here --email name@yourdomain.here
-```
+### Tunnelling
+- Bore: https://github.com/ekzhang/bore
+- Chisel: https://github.com/jpillora/chisel
 
-### Tool Reference
-See [readme.txt](res/readme.txt)
+### Loaders
+Unlike previous versions of this script, I no longer include off-the-shelf loaders as most are signatured hours/days after being open sourced. I'd encourage you to [learn to develop your own](https://maldevacademy.com/).
 
-## Information Sources
-Beyond industry reports and whitepapers, the following publicly available sources will help you in building and emulating accurate profiles:
-- https://attack.mitre.org/groups/  
-- https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit  
-- https://malpedia.caad.fkie.fraunhofer.de/  
-- https://www.crowdstrike.com/blog/meet-the-adversaries/  
-- https://www.fireeye.com/current-threats/apt-groups.html  
-- https://www.thaicert.or.th/downloads/files/A_Threat_Actor_Encyclopedia.pdf  
-- https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections  
-- https://otx.alienvault.com - use search filters such as adversary, country and industry.  
-- https://ired.team/  
+### Others
+- BeEF: https://github.com/beefproject/beef
+- BloodHound.py: https://github.com/dirkjanm/BloodHound.py
+- evilginx: https://github.com/kgretzky/evilginx2
+- Exploit-DB: https://gitlab.com/exploit-database/exploitdb
+- Impacket: https://github.com/fortra/impacket
+- pypykatz: https://github.com/skelsec/pypykatz
+- ROADtools: https://github.com/dirkjanm/ROADtools
+
+A selection of common Windows utilities (e.g. 7zip, Sysinternals suite) are also copied into `/opt/Tools/Util`.
+
+## Access
+Once the script completes, you will be able to access the via either SSH or RDP (xrdp). RDP requires that you first set a password for your user.
