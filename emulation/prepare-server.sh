@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "**************************************************"
-echo "* EMULATION SERVER PREPARATION SCRIPT - 12/09/24 *"
+echo "* EMULATION SERVER PREPARATION SCRIPT - 27/09/24 *"
 echo '*           "Train like you fight..."            *'
 echo "***************************************************"
 echo ""
@@ -30,7 +30,7 @@ fi
 echo "---------------------------------------------------"
 echo "[*] Installing OS Dependencies..."
 sudo apt update
-sudo apt install -y apt-transport-https build-essential ca-certificates cmake curl git librust-openssl-dev libssl-dev libxml2-dev masscan musl-tools mingw-w64 net-tools nmap p7zip-full python3-dev python3-pip python3-virtualenv software-properties-common unzip
+sudo apt install -y apt-transport-https build-essential ca-certificates cmake curl git librust-openssl-dev libssl-dev libxml2-dev masscan musl-tools mingw-w64 net-tools nmap p7zip-full proxychains4 python3-dev python3-pip python3-virtualenv software-properties-common unzip
 sudo apt install --upgrade snapd
 sudo snap install core22
 echo "[*] Step OK!"
@@ -61,6 +61,13 @@ echo "---------------------------------------------------"
 echo "[*] Installing Go..."
 sudo apt remove --purge -y golang-*
 sudo snap install go --classic
+echo "[*] Step OK!"
+sleep 2
+
+echo "---------------------------------------------------"
+echo "[*] Installing Ruby..."
+sudo apt install ruby ruby-dev
+sudo gem update
 echo "[*] Step OK!"
 sleep 2
 
@@ -131,14 +138,14 @@ sleep 2
 
 echo "---------------------------------------------------"
 echo "[*] Installing Chisel..."
-sudo mkdir /opt/chisel
+sudo git clone https://github.com/jpillora/chisel
 sudo chown -R ubuntu:ubuntu /opt/chisel
 cd /opt/chisel
-wget https://github.com/jpillora/chisel/releases/download/v1.10.0/chisel_1.10.0_linux_amd64.gz -O chisel_linux_amd64.gz
-wget https://github.com/jpillora/chisel/releases/download/v1.10.0/chisel_1.10.0_windows_amd64.gz -O chisel_windows_amd64.gz
-gunzip chisel_linux_amd64.gz
-gunzip chisel_windows_amd64.gz
-chmod +x chisel_linux_amd64
+env CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o chisel-linux_amd64
+env CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" -o chisel-windows_amd64.exe
+chmod +x chisel-linux_amd64
+sed -e '/socks4/ s/^#*/#/' -i /etc/proxychains4.conf
+echo -e 'socks5\t127.0.0.1\t1080'| sudo tee -a /etc/proxychains4.conf > /dev/null
 echo "[*] Step OK!"
 sleep 2
 
@@ -183,6 +190,7 @@ echo "[*] Installing Metasploit..."
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
 chmod +x /tmp/msfinstall
 sudo sh /tmp/msfinstall
+msfdb init
 echo "[*] Step OK!"
 sleep 2
 
@@ -257,6 +265,10 @@ echo "[*] Setting Up Supplementary Tools..."
 sudo mkdir /opt/Tools
 sudo chown ubuntu:ubuntu /opt/Tools
 cd /opt/Tools
+git clone https://github.com/Hackplayers/evil-winrm
+cd evil-winrm
+sudo gem install fileutils krb5 logger stringio winrm winrm-fs
+cd ..
 python3 -m virtualenv env
 source /opt/Tools/env/bin/activate
 git clone https://github.com/fortra/impacket
