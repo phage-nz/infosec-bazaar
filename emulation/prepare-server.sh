@@ -138,13 +138,13 @@ sleep 2
 
 echo "---------------------------------------------------"
 echo "[*] Installing Chisel..."
-sudo git clone https://github.com/jpillora/chisel
+sudo git clone https://github.com/jpillora/chisel /opt/chisel
 sudo chown -R ubuntu:ubuntu /opt/chisel
 cd /opt/chisel
 env CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o chisel-linux_amd64
 env CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" -o chisel-windows_amd64.exe
 chmod +x chisel-linux_amd64
-sed -e '/socks4/ s/^#*/#/' -i /etc/proxychains4.conf
+sudo sed -e '/socks4/ s/^#*/#/' -i /etc/proxychains4.conf
 echo -e 'socks5\t127.0.0.1\t1080'| sudo tee -a /etc/proxychains4.conf > /dev/null
 echo "[*] Step OK!"
 sleep 2
